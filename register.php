@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <form action="" method="post">
+                    <form action="login.php" method="post">
 
                         <div class="mb-3 row">
                             <label for="validationServer03" class="form-label">Username</label>

@@ -1,9 +1,38 @@
 <?php 
-/* session_start();
-echo session_id();
+session_start();
+echo session_id().'<br>';
+echo '<pre>';
+var_dump($_SESSION);
+echo '</pre>';
+$users = [
+    [
+        'email'=> 'rachel@gmail',
+        'password'=> '000000'
+    ],
+    [
+        'email' => 'lara@gmail.com',
+        'password' => '999999'
+    ],
+    [
+        'email' => 'florent@gmail.com',
+        'password' => '000000'
+    ]
 
-setcookie('key', 'value', time() + 60);
-setcookie('key', 'value[update]', time() + 120) */
+];
+
+$email = '';
+$loginError = '';
+if($_SERVER['REQUEST_METHOD'] === 'POST'&& isset($_POST['email']) && isset($_POST['password'])){
+    foreach($users as $user){
+        if($user['email']===$_POST['email'] && $user['password']===$_POST['password']){
+            $_SESSION['LOGGED_USER'] = $user['email'];
+            echo $_SESSION['LOGGED_USER'].'session';
+        }else{
+            $loginError = 'Your email or password do not match !';
+        }
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -24,18 +53,19 @@ setcookie('key', 'value[update]', time() + 120) */
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <form action="" method="post">
+                    <form action="<?php echo isset($_SESSION['LOGGED_USER'])?  'index.php' : '' ?>" method="post">
                         <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-                            <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticEmail"
-                                    value="email@example.com">
-                            </div>
+                            <label for="validationServer03" class="form-label">Email</label>
+                            <input type="email" class="form-control " id="validationServer03"
+                                aria-describedby="validationServer03Feedback" name="email" value="<?php echo $email ?>">
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control" id="inputPassword">
+                            <label for="validationServer03" class="form-label">Password</label>
+                            <input type="password"
+                                class="form-control <?php echo isset($loginError) ? 'is-invalid' : '' ?>"
+                                id="validationServer03" aria-describedby="validationServer03Feedback" name="password">
+                            <div id="validationServer03Feedback" class="invalid-feedback">
+                                <?php echo $loginError ? : '' ; ?>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg">Login</button>

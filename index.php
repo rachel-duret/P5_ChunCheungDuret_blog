@@ -1,3 +1,78 @@
+<?php
+// Connect to Database
+try {
+    $db = new PDO('mysql:host=localhost;dbname=blog','root','root');
+} 
+catch (Exception $error) 
+{
+    die('Erreur:' . $error->getMessage());
+}
+
+// send one request
+$postsStatement = $db->prepare('SELECT * FROM posts');
+$postsStatement->execute();
+$posts = $postsStatement->fetchAll();
+
+// Submit contact form
+echo '<pre>';
+var_dump($_POST);
+echo '</pre>';
+$firstName = '';
+$lastName = '';
+$email = '';
+$message = '';
+
+
+$errors =[];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+$firstName = $_POST["first_name"] ;
+$lastName = $_POST['last_name'];
+$email = $_POST["email"];
+$message = $_POST["message"];
+}
+
+if(!$firstName) {
+    $errors['firstName'] = 'First name is required !'; 
+
+    //to  check username length 
+}else if(strlen($firstName) < 4 || strlen($firstName) > 16 ){
+    
+    $errors['firstName'] = 'First name must be in between 4 and 16 characters !';
+}
+
+if(!$lastName) {
+    $errors['lastName'] = 'Last name is required !'; 
+
+    //to  check username length 
+}else if(strlen($lastName) < 4 || strlen($lastName) > 16 ){
+    
+    $errors['lastName'] = 'Last name must be in between 4 and 16 characters !';
+}
+
+if(!$email) {
+    $errors['email'] = 'Email is required !';
+
+    // to check email format
+}else if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+    $errors['email'] = 'Must be valid email address !';
+}
+
+if(!$message) {
+    $errors['message'] = 'Message is required !';
+}
+
+
+
+
+
+
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,63 +107,30 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="accordion" id="accordionExample">
+                        <?php foreach($posts as $post ) { ?>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Project 5
+                                    <?php echo $post['title']; ?>
+                                   
                                 </button>
+                                <p><?php echo  $post['subtitle'];?></p>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <strong>This is the first item's accordion body.</strong> It is shown by default,
-                                    until the collapse plugin adds the appropriate classes that we use to style each
-                                    element. These classes control the overall appearance, as well as the showing and
-                                    hiding via CSS transitions. You can modify any of this with custom CSS or overriding
-                                    our default variables. It's also worth noting that just about any HTML can go within
-                                    the <code>.accordion-body</code>, though the transition does limit overflow.
+                                   <?php echo $post['content'];?>
+                                   <p><?php echo $post['author'];?></p>
+                                   <p><?php echo $post['date'];?></p>
+
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Project 4
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <strong>This is the second item's accordion body.</strong> It is hidden by default,
-                                    until the collapse plugin adds the appropriate classes that we use to style each
-                                    element. These classes control the overall appearance, as well as the showing and
-                                    hiding via CSS transitions. You can modify any of this with custom CSS or overriding
-                                    our default variables. It's also worth noting that just about any HTML can go within
-                                    the <code>.accordion-body</code>, though the transition does limit overflow.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Project 3
-                                </button>
-                            </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <strong>This is the third item's accordion body.</strong> It is hidden by default,
-                                    until the collapse plugin adds the appropriate classes that we use to style each
-                                    element. These classes control the overall appearance, as well as the showing and
-                                    hiding via CSS transitions. You can modify any of this with custom CSS or overriding
-                                    our default variables. It's also worth noting that just about any HTML can go within
-                                    the <code>.accordion-body</code>, though the transition does limit overflow.
-                                </div>
-                            </div>
-                        </div>
+                        
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -101,16 +143,39 @@
                     </div>
                 </div>
                 <div class="col-sm-8">
-                    <form action="">
-                        <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1"
-                                placeholder="name@example.com">
+                    <form action="" method="post" >
+                         <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Frsit Name</label>
+                            <input type="text" class="form-control  <?php echo isset($errors['firstName']) ? 'is-invalid' : '' ?>" id="exampleFormControlInput1"
+                                placeholder="First name" name="first_name" value="<?php echo $firstName ?>" >
+                            <div id="validationServer03Feedback" class="invalid-feedback">
+                                <?php echo $errors['firstName'] ? : '' ; ?>
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <label for="exampleFormControlInput1" class="form-label">Last Name</label>
+                            <input type="text" class="form-control <?php echo isset($errors['lastName']) ? 'is-invalid' : '' ?>" id="exampleFormControlInput1"
+                                placeholder="Last name" name="last_name" value="<?php echo $lastName ?>" >
+                            <div id="validationServer03Feedback" class="invalid-feedback">
+                                <?php echo $errors['lastName'] ? : '' ; ?>
+                            </div>
                         </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Email </label>
+                            <input type="email" class="form-control <?php echo isset($errors['email']) ? 'is-invalid' : '' ?>" id="exampleFormControlInput1"
+                                placeholder="name@example.com" name="email" value="<?php echo $email ?>" >
+                            <div id="validationServer03Feedback" class="invalid-feedback">
+                                <?php echo $errors['email'] ? : '' ; ?>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+                            <textarea class="form-control <?php echo isset($errors['message']) ? 'is-invalid' : '' ?>" id="exampleFormControlTextarea1" rows="3" name="message" value="<?php echo $message ?>" ></textarea>
+                            <div id="validationServer03Feedback" class="invalid-feedback">
+                                <?php echo $errors['message'] ? : '' ; ?>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">Send</button>
                     </form>
 
                 </div>
