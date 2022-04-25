@@ -1,38 +1,67 @@
 <?php 
 session_start();
+include('config.php');
 echo session_id().'<br>';
 echo '<pre>';
 var_dump($_SESSION);
 echo '</pre>';
-$users = [
-    [
-        'email'=> 'rachel@gmail',
-        'password'=> '000000'
-    ],
-    [
-        'email' => 'lara@gmail.com',
-        'password' => '999999'
-    ],
-    [
-        'email' => 'florent@gmail.com',
-        'password' => '000000'
-    ]
 
-];
+
+
+$sqlQuery = 'SELECT * FROM users';
+$usersStatement = $db->prepare($sqlQuery);
+$usersStatement->execute();
+$users = $usersStatement->fetchAll();
 
 $email = '';
 $loginError = '';
-if($_SERVER['REQUEST_METHOD'] === 'POST'&& isset($_POST['email']) && isset($_POST['password'])){
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+   
+    $_SESSION['post_data'] =[
+      
+        'email'=>$_POST['email'],
+        'password'=>$_POST['password'],
+        
+    ];
+  
     foreach($users as $user){
-        if($user['email']===$_POST['email'] && $user['password']===$_POST['password']){
-            $_SESSION['LOGGED_USER'] = $user['email'];
-            echo $_SESSION['LOGGED_USER'].'session';
-        }else{
+        if( $_SESSION['post_data']['email'] !==$user['email'] ||  $_SESSION['post_data']['password'] !== $user['password']){
             $loginError = 'Your email or password do not match !';
+           
+        }else{
+            $_SESSION['loggedUser'] =[
+                'id'=>$user['id'],
+                'username'=>$user['username'],
+                'email'=>$user['email'],
+               
+                
+            ];
+            
+            header('location: index.php');
+            exit;
         }
     }
+    
+    if(!empty($loginError)){
+        $_SESSION['post_error']=$loginError;
+    
+       }
+        header('location: login.php');
+        exit;
+    
+    
 }
 
+
+$postError ='';
+$postData = [];
+if (array_key_exists('post_error', $_SESSION)){
+  
+    $postError = $_SESSION['post_error'];
+    $postData = $_SESSION['post_data'];
+
+    unset($_SESSION['post_error'], $_SESSION['post_data']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -53,20 +82,21 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'&& isset($_POST['email']) && isset($_POS
         <div class="container">
             <div class="row">
                 <div class="col">
+                    <div class="<?php echo $postError? 'alert alert-danger' : '' ?>">
+                        <div><?php echo $postError; ?></div>
+                    </div>
                     <form action="<?php echo isset($_SESSION['LOGGED_USER'])?  'index.php' : '' ?>" method="post">
                         <div class="mb-3 row">
                             <label for="validationServer03" class="form-label">Email</label>
                             <input type="email" class="form-control " id="validationServer03"
-                                aria-describedby="validationServer03Feedback" name="email" value="<?php echo $email ?>">
+                                aria-describedby="validationServer03Feedback" name="email"
+                                value="<?php echo $postData['email']?? '' ?>">
                         </div>
                         <div class="mb-3 row">
                             <label for="validationServer03" class="form-label">Password</label>
-                            <input type="password"
-                                class="form-control <?php echo isset($loginError) ? 'is-invalid' : '' ?>"
-                                id="validationServer03" aria-describedby="validationServer03Feedback" name="password">
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                <?php echo $loginError ? : '' ; ?>
-                            </div>
+                            <input type="password" class="form-control" id="validationServer03"
+                                aria-describedby="validationServer03Feedback" name="password">
+
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg">Login</button>
                     </form>

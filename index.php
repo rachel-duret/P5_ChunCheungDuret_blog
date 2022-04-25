@@ -1,15 +1,10 @@
 <?php
-// Connect to Database
-try {
-    $db = new PDO('mysql:host=localhost;dbname=blog','root','root');
-} 
-catch (Exception $error) 
-{
-    die('Erreur:' . $error->getMessage());
-}
+session_start();
+include('config.php');
 
+$sqlQuery = 'SELECT * FROM posts';
 // send one request
-$postsStatement = $db->prepare('SELECT * FROM posts');
+$postsStatement = $db->prepare($sqlQuery);
 $postsStatement->execute();
 $posts = $postsStatement->fetchAll();
 
@@ -30,7 +25,6 @@ $firstName = $_POST["first_name"] ;
 $lastName = $_POST['last_name'];
 $email = $_POST["email"];
 $message = $_POST["message"];
-}
 
 if(!$firstName) {
     $errors['firstName'] = 'First name is required !'; 
@@ -62,6 +56,43 @@ if(!$message) {
     $errors['message'] = 'Message is required !';
 }
 
+$_SESSION['contact_data'] = [
+    'firstName'=>$_POST['first_name'],
+    'lastName' =>$_POST['last_name'],
+    'email'=>$_POST['email'],
+    'message'=>$_POST['message']
+    
+];
+if(!empty($errors)){
+   $_SESSION['contact_errors'] = $errors;
+  
+}else{
+    $sqlQuery = 'INSERT INTO contact(userId, first_name, last_name, email, message) VALUES(:userId, :first_name, :last_name, :email, :message)';
+    $insertContact = $db->prepare($sqlQuery);
+    $insertContact->execute([
+        'userId'=>$_SESSION['loggedUser']['id'],
+        'first_name' =>$_SESSION['contact_data']['firstName'],
+        'last_name' =>$_SESSION['contact_data']['lastName'],
+        'email' =>$_SESSION['contact_data']['email'],
+        'message' =>$_SESSION['contact_data']['message']
+    ]);
+    
+    echo 'your message already sended';
+}
+
+header('location: index.php');
+exit;
+
+}
+$contactData = [];
+$contacterrors=[];
+if (array_key_exists('contact_errors', $_SESSION) && array_key_exists('contact_data', $_SESSION)){
+    $contactData = $_SESSION['contact_data'];
+    $contacterrors = $_SESSION['contact_errors'];
+    unset($_SESSION['contact_errors'], $_SESSION['contact_data']);
+}
+
+
 
 
 
@@ -80,6 +111,7 @@ if(!$message) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="app.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>My Blog</title>
@@ -95,7 +127,7 @@ if(!$message) {
             <div class="row">
                 <div class="col-sm-4">
                     <div class="card" style="width: 18rem;">
-                        <img src="./images/photo1.jpg" class="card-img-top" alt="...">
+                        <img src="./avator/photo1.jpg" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Rachel Duret</h5>
                             <p class="card-text">
@@ -109,25 +141,27 @@ if(!$message) {
                     <div class="accordion" id="accordionExample">
                         <?php foreach($posts as $post ) { ?>
                         <div class="accordion-item">
+
                             <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <strong>Title: </strong>
+                                <a href="blog.php?id=<?php echo $post['id']; ?>">
                                     <?php echo $post['title']; ?>
-                                   
-                                </button>
-                                <p><?php echo  $post['subtitle'];?></p>
+                                </a>
+
+                                <p><i>subtitle: </i> <?php echo  $post['subtitle'];?></p>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                   <?php echo $post['content'];?>
-                                   <p><?php echo $post['author'];?></p>
-                                   <p><?php echo $post['date'];?></p>
+
+                                    <?php echo $post['content'];?>
+                                    <p><strong>Author: </strong><?php echo $post['author'];?></p>
+                                    <p><strong>Post At: </strong> <?php echo $post['date'];?></p>
 
                                 </div>
                             </div>
                         </div>
-                        
+
                         <?php
                         }
                         ?>
@@ -143,37 +177,38 @@ if(!$message) {
                     </div>
                 </div>
                 <div class="col-sm-8">
-                    <form action="" method="post" >
-                         <div class="mb-3">
+                    <form action="" method="post">
+                        <div class="<?php echo $contacterrors? 'alert alert-danger' : '' ?>">
+                            <?php foreach($contacterrors as $error){
+                                echo $error . '<br> !';
+                            } ?>
+                        </div>
+                        <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Frsit Name</label>
-                            <input type="text" class="form-control  <?php echo isset($errors['firstName']) ? 'is-invalid' : '' ?>" id="exampleFormControlInput1"
-                                placeholder="First name" name="first_name" value="<?php echo $firstName ?>" >
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                <?php echo $errors['firstName'] ? : '' ; ?>
-                            </div>
+                            <input type="text"
+                                class="form-control  <?php echo isset($errors['firstName']) ? 'is-invalid' : '' ?>"
+                                id="exampleFormControlInput1" placeholder="First name" name="first_name"
+                                value="<?php echo $contactData['firstName']?? '' ?>">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Last Name</label>
-                            <input type="text" class="form-control <?php echo isset($errors['lastName']) ? 'is-invalid' : '' ?>" id="exampleFormControlInput1"
-                                placeholder="Last name" name="last_name" value="<?php echo $lastName ?>" >
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                <?php echo $errors['lastName'] ? : '' ; ?>
-                            </div>
+                            <input type="text"
+                                class="form-control <?php echo isset($errors['lastName']) ? 'is-invalid' : '' ?>"
+                                id="exampleFormControlInput1" placeholder="Last name" name="last_name"
+                                value="<?php echo $contactData['lastName']?? '' ?>">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Email </label>
-                            <input type="email" class="form-control <?php echo isset($errors['email']) ? 'is-invalid' : '' ?>" id="exampleFormControlInput1"
-                                placeholder="name@example.com" name="email" value="<?php echo $email ?>" >
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                <?php echo $errors['email'] ? : '' ; ?>
-                            </div>
+                            <input type="email"
+                                class="form-control <?php echo isset($errors['email']) ? 'is-invalid' : '' ?>"
+                                id="exampleFormControlInput1" placeholder="name@example.com" name="email"
+                                value="<?php echo $contactData['email']?? '' ?>">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-                            <textarea class="form-control <?php echo isset($errors['message']) ? 'is-invalid' : '' ?>" id="exampleFormControlTextarea1" rows="3" name="message" value="<?php echo $message ?>" ></textarea>
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                <?php echo $errors['message'] ? : '' ; ?>
-                            </div>
+                            <textarea class="form-control <?php echo isset($errors['message']) ? 'is-invalid' : '' ?>"
+                                id="exampleFormControlTextarea1" rows="3" name="message"
+                                value="<?php echo $contactData['message']?? '' ?>"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg">Send</button>
                     </form>
