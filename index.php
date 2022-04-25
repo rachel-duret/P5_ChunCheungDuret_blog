@@ -141,10 +141,10 @@ if (array_key_exists('contact_errors', $_SESSION) && array_key_exists('contact_d
                     <div class="accordion" id="accordionExample">
                         <?php foreach($posts as $post ) { ?>
                         <div class="accordion-item">
-
+                            <img src=" <?php echo $post['image']; ?>" alt="" class="post-image">
                             <h2 class="accordion-header" id="headingOne">
                                 <strong>Title: </strong>
-                                <a href="blog.php?id=<?php echo $post['id']; ?>">
+                                <a href="post.php?id=<?php echo $post['id']; ?>">
                                     <?php echo $post['title']; ?>
                                 </a>
 

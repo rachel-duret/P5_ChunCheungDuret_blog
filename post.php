@@ -25,6 +25,7 @@ $post = $postStatement->fetch(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="app.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>My Blog</title>
@@ -37,10 +38,10 @@ $post = $postStatement->fetch(PDO::FETCH_ASSOC);
 
 
             <div class="accordion-item " id="blogs-container">
-                <img src=" <?php echo $post['image']; ?>" alt="">
+                <img src=" <?php echo $post['image']; ?>" alt="" class="post-image">
                 <h2 class="accordion-header" id="headingOne">
                     <strong>Title: </strong>
-                    <a href="blog.php?id=<?php echo $post['id']; ?>">
+                    <a href="post.php?id=<?php echo $post['id']; ?>">
                         <?php echo $post['title']; ?>
 
                     </a>
@@ -61,16 +62,27 @@ $post = $postStatement->fetch(PDO::FETCH_ASSOC);
 
 
             <?php if($loggedUser){ ?>
-            <div class="d-grid gap-2 d-md-block">
-                <a href="update.php?id=<?php echo $id ?>" class="btn btn-primary" type="button">Update</a>
+            <div class="d-grid gap-2 d-md-block" id="btn">
+                <div class="btn">
+                    <a href="update.php?id=<?php echo $id ?>" class="btn btn-primary" type="button">Update</a>
+                    <form action="delete.php" method="post">
+                        <input type="hidden" name="id" value="<?php echo $id ?>">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </div>
 
-                <form action="delete.php" method="post">
-                    <input type="hidden" name="id" value="<?php echo $id ?>">
-                    <button class="btn btn-danger" type="submit">Delete</button>
-                </form>
 
             </div>
             <?php } ?>
+
+            <div class="d-grid gap-2 d-md-block" id="comment">
+                <form action="comment.php" method="post">
+
+                    <input type="text" name="comment" value="">
+                    <button class="btn btn-primary" type="submit">Comment</button>
+                </form>
+
+            </div>
         </div>
     </div>
 

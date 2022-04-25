@@ -12,12 +12,13 @@ echo '</pre>';
 $id = $_GET['id']?? null;
 $loggedUser = $_SESSION['loggedUser']?? '';
 
-
+ 
 $sqlQuery = 'SELECT * FROM posts Where id= :id ';
 // send one request
 $postStatement = $db->prepare($sqlQuery);
 $postStatement->execute( ['id'=>$id]);
 $post = $postStatement->fetch(PDO::FETCH_ASSOC);
+
 
 $errors=[];
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -27,6 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $content = $_POST['content'];
     $author = $_SESSION['loggedUser']['username']?? '';
     $date = date('Y-m-d H:i:s');
+    $id = $_POST['id'];
+    $sqlQuery = 'SELECT * FROM posts Where id= :id ';
+// send one request
+    $postStatement = $db->prepare($sqlQuery);
+    $postStatement->execute( ['id'=>$id]);
+    $post = $postStatement->fetch(PDO::FETCH_ASSOC);
     if (! $title){
         $errors['title'] = 'Title is required !';
     }
@@ -53,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     if (!is_dir('images')){
         mkdir('images');
     }
-    $imagePath='';
+    $imagePath=$post['image'];
     echo '<pre>';
         var_dump($_FILES);
         echo '</pre>';
@@ -88,8 +95,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             'date'=>$date,
             'id'=>$id
         ]);
-       /*  header('location: blogs.php');
-        exit; */
+         header('location: posts.php');
+        exit; 
     }
 
   
@@ -113,6 +120,7 @@ if (array_key_exists('errors', $_SESSION) && array_key_exists('post_data', $_SES
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="app.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>My Blog</title>
@@ -131,13 +139,14 @@ if (array_key_exists('errors', $_SESSION) && array_key_exists('post_data', $_SES
 
                 </div>
                 <div class="mb-3">
-                    <img src=" <?php echo $post['image']; ?>" alt="">
+                    <img src=" <?php echo $post['image']; ?>" alt="" class="post-image">
                     <label for="exampleFormControlInput1" class="form-label">Image</label>
                     <input type="file" class="form-control " id="exampleFormControlInput1" placeholder="Title"
                         name="image" value="<?php echo $post['image']?? '' ?>">
                 </div>
 
                 <div class="mb-3">
+                    <input type="hidden" name="id" value="<?php echo $id ?>">
                     <label for="exampleFormControlInput1" class="form-label">Title</label>
                     <input type="text" class="form-control " id="exampleFormControlInput1" placeholder="Title"
                         name="title" value="<?php echo $post['title']?? ''?>">

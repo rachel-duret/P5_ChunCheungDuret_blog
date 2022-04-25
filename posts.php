@@ -2,7 +2,7 @@
 session_start();
 include('config.php');
 
-$sqlQuery = 'SELECT * FROM posts';
+$sqlQuery = 'SELECT * FROM posts ORDER BY date DESC';
 // send one request
 $postsStatement = $db->prepare($sqlQuery);
 $postsStatement->execute();
@@ -37,7 +37,7 @@ $posts = $postsStatement->fetchAll();
                 <img src=" <?php echo $post['image']; ?>" alt="" id="image">
                 <h2 class="accordion-header" id="headingOne">
                     <strong>Title: </strong>
-                    <a href="blog.php?id=<?php echo $post['id']; ?>">
+                    <a href="post.php?id=<?php echo $post['id']; ?>">
                         <?php echo $post['title']; ?>
 
                     </a>

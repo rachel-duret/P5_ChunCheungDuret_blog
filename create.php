@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             'author'=>$author,
             'date'=>$date
         ]);
-        header('location: blogs.php');
+        header('location: posts.php');
         exit;
     }
 
