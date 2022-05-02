@@ -4,12 +4,11 @@ require_once('config.php');
 
 
 
-
 echo '<pre>';
-var_dump($_POST);
+var_dump($_SESSION);
 echo '</pre>';
 
-$id = $_GET['id']?? null;
+$id = $_GET['id']??$_POST['id']?? null;
 $loggedUser = $_SESSION['loggedUser']?? '';
 
  
@@ -20,6 +19,9 @@ $postStatement->execute( ['id'=>$id]);
 $post = $postStatement->fetch(PDO::FETCH_ASSOC);
 
 
+echo '<pre>';
+var_dump($post);
+echo '</pre>';
 $errors=[];
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $image = $_FILES['image']?? '';
@@ -29,11 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $author = $_SESSION['loggedUser']['username']?? '';
     $date = date('Y-m-d H:i:s');
     $id = $_POST['id'];
-    $sqlQuery = 'SELECT * FROM posts Where id= :id ';
-// send one request
-    $postStatement = $db->prepare($sqlQuery);
-    $postStatement->execute( ['id'=>$id]);
-    $post = $postStatement->fetch(PDO::FETCH_ASSOC);
+
     if (! $title){
         $errors['title'] = 'Title is required !';
     }
@@ -49,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     }
 
      $_SESSION['post_data'] =[
-        'image' => $_FILES['image']?? '',
+        'image' => $_FILES['image']??  '',
         'title'=> $_POST['title'],
         'subtitle' => $_POST['subtitle'],
         'content' => $_POST['content'],
@@ -96,18 +94,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             'id'=>$id
         ]);
          header('location: posts.php');
-        exit; 
+        exit;  
     }
+    header('location: update.php');
+    exit;
 
   
 
 }
 $postData =[];
 $postErrors =[];
+    
+
 if (array_key_exists('errors', $_SESSION) && array_key_exists('post_data', $_SESSION)){
     $postData = $_SESSION['post_data'];
     $postErrors = $_SESSION['errors'];
 
+    echo '<pre>';
+    var_dump($postData);
+    echo '</pre>';
     unset($_SESSION['errors'], $_SESSION['post_data']);
 }
 
@@ -139,28 +144,29 @@ if (array_key_exists('errors', $_SESSION) && array_key_exists('post_data', $_SES
 
                 </div>
                 <div class="mb-3">
-                    <img src=" <?php echo $post['image']; ?>" alt="" class="post-image">
+                    <img src=" <?php echo $post['image'] ?>" alt="" class="post-image">
+
                     <label for="exampleFormControlInput1" class="form-label">Image</label>
                     <input type="file" class="form-control " id="exampleFormControlInput1" placeholder="Title"
-                        name="image" value="<?php echo $post['image']?? '' ?>">
+                        name="image" value="<?php echo $postData['image']?? $post['image']?? ''?>">
                 </div>
 
                 <div class="mb-3">
                     <input type="hidden" name="id" value="<?php echo $id ?>">
                     <label for="exampleFormControlInput1" class="form-label">Title</label>
                     <input type="text" class="form-control " id="exampleFormControlInput1" placeholder="Title"
-                        name="title" value="<?php echo $post['title']?? ''?>">
+                        name="title" value="<?php echo $postData['title']?? $post['title']?? ''?>">
                 </div>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Subtitle</label>
                     <input type="text" class="form-control " id="exampleFormControlInput1" placeholder="Subtitle"
-                        name="subtitle" value="<?php echo $post['subtitle']?? '' ?>">
+                        name="subtitle" value="<?php echo $postData['subtitle']?? $post['subtitle']??'' ?>">
                 </div>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Content</label>
                     <textarea type="text" class="form-control " id="exampleFormControlInput1"
                         placeholder="Write somthing here ..." cols="30" rows="10" name="content"
-                        value="<?php echo $post['content'] ?>">
+                        value="<?php echo $postData['content']?? $post['content']??'' ?>">
                     </textarea>
                 </div>
 

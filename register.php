@@ -44,9 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"  ) {
         $errors['confirmPassword'] = " Your confirm password is filed, try again .";
     }
 
-}
-
-if($_POST){
     $_SESSION['post_data'] =[
         'username' => $_POST['username'],
         'email'=>$_POST['email'],
@@ -59,21 +56,23 @@ if($_POST){
     $_SESSION['post_errors']=$errors;
 
    }else{
-    $sqlQuery = 'INSERT INTO users(username, email, password) VALUES (:username, :email, :password)';
-    $insertUser = $db->prepare($sqlQuery);
-    $insertUser->execute([
-        'username' =>$_SESSION['post_data']['username'],
-        'email'=>$_SESSION['post_data']['email'],
-        'password'=>$_SESSION['post_data']['password']
-    ]);
-    header('location: login.php');
-    exit;
+        $hashPassword=password_hash($password, PASSWORD_DEFAULT);
+        $sqlQuery = 'INSERT INTO users(username, email, password) VALUES (:username, :email, :password)';
+        $insertUser = $db->prepare($sqlQuery);
+        $insertUser->execute([
+            'username' =>$username,
+            'email'=>$email,
+            'password'=>$hashPassword
+        ]);
+        header('location: login.php');
+        exit;
 }
 
    header('location: register.php');
    exit;
- 
+
 }
+
 
 $postData =[];
 $postErrors =[];

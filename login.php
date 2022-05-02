@@ -25,7 +25,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     ];
   
     foreach($users as $user){
-        if( $_SESSION['post_data']['email'] !==$user['email'] ||  $_SESSION['post_data']['password'] !== $user['password']){
+        if( $_SESSION['post_data']['email'] !==$user['email'] ||  ! password_verify($_SESSION['post_data']['password'], $user['password'])){
             $loginError = 'Your email or password do not match !';
            
         }else{
