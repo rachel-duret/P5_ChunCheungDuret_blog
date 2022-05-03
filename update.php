@@ -109,10 +109,6 @@ $postErrors =[];
 if (array_key_exists('errors', $_SESSION) && array_key_exists('post_data', $_SESSION)){
     $postData = $_SESSION['post_data'];
     $postErrors = $_SESSION['errors'];
-
-    echo '<pre>';
-    var_dump($postData);
-    echo '</pre>';
     unset($_SESSION['errors'], $_SESSION['post_data']);
 }
 

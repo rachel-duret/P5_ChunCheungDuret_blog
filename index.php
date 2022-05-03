@@ -84,11 +84,11 @@ header('location: index.php');
 exit;
 
 }
-$contactData = [];
-$contacterrors=[];
+$postData = [];
+$postErrors=[];
 if (array_key_exists('contact_errors', $_SESSION) && array_key_exists('contact_data', $_SESSION)){
-    $contactData = $_SESSION['contact_data'];
-    $contacterrors = $_SESSION['contact_errors'];
+    $postData = $_SESSION['contact_data'];
+    $postErrors = $_SESSION['contact_errors'];
     unset($_SESSION['contact_errors'], $_SESSION['contact_data']);
 }
 
@@ -178,8 +178,8 @@ if (array_key_exists('contact_errors', $_SESSION) && array_key_exists('contact_d
                 </div>
                 <div class="col-sm-8">
                     <form action="" method="post">
-                        <div class="<?php echo $contacterrors? 'alert alert-danger' : '' ?>">
-                            <?php foreach($contacterrors as $error){
+                        <div class="<?php echo $postErrors? 'alert alert-danger' : '' ?>">
+                            <?php foreach($postErrors as $error){
                                 echo $error . '<br> !';
                             } ?>
                         </div>
@@ -188,27 +188,27 @@ if (array_key_exists('contact_errors', $_SESSION) && array_key_exists('contact_d
                             <input type="text"
                                 class="form-control  <?php echo isset($errors['firstName']) ? 'is-invalid' : '' ?>"
                                 id="exampleFormControlInput1" placeholder="First name" name="first_name"
-                                value="<?php echo $contactData['firstName']?? '' ?>">
+                                value="<?php echo $postData['firstName']?? '' ?>">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Last Name</label>
                             <input type="text"
                                 class="form-control <?php echo isset($errors['lastName']) ? 'is-invalid' : '' ?>"
                                 id="exampleFormControlInput1" placeholder="Last name" name="last_name"
-                                value="<?php echo $contactData['lastName']?? '' ?>">
+                                value="<?php echo $postData['lastName']?? '' ?>">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Email </label>
                             <input type="email"
                                 class="form-control <?php echo isset($errors['email']) ? 'is-invalid' : '' ?>"
                                 id="exampleFormControlInput1" placeholder="name@example.com" name="email"
-                                value="<?php echo $contactData['email']?? '' ?>">
+                                value="<?php echo $postData['email']?? '' ?>">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">Message</label>
                             <textarea class="form-control <?php echo isset($errors['message']) ? 'is-invalid' : '' ?>"
                                 id="exampleFormControlTextarea1" rows="3" name="message"
-                                value="<?php echo $contactData['message']?? '' ?>"></textarea>
+                                value="<?php echo $postData['message']?? '' ?>"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg">Send</button>
                     </form>

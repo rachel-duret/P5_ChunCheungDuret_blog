@@ -3,6 +3,7 @@ session_start();
 include('config.php');
 
 
+
 $id = $_GET['id']?? null;
 $loggedUser = $_SESSION['loggedUser']?? '';
 
@@ -12,6 +13,18 @@ $sqlQuery = 'SELECT * FROM posts Where id= :id ';
 $postStatement = $db->prepare($sqlQuery);
 $postStatement->execute( ['id'=>$id]);
 $post = $postStatement->fetch(PDO::FETCH_ASSOC);
+
+
+$sqlQueryComment = 'SELECT username, comment, date  FROM comments WHERE postId = :postId';
+// send one request
+$commentsStatement = $db->prepare($sqlQueryComment);
+$commentsStatement->execute(['postId'=>$id]);
+$comments= $commentsStatement->fetchAll();
+
+
+/* echo '<pre>';
+var_dump($comments);
+echo '</pre>'; */
 
 
 
@@ -76,10 +89,23 @@ $post = $postStatement->fetch(PDO::FETCH_ASSOC);
             <?php } ?>
 
             <div class="d-grid gap-2 d-md-block" id="comment">
+                <div>
+                    Comment
+                    <?php foreach($comments as $comment){ ?>
+                    <div><?php echo $comment['comment'] ?></div>
+                    <div>
+                        <p><?php echo $comment['username'] ?></p>
+                        <p><?php echo $comment['date'] ?></p>
+
+                    </div>
+                    <?php } ?>
+                </div>
                 <form action="comment.php" method="post">
 
                     <input type="text" name="comment" value="">
+                    <input type="hidden" name="id" value="<?php echo $id ?>" />
                     <button class="btn btn-primary" type="submit">Comment</button>
+
                 </form>
 
             </div>
