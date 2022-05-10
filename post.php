@@ -1,34 +1,25 @@
 <?php
 session_start();
-include('config.php');
+include 'config.php';
 
-
-
-$id = $_GET['id']?? null;
-$loggedUser = $_SESSION['loggedUser']?? '';
-
+$id = $_GET['id'] ?? null;
+$loggedUser = $_SESSION['loggedUser'] ?? '';
 
 $sqlQuery = 'SELECT * FROM posts Where id= :id ';
 // send one request
 $postStatement = $db->prepare($sqlQuery);
-$postStatement->execute( ['id'=>$id]);
+$postStatement->execute(['id' => $id]);
 $post = $postStatement->fetch(PDO::FETCH_ASSOC);
-
 
 $sqlQueryComment = 'SELECT username, comment, date  FROM comments WHERE postId = :postId';
 // send one request
 $commentsStatement = $db->prepare($sqlQueryComment);
-$commentsStatement->execute(['postId'=>$id]);
-$comments= $commentsStatement->fetchAll();
-
+$commentsStatement->execute(['postId' => $id]);
+$comments = $commentsStatement->fetchAll();
 
 /* echo '<pre>';
 var_dump($comments);
 echo '</pre>'; */
-
-
-
-
 
 ?>
 <!DOCTYPE html>
@@ -45,7 +36,7 @@ echo '</pre>'; */
 </head>
 
 <body>
-    <?php include_once('header.php'); ?>
+    <?php include_once 'header.php';?>
     <div class="container-fluid">
         <div class="accordion" id="accordionExample">
 
@@ -59,22 +50,22 @@ echo '</pre>'; */
 
                     </a>
 
-                    <h6><i>subtitle: </i> <?php echo  $post['subtitle'];?></h6>
+                    <h6><i>subtitle: </i> <?php echo $post['subtitle']; ?></h6>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        <?php echo $post['content'];?>
-                        <p><strong>Author: </strong><?php echo $post['author'];?></p>
-                        <p><strong>Post At: </strong> <?php echo $post['date'];?></p>
+                        <?php echo $post['content']; ?>
+                        <p><strong>Author: </strong><?php echo $post['author']; ?></p>
+                        <p><strong>Post At: </strong> <?php echo $post['date']; ?></p>
 
                     </div>
                 </div>
             </div>
 
 
-            <?php if($loggedUser){ ?>
+            <?php if ($loggedUser) {?>
             <div class="d-grid gap-2 d-md-block" id="btn">
                 <div class="btn">
                     <a href="update.php?id=<?php echo $id ?>" class="btn btn-primary" type="button">Update</a>
@@ -86,19 +77,19 @@ echo '</pre>'; */
 
 
             </div>
-            <?php } ?>
+            <?php }?>
 
             <div class="d-grid gap-2 d-md-block" id="comment">
                 <div>
                     Comment
-                    <?php foreach($comments as $comment){ ?>
+                    <?php foreach ($comments as $comment) {?>
                     <div><?php echo $comment['comment'] ?></div>
                     <div>
                         <p><?php echo $comment['username'] ?></p>
                         <p><?php echo $comment['date'] ?></p>
 
                     </div>
-                    <?php } ?>
+                    <?php }?>
                 </div>
                 <form action="comment.php" method="post">
 
@@ -114,7 +105,7 @@ echo '</pre>'; */
 
 
 
-    <?php include_once('footer.php'); ?>
+    <?php include_once 'footer.php';?>
 
 </body>
 

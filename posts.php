@@ -1,17 +1,12 @@
 <?php
 session_start();
-include('config.php');
+include 'config.php';
 
 $sqlQuery = 'SELECT * FROM posts ORDER BY date DESC';
 // send one request
 $postsStatement = $db->prepare($sqlQuery);
 $postsStatement->execute();
 $posts = $postsStatement->fetchAll();
-
-
-
-
-
 
 ?>
 <!DOCTYPE html>
@@ -28,11 +23,11 @@ $posts = $postsStatement->fetchAll();
 </head>
 
 <body>
-    <?php include_once('header.php'); ?>
+    <?php include_once 'header.php';?>
 
     <div class="container-fluid">
         <div class="accordion" id="accordionExample">
-            <?php foreach($posts as $post ) { ?>
+            <?php foreach ($posts as $post) {?>
             <div class="accordion-item " id="blogs-container">
                 <img src=" <?php echo $post['image']; ?>" alt="" id="image">
                 <h2 class="accordion-header" id="headingOne">
@@ -42,27 +37,27 @@ $posts = $postsStatement->fetchAll();
 
                     </a>
 
-                    <h6><i>subtitle: </i> <?php echo  $post['subtitle'];?></h6>
+                    <h6><i>subtitle: </i> <?php echo $post['subtitle']; ?></h6>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        <?php echo $post['content'];?>
-                        <p><strong>Author: </strong><?php echo $post['author'];?></p>
-                        <p><strong>Post At: </strong> <?php echo $post['date'];?></p>
+                        <?php echo $post['content']; ?>
+                        <p><strong>Author: </strong><?php echo $post['author']; ?></p>
+                        <p><strong>Post At: </strong> <?php echo $post['date']; ?></p>
 
                     </div>
                 </div>
             </div>
 
             <?php
-                        }
-                        ?>
+}
+?>
         </div>
     </div>
 
-    <?php include_once('footer.php'); ?>
+    <?php include_once 'footer.php';?>
 
 </body>
 

@@ -1,67 +1,22 @@
-<?php 
+<?php
 session_start();
-include('config.php');
-echo session_id().'<br>';
+include 'config.php';
+echo session_id() . '<br>';
 echo '<pre>';
-var_dump($_SESSION);
+var_dump($_POST);
 echo '</pre>';
 
-
-
-$sqlQuery = 'SELECT * FROM users';
-$usersStatement = $db->prepare($sqlQuery);
-$usersStatement->execute();
-$users = $usersStatement->fetchAll();
-
 $email = '';
-$loginError = '';
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-   
-    $_SESSION['post_data'] =[
-      
-        'email'=>$_POST['email'],
-        'password'=>$_POST['password'],
-        
-    ];
-  
-    foreach($users as $user){
-        if( $_SESSION['post_data']['email'] !==$user['email'] ||  ! password_verify($_SESSION['post_data']['password'], $user['password'])){
-            $loginError = 'Your email or password do not match !';
-           
-        }else{
-            $_SESSION['loggedUser'] =[
-                'id'=>$user['id'],
-                'username'=>$user['username'],
-                'email'=>$user['email'],
-               
-                
-            ];
-            
-            header('location: index.php');
-            exit;
-        }
-    }
-    
-    if(!empty($loginError)){
-        $_SESSION['post_error']=$loginError;
-    
-       }
-        header('location: login.php');
-        exit;
-    
-    
+$errors = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require './oop/user.php';
+    $user = new UserContr;
+    $errors = $user->login($_POST);
+    header('location: login.php');
+    exit;
 }
 
-
-$postError ='';
-$postData = [];
-if (array_key_exists('post_error', $_SESSION)){
-  
-    $postError = $_SESSION['post_error'];
-    $postData = $_SESSION['post_data'];
-
-    unset($_SESSION['post_error'], $_SESSION['post_data']);
-}
+require './oop/unset_session.php';
 ?>
 
 <!DOCTYPE html>
@@ -77,20 +32,25 @@ if (array_key_exists('post_error', $_SESSION)){
 </head>
 
 <body>
-    <?php include_once('header.php'); ?>
+    <?php include_once 'header.php';?>
     <div class="container-fluid">
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <div class="<?php echo $postError? 'alert alert-danger' : '' ?>">
-                        <div><?php echo $postError; ?></div>
+                    <div class="<?php echo $postErrors ? 'alert alert-danger' : '' ?>">
+                        <?php if ($postErrors) {
+    foreach ($postErrors as $postError) {
+        echo $postError . '<br>';
+    }
+}?>
+
                     </div>
-                    <form action="<?php echo isset($_SESSION['LOGGED_USER'])?  'index.php' : '' ?>" method="post">
+                    <form action="<?php echo isset($_SESSION['LOGGED_USER']) ? 'index.php' : '' ?>" method="post">
                         <div class="mb-3 row">
                             <label for="validationServer03" class="form-label">Email</label>
                             <input type="email" class="form-control " id="validationServer03"
                                 aria-describedby="validationServer03Feedback" name="email"
-                                value="<?php echo $postData['email']?? '' ?>">
+                                value="<?php echo $postData['email'] ?? '' ?>">
                         </div>
                         <div class="mb-3 row">
                             <label for="validationServer03" class="form-label">Password</label>
@@ -108,7 +68,7 @@ if (array_key_exists('post_error', $_SESSION)){
         </div>
 
     </div>
-    <?php include_once('footer.php'); ?>
+    <?php include_once 'footer.php';?>
 
 
 </body>

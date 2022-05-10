@@ -1,17 +1,16 @@
 <?php
-require_once('config.php');
+require_once 'config.php';
 $id = $_POST['id'];
 echo '<pre>';
 var_dump($_POST);
 echo '</pre>';
-if(!$id){
+if (!$id) {
     header('location: posts.php');
 
 }
 
-
 $sqlQuery = 'DELETE FROM posts Where id= :id ';
 // send one request
 $postStatement = $db->prepare($sqlQuery);
-$postStatement->execute( ['id'=>$id]);
+$postStatement->execute(['id' => $id]);
 header('location: posts.php');
