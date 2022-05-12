@@ -1,12 +1,9 @@
 <?php
 session_start();
-include 'config.php';
+require '../controllers/post.controller.php';
 
-$sqlQuery = 'SELECT * FROM posts ORDER BY date DESC';
-// send one request
-$postsStatement = $db->prepare($sqlQuery);
-$postsStatement->execute();
-$posts = $postsStatement->fetchAll();
+$allPost = new PostController();
+$posts = $allPost->getAllPost();
 
 ?>
 <!DOCTYPE html>

@@ -9,6 +9,7 @@ class PostController
     const ERROR_AUTHOR_REQUIRED = 'You have to login fisrt !';
 
     private $errors = [];
+    private $posts = [];
 
     //register function create one new user
     public function createPost($POST, $FILES)
@@ -85,6 +86,13 @@ class PostController
 
     }
 
-    //
+    // Get all the posts
+    public function getAllPost()
+    {
+        $allPost = new Post();
+        $posts = $allPost->getAllPost();
+        return $this->posts = $posts;
+
+    }
 
 }

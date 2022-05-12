@@ -28,12 +28,9 @@ class User extends Database
     public function getUser($data)
     {
         $sqlQuery = 'SELECT username, email, password FROM users WHERE email =:email ';
-        $pdo = $this->connection($sqlQuery);
-        $statement = $pdo->prepare($sqlQuery);
+        $db = $this->connection();
+        $statement = $db->prepare($sqlQuery);
         $result = $statement->execute($data);
-        echo '<pre>';
-        var_dump($result);
-        echo '</pre>';
         if ($result) {
             $data = $statement->fetchAll();
             return $data;
