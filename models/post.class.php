@@ -18,7 +18,7 @@ class Post extends Database
 
     }
 
-    // Get one user
+    // Get all the post
     public function getAllPost()
     {
         $sqlQuery = 'SELECT * FROM posts ORDER BY date DESC';
@@ -29,6 +29,22 @@ class Post extends Database
             $data = $statement->fetchAll();
             return $data;
 
+        } else {
+            return false;
+        }
+    }
+
+    //Get a single post
+
+    public function getOnePost($data)
+    {
+        $sqlQuery = 'SELECT * FROM posts WHERE id=:id ';
+        $db = $this->connection();
+        $statement = $db->prepare($sqlQuery);
+        $result = $statement->execute($data);
+        if ($result) {
+            $data = $statement->fetch(PDO::FETCH_ASSOC);
+            return $data;
         } else {
             return false;
         }

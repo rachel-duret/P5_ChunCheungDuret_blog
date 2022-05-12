@@ -1,13 +1,14 @@
 <?php
 session_start();
-include 'config.php';
-
+require '../controllers/post.controller.php';
 $id = $_GET['id'] ?? null;
+$postData = new PostController();
+$post = $postData->getOnePost($id);
+
 $loggedUser = $_SESSION['loggedUser'] ?? '';
 
-$sqlQuery = 'SELECT * FROM posts Where id= :id ';
 // send one request
-$postStatement = $db->prepare($sqlQuery);
+/* $postStatement = $db->prepare($sqlQuery);
 $postStatement->execute(['id' => $id]);
 $post = $postStatement->fetch(PDO::FETCH_ASSOC);
 
@@ -15,7 +16,7 @@ $sqlQueryComment = 'SELECT username, comment, date  FROM comments WHERE postId =
 // send one request
 $commentsStatement = $db->prepare($sqlQueryComment);
 $commentsStatement->execute(['postId' => $id]);
-$comments = $commentsStatement->fetchAll();
+$comments = $commentsStatement->fetchAll(); */
 
 /* echo '<pre>';
 var_dump($comments);

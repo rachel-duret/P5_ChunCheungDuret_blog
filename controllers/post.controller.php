@@ -10,6 +10,7 @@ class PostController
 
     private $errors = [];
     private $posts = [];
+    private $post = [];
 
     //register function create one new user
     public function createPost($POST, $FILES)
@@ -92,6 +93,18 @@ class PostController
         $allPost = new Post();
         $posts = $allPost->getAllPost();
         return $this->posts = $posts;
+
+    }
+
+    //Get one post
+    public function getOnePost($id)
+    {
+        $singlePost = new Post();
+        $data = [
+            'id' => $id,
+        ];
+        $post = $singlePost->getOnePost($data);
+        return $this->post = $post;
 
     }
 
