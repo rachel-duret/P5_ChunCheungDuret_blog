@@ -1,22 +1,21 @@
 <?php
 session_start();
-include 'config.php';
 echo session_id() . '<br>';
 echo '<pre>';
-var_dump($_POST);
+var_dump($_SESSION);
 echo '</pre>';
 
 $email = '';
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require './oop/user.php';
-    $user = new UserContr;
+    require '../controllers/user.controller.php';
+    $user = new UserController;
     $errors = $user->login($_POST);
     header('location: login.php');
     exit;
 }
 
-require './oop/unset_session.php';
+require 'unset_session.php';
 ?>
 
 <!DOCTYPE html>

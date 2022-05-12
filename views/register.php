@@ -1,6 +1,7 @@
 <?php
 session_start();
-include 'config.php';
+echo __DIR__;
+
 echo '<pre>';
 var_dump($_SESSION);
 echo '</pre>';
@@ -8,17 +9,16 @@ $username = '';
 $email = '';
 $password = '';
 $confirmPassword = '';
-
 $errors = [];
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    require './oop/user.php';
-    $newUser = new UserContr;
+    require '../controllers/user.controller.php';
+    $newUser = new UserController;
     $errors = $newUser->register($_POST);
     header('location: register.php');
     exit;
 }
 
-require './oop/unset_session.php';
+require 'unset_session.php';
 
 ?>
 

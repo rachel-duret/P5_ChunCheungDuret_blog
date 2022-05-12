@@ -1,85 +1,17 @@
 <?php
 session_start();
-require_once 'config.php';
-
 echo '<pre>';
-var_dump($_POST);
+var_dump($_SESSION);
 echo '</pre>';
-
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $image = $_FILES['image'] ?? '';
-    $title = $_POST['title'];
-    $subtitle = $_POST['subtitle'];
-    $content = $_POST['content'];
-    $author = $_SESSION['loggedUser']['username'] ?? '';
-    $date = date('Y-m-d H:i:s');
-    if (!$title) {
-        $errors['title'] = 'Title is required !';
-    }
-    if (!$subtitle) {
-        $errors['subtitle'] = 'Subtitle is required !';
-
-    }
-    if (!$content) {
-        $errors['content'] = 'Content is required !';
-    }
-    if (!$author) {
-        $errors['author'] = 'Your have to login first !';
-    }
-
-    $_SESSION['post_data'] = [
-        'image' => $_FILES['image'] ?? '',
-        'title' => $_POST['title'],
-        'subtitle' => $_POST['subtitle'],
-        'content' => $_POST['content'],
-        'author' => $_SESSION['loggedUser']['username'] ?? '',
-        'date' => date('Y-m-d H:i:s'),
-    ];
-
-    if (!is_dir('images')) {
-        mkdir('images');
-    }
-    $imagePath = '';
-    if ($image && $image['tmp_name']) {
-
-        echo '<pre>';
-        var_dump($_FILES);
-        echo '</pre>';
-        $imagePath = 'images/' . $_POST['title'] . '/' . $image['name'];
-        mkdir(dirname($imagePath));
-        move_uploaded_file($image['tmp_name'], $imagePath);
-    }
-
-    if (!empty($errors)) {
-        $_SESSION['errors'] = $errors;
-
-    } else {
-
-        $sqlQuery = 'INSERT INTO posts( image, title, subtitle, content, author, date ) VALUES ( :image, :title, :subtitle, :content, :author, :date)';
-        $insertPost = $db->prepare($sqlQuery);
-        $insertPost->execute([
-            'image' => $imagePath,
-            'title' => $title,
-            'subtitle' => $subtitle,
-            'content' => $content,
-            'author' => $author,
-            'date' => $date,
-        ]);
-        header('location: posts.php');
-        exit;
-    }
-
+    require '../controllers/post.controller.php';
+    $newPost = new PostController;
+    $errors = $newPost->createPost($_POST, $_FILES);
+    header('location:create.php');
+    exit;
 }
-$postData = [];
-$postErrors = [];
-if (array_key_exists('errors', $_SESSION) && array_key_exists('post_data', $_SESSION)) {
-    $postData = $_SESSION['post_data'];
-    $postErrors = $_SESSION['errors'];
-
-    unset($_SESSION['errors'], $_SESSION['post_data']);
-}
-
+require 'unset_session.php';
 ?>
 
 <!DOCTYPE html>
@@ -125,8 +57,8 @@ if (array_key_exists('errors', $_SESSION) && array_key_exists('post_data', $_SES
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Content</label>
                     <textarea type="text" class="form-control " id="exampleFormControlInput1"
-                        placeholder="Write somthing here ..." cols="30" rows="10" name="content"
-                        value="<?php echo $postData['content'] ?? '' ?>">
+                        placeholder="Write somthing here ..." cols="30" rows="10" name="content">
+                        <?php echo $postData['content'] ?? '' ?>
                     </textarea>
                 </div>
 

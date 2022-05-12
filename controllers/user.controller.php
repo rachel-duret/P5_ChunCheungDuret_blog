@@ -1,11 +1,19 @@
 <?php
-require 'user.class.php';
 
-class UserContr
+require '../models/user.class.php';
+
+class UserController
 {
+
+    const ERROR_UERNAME_REQUIRED = 'Username is required !';
+    const ERROR_EMAIL_REQUIRED = 'Email is required !';
+    const ERROR_PASSWORD_REQUIRED = 'Password is required !';
+    const ERROR_CONFIRM_PASSWORD_REQUIRED = 'Confirm password is required ! ';
+    const ERROR_UERNAME_NOT_VALID = 'Username must be in between 4 to 16 caractters !';
+    const ERROR_EMAIL_NOT_VALID = 'Email must be valid email address !';
+    const ERROR_PASSWORD_NOT_VALID = 'Your confirm password is filed, try again !';
+    const ERROR_LOGIN_NOT_VALID = 'Your email and  password is do not match, try again !';
     private $errors = [];
-    private $postData = [];
-    private $postErrors = [];
 
     //register function create one new user
     public function register($POST)
@@ -16,30 +24,30 @@ class UserContr
         $confirmPassword = $POST["confirmPassword"];
 
         if (!$username) {
-            $errors['username'] = 'Username is required !';
+            $this->errors['username'] = self::ERROR_UERNAME_REQUIRED;
 
             //to  check username length
         } else if (strlen($username) < 4 || strlen($username) > 16) {
 
-            $errors['username'] = 'Username must be in between 4 and 16 characters !';
+            $this->errors['username'] = self::ERROR_UERNAME_NOT_VALID;
         }
 
         if (!$email) {
-            $errors['email'] = 'Email is required !';
+            $this->errors['email'] = self::ERROR_EMAIL_REQUIRED;
 
             // to check email format
         } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'Must be valid email address !';
+            $this->errors['email'] = self::ERROR_EMAIL_NOT_VALID;
         }
 
         if (!$password) {
-            $errors['password'] = 'Password is required !';
+            $this->errors['password'] = self::ERROR_PASSWORD_REQUIRED;
         }
 
         if (!$confirmPassword) {
-            $errors['confirmPassword'] = ' Confirm password is required !';
+            $this->errors['confirmPassword'] = self::ERROR_CONFIRM_PASSWORD_REQUIRED;
         } else if ($password !== $confirmPassword) {
-            $errors['confirmPassword'] = " Your confirm password is filed, try again .";
+            $errors['confirmPassword'] = self::ERROR_PASSWORD_NOT_VALID;
         }
 
         $_SESSION['post_data'] = [
@@ -50,8 +58,8 @@ class UserContr
 
         ];
 
-        if (!empty($errors)) {
-            $_SESSION['post_errors'] = $errors;
+        if (!empty($this->errors)) {
+            $_SESSION['post_errors'] = $this->errors;
 
         } else {
             $newUser = new User;
@@ -60,17 +68,18 @@ class UserContr
             header('location: login.php');
             exit;
         }
-        return $this->errors = $errors;
-        header('location: register.php');
-        exit;
+        return $this->errors;
+
     }
 
     //login function
     public function login($POST)
     {
         $user = new User;
-        $data = [];
-        $users = $user->getUser($data);
+        $data = [
+            'email' => $POST['email'],
+        ];
+        $userData = $user->getUser($data);
         $_SESSION['post_data'] = [
 
             'email' => $POST['email'],
@@ -78,9 +87,9 @@ class UserContr
 
         ];
 
-        foreach ($users as $user) {
+        foreach ($userData as $user) {
             if ($_SESSION['post_data']['email'] !== $user['email'] || !password_verify($_SESSION['post_data']['password'], $user['password'])) {
-                $errors['loginError'] = 'Your email or password do not match !';
+                $this->errors['loginError'] = self::ERROR_LOGIN_NOT_VALID;
 
             } else {
                 $_SESSION['loggedUser'] = [
@@ -95,11 +104,11 @@ class UserContr
             }
         }
 
-        if (!empty($errors)) {
-            $_SESSION['post_error'] = $errors;
+        if (!empty($this->errors)) {
+            $_SESSION['post_errors'] = $this->errors;
 
         }
-        return $this->errors = $errors;
+        return $this->errors;
 
     }
 

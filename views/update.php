@@ -150,8 +150,8 @@ if (array_key_exists('errors', $_SESSION) && array_key_exists('post_data', $_SES
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Content</label>
                     <textarea type="text" class="form-control " id="exampleFormControlInput1"
-                        placeholder="Write somthing here ..." cols="30" rows="10" name="content"
-                        value="<?php echo $postData['content'] ?? $post['content'] ?? '' ?>">
+                        placeholder="Write somthing here ..." cols="30" rows="10" name="content">
+                        <?php echo $postData['content'] ?? $post['content'] ?? '' ?>
                     </textarea>
                 </div>
 

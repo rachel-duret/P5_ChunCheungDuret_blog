@@ -1,6 +1,5 @@
 <?php
-
-include 'database.class.php';
+require 'database.class.php';
 
 class User extends Database
 {
@@ -28,14 +27,17 @@ class User extends Database
     // Get one user
     public function getUser($data)
     {
-        $sqlQuery = 'SELECT email, password FROM users';
+        $sqlQuery = 'SELECT username, email, password FROM users WHERE email =:email ';
         $pdo = $this->connection($sqlQuery);
         $statement = $pdo->prepare($sqlQuery);
         $result = $statement->execute($data);
-
+        echo '<pre>';
+        var_dump($result);
+        echo '</pre>';
         if ($result) {
-            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $data = $statement->fetchAll();
             return $data;
+
         } else {
             return false;
         }
