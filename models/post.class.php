@@ -58,4 +58,21 @@ class Post extends Database
         $statement = $db->prepare($sqlQuery);
         $statement->execute($data);
     }
+
+    //Delete one post
+    public function deleteOnePost($data)
+    {
+        $sqlQuery = 'DELETE FROM posts WHERE id=:id';
+        $db = $this->connection();
+        $statement = $db->prepare($sqlQuery);
+        $result = $statement->execute($data);
+        if ($result) {
+            return true;
+            header('location:posts.php');
+            exit;
+        } else {
+            return false;
+        }
+
+    }
 }

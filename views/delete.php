@@ -1,16 +1,12 @@
 <?php
-require_once 'config.php';
+require '../controllers/post.controller.php';
 $id = $_POST['id'];
-echo '<pre>';
-var_dump($_POST);
-echo '</pre>';
 if (!$id) {
     header('location: posts.php');
 
 }
 
-$sqlQuery = 'DELETE FROM posts Where id= :id ';
-// send one request
-$postStatement = $db->prepare($sqlQuery);
-$postStatement->execute(['id' => $id]);
+$delete = new PostController();
+$deleteOnePost = $delete->deleteOnePost($id);
+
 header('location: posts.php');

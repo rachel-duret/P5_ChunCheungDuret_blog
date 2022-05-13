@@ -186,4 +186,15 @@ class PostController
 
     }
 
+    //Delete one post
+    public function deleteOnePost($id)
+    {
+        $deletePost = new Post;
+        $data = [
+            'id' => $id,
+        ];
+        $deletePost->deleteOnePost($data);
+        header('location: posts.php');
+    }
+
 }
