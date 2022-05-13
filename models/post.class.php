@@ -49,4 +49,13 @@ class Post extends Database
             return false;
         }
     }
+
+    //Update one post
+    public function updateOnePost($data)
+    {
+        $sqlQuery = 'UPDATE posts SET image=:image, title=:title, subtitle=:subtitle, content=:content, author=:author,date=:date WHERE id=:id';
+        $db = $this->connection();
+        $statement = $db->prepare($sqlQuery);
+        $statement->execute($data);
+    }
 }
