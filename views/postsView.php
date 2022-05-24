@@ -7,7 +7,7 @@
             <img src=" <?php echo $post['image']; ?>" alt="" id="image">
             <h2 class="accordion-header" id="headingOne">
                 <strong>Title: </strong>
-                <a href="post?id=<?php echo $post['id']; ?>">
+                <a href="index.php?action=post&amp;id=<?php echo $post['id']; ?>">
                     <?php echo $post['title']; ?>
 
                 </a>

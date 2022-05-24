@@ -16,7 +16,6 @@ class UserController
             $newUser = new User;
 
             $newUser->createUser($POST['username'], $POST['email'], $POST['password'], );
-            var_dump($this->data);
 
             require '../views/loginView.php';
 
@@ -26,7 +25,6 @@ class UserController
 
         }
 
-        require '../views/registerView.php';
     }
 
     //login function
@@ -63,9 +61,6 @@ class UserController
 
         if (!empty($loginModel->errors)) {
             $_SESSION['post_errors'] = $loginModel->errors;
-            echo '<pre>';
-            var_dump($_SESSION['post_errors']);
-            echo '</pre>';
 
         }
 

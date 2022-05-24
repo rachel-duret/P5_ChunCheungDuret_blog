@@ -68,8 +68,6 @@ class Post extends Database
         if ($result) {
             $data = $statement->fetchAll();
             return $data;
-            var_dump($data);
-            exit;
         } else {
             return false;
         }

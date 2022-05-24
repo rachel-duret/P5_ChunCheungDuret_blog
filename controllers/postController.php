@@ -39,14 +39,22 @@ class PostController
             ];
 
             $newPost->createPost($data);
-            header('location: posts.php');
-            exit;
+            require '../views/indexView.php';
 
         }
         if (!empty($createPostModel->errors)) {
             $_SESSION['post_errors'] = $createPostModel->errors;
 
         }
+
+    }
+
+    public function homepage()
+    {
+        $allPost = new Post();
+        $posts = $allPost->getAllPost();
+
+        require '../views/indexView.php';
     }
 
     // Get all the posts
@@ -54,9 +62,6 @@ class PostController
     {
         $allPost = new Post();
         $posts = $allPost->getAllPost();
-        return $this->posts = $posts;
-        var_dump($posts);
-        exit;
         require '../views/postsView.php';
     }
 
@@ -68,8 +73,7 @@ class PostController
             'id' => $id,
         ];
         $post = $singlePost->getOnePost($data);
-        return $this->post = $post;
-
+        require '../views/postView.php';
     }
 
     // Update one post
@@ -111,8 +115,7 @@ class PostController
             ];
 
             $updatePost->updateOnePost($data);
-            header('location: posts.php');
-            exit;
+            require '../views/indexView.php';
 
         }
 

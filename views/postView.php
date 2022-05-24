@@ -28,11 +28,12 @@
         </div>
 
 
-        <?php if ($loggedUser) {?>
+        <?php if ($_SESSION['loggedUser']['username'] === $post['author']) {?>
         <div class="d-grid gap-2 d-md-block" id="btn">
             <div class="btn">
-                <a href="update.php?id=<?php echo $id ?>" class="btn btn-primary" type="button">Update</a>
-                <form action="delete.php" method="post">
+                <a href="index.php?action=updatePost&amp;id=<?php echo $id ?>" class="btn btn-primary"
+                    type="button">Update</a>
+                <form action="index.php?action=delete" method="post">
                     <input type="hidden" name="id" value="<?php echo $id ?>">
                     <button class="btn btn-danger" type="submit">Delete</button>
                 </form>
