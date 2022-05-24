@@ -76,10 +76,18 @@ class PostController
         require '../views/postView.php';
     }
 
+    public function post($id)
+    {
+        $singlePost = new Post();
+        $data = [
+            'id' => $id,
+        ];
+        return $singlePost->getOnePost($data);
+    }
+
     // Update one post
     public function updateOnePost($POST, $FILES)
     {
-
         $updatePostModel = new CreatePostModel();
         $updatePostModel->getData($POST);
         $image = $FILES['image'] ?? '';
@@ -115,12 +123,11 @@ class PostController
             ];
 
             $updatePost->updateOnePost($data);
-            require '../views/indexView.php';
+            header('location:index.php?action=posts');
+            exit;
 
-        }
-
-        if (!empty($errors)) {
-            $_SESSION['errors'] = $errors;
+        } else {
+            $_SESSION['post_errors'] = $updatePostModel->errors;
 
         }
 
@@ -134,7 +141,8 @@ class PostController
             'id' => $id,
         ];
         $deletePost->deleteOnePost($data);
-        header('location: posts.php');
+        header('location:index.php?action=posts');
+        exit;
     }
 
 }

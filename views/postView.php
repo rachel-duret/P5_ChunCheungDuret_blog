@@ -33,7 +33,8 @@
             <div class="btn">
                 <a href="index.php?action=updatePost&amp;id=<?php echo $id ?>" class="btn btn-primary"
                     type="button">Update</a>
-                <form action="index.php?action=delete" method="post">
+
+                <form action="index.php?action=deletePost&amp;id=<?=$post['id']?>" method="post">
                     <input type="hidden" name="id" value="<?php echo $id ?>">
                     <button class="btn btn-danger" type="submit">Delete</button>
                 </form>

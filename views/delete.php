@@ -1,5 +1,5 @@
 <?php
-require '../controllers/post.controller.php';
+
 $id = $_POST['id'];
 if (!$id) {
     header('location: posts.php');
