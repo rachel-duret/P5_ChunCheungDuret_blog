@@ -54,11 +54,17 @@
                 </div>
             </div>
             <div class="col-sm-8">
-                <form action="" method="post">
+                <form action="index.php" method="post">
                     <div class="<?php echo $postErrors ? 'alert alert-danger' : '' ?>">
-                        <?php foreach ($postErrors as $error) {
-    echo $error . '<br> !';
+                        <?php if ($postErrors) {
+    foreach ($postErrors as $postError) {
+        foreach ($postError as $error) {
+            echo $error . '<br>';
+        }
+
+    }
 }?>
+
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Frsit Name</label>
@@ -96,4 +102,4 @@
 
 </div>
 <?php $content = ob_get_clean();?>
-<?php require 'template.php';
+<?php require 'template.php';?>

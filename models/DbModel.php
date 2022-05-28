@@ -115,3 +115,14 @@ class Post extends Database
 
     }
 }
+
+class Contact extends Database
+{
+    public function save($data)
+    {
+        $sqlQuery = 'INSERT INTO contact(userId, first_name, last_name, email, message, date ) VALUES ( :userId,:first_name, :last_name, :email, :message, :date)';
+        $db = $this->connection();
+        $statement = $db->prepare($sqlQuery);
+        $statement->execute($data);
+    }
+}

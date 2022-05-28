@@ -2,20 +2,15 @@
 session_start();
 require '../controllers/authController.php';
 require '../controllers/postController.php';
+require_once '../controllers/ContactController.php';
 
 $userController = new UserController();
 $postController = new PostController();
+$contactController = new ContactController();
 if (isset($_GET['action'])) {
     /* ***********************************CREATE　POST */
     if ($_GET['action'] == 'createPost') {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $postController->createPost($_POST, $_FILES);
-            header('location:index.php?action=createPost');
-            exit;
-        }
-        require 'unset_session.php';
-        require 'createView.php';
-
+        $postController->createPost();
     }
 /* **************************ALL POSTS********************************* */
     if ($_GET['action'] == 'posts') {
@@ -33,54 +28,34 @@ if (isset($_GET['action'])) {
 
     if ($_GET['action'] == 'updatePost' && isset($_GET['id']) && $_GET['id'] > 0) {
         $post = $postController->post($_GET['id']);
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $postController->updateOnePost($_POST, $_FILES);
-            header('location:index.php?action=updatePost&id=' . $post['id']);
-            exit;
-        }
-
-        require 'unset_session.php';
-        require 'updateView.php';
+        $postController->updateOnePost($post);
 
     }
     /* ************************DELETE ONE POST**************************************** */
 
     if ($_GET['action'] == 'deletePost') {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $postController->deleteOnePost($_POST['id']);
-            header('location:index.php?action=Posts');
-            exit;
-        }
+        $postController->deleteOnePost($_POST['id']);
 
     }
+
     /* **********************AUTH************************************** */
     if ($_GET['action'] == 'login') {
-
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $userController->loginController($_POST);
-            header('location:index.php?action=login');
-            exit;
-        }
-        require 'unset_session.php';
-        require 'loginView.php';
+        $userController->loginController();
 
     }
+
     if ($_GET['action'] == 'register') {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $userController->registerController($_POST);
-            header('location:index.php?action=register');
-            exit;
-        }
-        require 'unset_session.php';
-
-        require 'registerView.php';
+        $userController->registerController();
+        /*  echo '<pre>';
+    var_dump($_SERVER["REQUEST_METHOD"]);
+    echo '</pre>'; */
 
     }
+
+    /* ********************Contact*************************** */
+
 } else {
     $postController->homepage();
+    $contactController->handleContact();
 
 }
-
-echo '<pre>';
-var_dump($_SESSION);
-echo '</pre>';
