@@ -1,8 +1,6 @@
-<?php ob_start();?>
-
 <div class="container-fluid">
     <div class="accordion" id="accordionExample">
-        <?php foreach ($posts as $post) {?>
+        <?php foreach ($post as $post) {?>
         <div class="accordion-item " id="blogs-container">
             <img src=" <?php echo $post['image']; ?>" alt="" id="image">
             <h2 class="accordion-header" id="headingOne">
@@ -31,5 +29,3 @@
 ?>
     </div>
 </div>
-<?php $content = ob_get_clean();?>
-<?php require 'template.php';

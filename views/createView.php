@@ -1,4 +1,4 @@
-<?php ob_start();?>
+
 
 <div class="container-fluid">
     <div class="col-sm-8">
@@ -45,6 +45,3 @@
     </div>
 
 </div>
-
-<?php $content = ob_get_clean();?>
-<?php require 'template.php';

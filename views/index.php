@@ -27,8 +27,7 @@ if (isset($_GET['action'])) {
 /* *************************UPDATE*********************************************8 */
 
     if ($_GET['action'] == 'updatePost' && isset($_GET['id']) && $_GET['id'] > 0) {
-        $post = $postController->post($_GET['id']);
-        $postController->updateOnePost($post);
+        $postController->updateOnePost($_GET['id']);
 
     }
     /* ************************DELETE ONE POST**************************************** */
@@ -55,7 +54,7 @@ if (isset($_GET['action'])) {
     /* ********************Contact*************************** */
 
 } else {
-    $postController->homepage();
+    /*   $postController->homepage(); */
     $contactController->handleContact();
 
 }

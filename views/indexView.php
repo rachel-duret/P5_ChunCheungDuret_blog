@@ -1,4 +1,3 @@
-<?php ob_start();?>
 <div class="container-fluid">
     <div class="container">
         <div class="row">
@@ -14,36 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-8">
-                <div class="accordion" id="accordionExample">
-                    <?php foreach ($posts as $post) {?>
-                    <div class="accordion-item">
-                        <img src=" <?php echo $post['image']; ?>" alt="" class="post-image">
-                        <h2 class="accordion-header" id="headingOne">
-                            <strong>Title: </strong>
-                            <a href="index.php?action=post&amp;id=<?php echo $post['id']; ?>">
-                                <?php echo $post['title']; ?>
-                            </a>
 
-                            <p><i>subtitle: </i> <?php echo $post['subtitle']; ?></p>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-
-                                <?php echo $post['content']; ?>
-                                <p><strong>Author: </strong><?php echo $post['author']; ?></p>
-                                <p><strong>Post At: </strong> <?php echo $post['date']; ?></p>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <?php
-}
-?>
-                </div>
-            </div>
         </div>
         <div class="row">
             <div class="col-sm-4">
@@ -71,14 +41,14 @@
                         <input type="text"
                             class="form-control  <?php echo isset($errors['firstName']) ? 'is-invalid' : '' ?>"
                             id="exampleFormControlInput1" placeholder="First name" name="first_name"
-                            value="<?php echo $postData['firstName'] ?? '' ?>">
+                            value="<?php echo $postData['first_name'] ?? '' ?>">
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Last Name</label>
                         <input type="text"
                             class="form-control <?php echo isset($errors['lastName']) ? 'is-invalid' : '' ?>"
                             id="exampleFormControlInput1" placeholder="Last name" name="last_name"
-                            value="<?php echo $postData['lastName'] ?? '' ?>">
+                            value="<?php echo $postData['last_name'] ?? '' ?>">
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Email </label>
@@ -101,5 +71,3 @@
     </div>
 
 </div>
-<?php $content = ob_get_clean();?>
-<?php require 'template.php';?>

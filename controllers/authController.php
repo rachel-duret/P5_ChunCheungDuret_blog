@@ -2,10 +2,13 @@
 
 require_once '../Models/ErrorModel.php';
 require_once '../Models/DbModel.php';
+require_once '../function/renderer.php';
 
 class UserController
 {
-    public $error;
+    private $postData = [];
+    private $postErrors = [];
+
     //register function create one new user
     public function registerController()
     {
@@ -30,8 +33,8 @@ class UserController
             exit;
         }
 
-        require '../views/unset_session.php';
-        require '../views/registerView.php';
+        $content = content('../views/registerView.php', []);
+        require '../views/template.php';
 
     }
 
@@ -76,8 +79,9 @@ class UserController
             header('location:index.php?action=login');
             exit;
         }
-        require '../views/unset_session.php';
-        require '../views/loginView.php';
+
+        $content = content('../views/loginView.php', []);
+        require '../views/template.php';
 
     }
 

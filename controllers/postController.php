@@ -1,14 +1,20 @@
 <?php
 require_once '../Models/ErrorModel.php';
 require_once '../Models/DbModel.php';
+require_once '../function/renderer.php';
 class PostController
 {
+    //homepage
+    /*   public function homepage()
+    {
+    $allPost = new Post();
+    $posts = $allPost->getAllPost();
 
-    public $errors = [];
-    public $posts = [];
-    public $post = [];
-
-    //register function create one new user
+    $content = content('../views/indexView.php', $posts);
+    require '../views/template.php';
+    }
+     */
+    //register function create one new post
     public function createPost()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -51,17 +57,10 @@ class PostController
             header('location:index.php?action=createPost');
             exit;
         }
-        require '../views/unset_session.php';
-        require '../views/createView.php';
 
-    }
+        $content = content('../views/createView.php', []);
+        require '../views/template.php';
 
-    public function homepage()
-    {
-        $allPost = new Post();
-        $posts = $allPost->getAllPost();
-
-        require '../views/indexView.php';
     }
 
     // Get all the posts
@@ -69,7 +68,8 @@ class PostController
     {
         $allPost = new Post();
         $posts = $allPost->getAllPost();
-        require '../views/postsView.php';
+        $content = content('../views/postsView.php', $posts);
+        require '../views/template.php';
     }
 
     //Get one post
@@ -80,10 +80,11 @@ class PostController
             'id' => $id,
         ];
         $post = $singlePost->getOnePost($data);
-        require '../views/postView.php';
+        $content = content('../views/postView.php', $post);
+        require '../views/template.php';
     }
-
-    public function post($id)
+/* ******************************** SinglePost data for update********************************************* */
+    public function postData($id)
     {
         $singlePost = new Post();
         $data = [
@@ -93,8 +94,13 @@ class PostController
     }
 
     // Update one post
-    public function updateOnePost($post)
+    public function updateOnePost($id)
     {
+        $post = new Post();
+        $data = [
+            'id' => $id,
+        ];
+        $postData = $post->getOnePost($data);
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $updatePostModel = new CreatePostModel();
@@ -139,12 +145,12 @@ class PostController
                 $_SESSION['post_errors'] = $updatePostModel->errors;
 
             }
-            header('location:index.php?action=updatePost&id=' . $post['id']);
+            header('location:index.php?action=updatePost&id=' . $postData['id']);
             exit;
         }
 
-        require 'unset_session.php';
-        require 'updateView.php';
+        $content = content('../views/updateView.php', $postData);
+        require '../views/template.php';
 
     }
 
@@ -152,7 +158,7 @@ class PostController
     public function deleteOnePost($id)
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $deletePost = new Post;
+            $deletePost = new Post();
             $data = [
                 'id' => $id,
             ];

@@ -10,20 +10,17 @@ class ContactController
             $contactModel = new ContactModel();
             $contactModel->getData($_POST);
             if ($contactModel->validateData()) {
-                $contact = new Contact();
+                $contact = new Contact;
                 $data = [
-                    'userId' => $_SESSION['loggedUser']['id'],
+                    'userId' => '3',
                     'first_name' => $_POST['first_name'],
                     'last_name' => $_POST['last_name'],
                     'email' => $_POST['email'],
                     'message' => $_POST['message'],
-                    'date' => date('d/m/y'),
+                    'date' => date('Y-m-d H:i:s'),
                 ];
+                $contact->save($data);
 
-                $result = $contact->save($data);
-                if ($result) {
-                    return 'Your message is sended !';
-                }
                 header('location:index.php');
                 exit;
 
@@ -32,10 +29,10 @@ class ContactController
                 $_SESSION['post_errors'] = $contactModel->errors;
 
             }
-
+            header('location:index.php');
+            exit;
         }
-
-        require '../views/unset_session.php';
-        require '../views/index.php';
+        $content = content('../views/indexView.php', []);
+        require '../views/template.php';
     }
 }
