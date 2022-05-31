@@ -3,10 +3,11 @@ session_start();
 require '../controllers/authController.php';
 require '../controllers/postController.php';
 require_once '../controllers/ContactController.php';
+require_once '../models/DbModel.php';
 
-$userController = new UserController();
-$postController = new PostController();
-$contactController = new ContactController();
+$userController = new UserController($database = new User());
+$postController = new PostController($database = new User());
+$contactController = new ContactController($database = new User());
 if (isset($_GET['action'])) {
     /* ***********************************CREATE　POST */
     if ($_GET['action'] == 'createPost') {

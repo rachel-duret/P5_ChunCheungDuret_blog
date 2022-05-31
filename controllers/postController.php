@@ -4,17 +4,13 @@ require_once '../Models/DbModel.php';
 require_once '../function/renderer.php';
 class PostController
 {
-    //homepage
-    /*   public function homepage()
-    {
-    $allPost = new Post();
-    $posts = $allPost->getAllPost();
+    private $database;
 
-    $content = content('../views/indexView.php', $posts);
-    require '../views/template.php';
+    public function __construct($database)
+    {
+        $this->database = $database;
     }
-     */
-    //register function create one new post
+
     public function createPost()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -43,9 +39,8 @@ class PostController
                     'date' => date('Y-m-d H:i:s'),
 
                 ];
-                $newPost = new User('posts', $data);
 
-                $newPost->create();
+                $this->database->create('posts', $data);
                 header('location:index.php?action=posts');
                 exit;
             }
@@ -66,8 +61,8 @@ class PostController
     // Get all the posts
     public function getAllPost()
     {
-        $allPost = new User('posts', []);
-        $posts = $allPost->findAll();
+
+        $posts = $this->database->findAll('posts');
         $content = content('../views/postsView.php', $posts);
         require '../views/template.php';
     }
@@ -79,8 +74,7 @@ class PostController
         $data = [
             'id' => $id,
         ];
-        $singlePost = new User('posts', $data);
-        $post = $singlePost->findOne();
+        $post = $this->database->findOne('posts', $data);
 
         $content = content('../views/postView.php', $post);
         require '../views/template.php';
@@ -93,8 +87,8 @@ class PostController
         $data = [
             'id' => $id,
         ];
-        $post = new User('posts', $data, '');
-        $postData = $post->findOne();
+
+        $postData = $this->database->findOne('posts', $data, );
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $updatePostModel = new CreatePostModel();
@@ -129,9 +123,8 @@ class PostController
                     'id' => $_POST['id'],
 
                 ];
-                $updatePost = new User('posts', $data);
 
-                $updatePost->updateOne();
+                $this->database->updateOne('posts', $data);
                 header('location:index.php?action=posts');
                 exit;
 
@@ -156,8 +149,7 @@ class PostController
             $data = [
                 'id' => $id,
             ];
-            $deletePost = new User('posts', $data);
-            $deletePost->deleteOne();
+            $this->database->deleteOne('posts', $data);
             header('location:index.php?action=posts');
             exit;
 

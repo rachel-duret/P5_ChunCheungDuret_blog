@@ -6,9 +6,12 @@ require_once '../function/renderer.php';
 
 class UserController
 {
-    private $postData = [];
-    private $postErrors = [];
+    private $database;
 
+    public function __construct($database)
+    {
+        $this->database = $database;
+    }
     //register function create one new user
     public function registerController()
     {
@@ -23,8 +26,8 @@ class UserController
                     'email' => $_POST['email'],
                     'password' => $hashPassword,
                 ];
-                $newUser = new User('users', $data);
-                $newUser->create();
+
+                $this->database->create('users', $data);
 
                 header('location:index.php?action=login');
                 exit;
@@ -52,8 +55,8 @@ class UserController
             $data = [
                 'email' => $_POST['email'],
             ];
-            $user = new User('users', $data);
-            $user = $user->findOne();
+
+            $user = $this->database->findOne('users', $data);
 
             if (!$user) {
                 $loginModel->addError('email', 'User does not exist with this email');
