@@ -3,45 +3,35 @@ require 'database.class.php';
 
 class User extends Database
 {
-    protected $username;
-    protected $email;
-    protected $password;
-
-    public function __construct(private string $table, private array $data)
-    {
-        $this->table = $table;
-        $this->data = $data;
-
-    }
 
 // Create one user
-    public function create()
+    public function create($table, $data)
     {
-        $keys = implode(',', array_keys($this->data));
+        $keys = implode(',', array_keys($data));
 
         $values = str_replace(',', ', :', $keys);
 
-        $sqlQuery = "INSERT INTO $this->table($keys) VALUES (:$values)";
+        $sqlQuery = "INSERT INTO $table($keys) VALUES (:$values)";
 
         var_dump($sqlQuery);
 
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
 
-        $statement->execute($this->data);
+        $statement->execute($data);
 
     }
 
     // Get one user
-    public function findOne()
+    public function findOne($table, $data)
     {
-        $keys = implode(',', array_keys($this->data));
+        $keys = implode(',', array_keys($data));
 
-        $sqlQuery = "SELECT * FROM $this->table WHERE $keys =:$keys ";
+        $sqlQuery = "SELECT * FROM $table WHERE $keys =:$keys ";
 
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
-        $result = $statement->execute($this->data);
+        $result = $statement->execute($data);
         if ($result) {
             $data = $statement->fetchAll();
             return $data;
@@ -52,9 +42,9 @@ class User extends Database
     }
 
     // Get all the post
-    public function findAll()
+    public function findAll($table)
     {
-        $sqlQuery = "SELECT * FROM $this->table ORDER BY date DESC";
+        $sqlQuery = "SELECT * FROM $table ORDER BY date DESC";
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
         $result = $statement->execute();
@@ -67,31 +57,31 @@ class User extends Database
     }
 
     //Update one post
-    public function updateOne()
+    public function updateOne($table, $data)
     {
         $setSql = '';
-        foreach (array_keys($this->data) as $key) {
+        foreach (array_keys($data) as $key) {
             $setSql .= "$key=:$key,";
 
         }
 
         $setSql = substr_replace($setSql, ' ', -8);
 
-        $sqlQuery = "UPDATE $this->table  SET $setSql WHERE id=:id ";
+        $sqlQuery = "UPDATE $table  SET $setSql WHERE id=:id ";
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
-        $statement->execute($this->data);
+        $statement->execute($data);
 
     }
 
     //Delete one post
-    public function deleteOne()
+    public function deleteOne($table, $data)
     {
-        $keys = implode(',', array_keys($this->data));
-        $sqlQuery = "DELETE FROM $this->table WHERE $keys=:$keys";
+        $keys = implode(',', array_keys($data));
+        $sqlQuery = "DELETE FROM $table WHERE $keys=:$keys";
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
-        $result = $statement->execute($this->data);
+        $result = $statement->execute($data);
         if ($result) {
             return true;
             header('location:posts.php');

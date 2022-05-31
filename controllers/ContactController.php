@@ -3,6 +3,13 @@ require_once '../models/ErrorModel.php';
 
 class ContactController
 {
+    private $database;
+
+    public function __construct($database)
+    {
+        $this->database = $database;
+    }
+
     public function handleContact()
     {
 
@@ -18,8 +25,8 @@ class ContactController
                     'message' => $_POST['message'],
                     'date' => date('Y-m-d H:i:s'),
                 ];
-                $contact = new User('contact', $data);
-                $contact->create($data);
+
+                $this->database->create('contact', $data);
 
                 header('location:index.php');
                 exit;
