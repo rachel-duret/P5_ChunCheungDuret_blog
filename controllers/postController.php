@@ -34,7 +34,6 @@ class PostController
 
             if ($createPostModel->validateData()) {
 
-                $newPost = new Post();
                 $data = [
                     'image' => $imagePath,
                     'title' => $_POST['title'],
@@ -44,8 +43,9 @@ class PostController
                     'date' => date('Y-m-d H:i:s'),
 
                 ];
+                $newPost = new User('posts', $data);
 
-                $newPost->createPost($data);
+                $newPost->create();
                 header('location:index.php?action=posts');
                 exit;
             }
@@ -66,8 +66,8 @@ class PostController
     // Get all the posts
     public function getAllPost()
     {
-        $allPost = new Post();
-        $posts = $allPost->getAllPost();
+        $allPost = new User('posts', []);
+        $posts = $allPost->findAll();
         $content = content('../views/postsView.php', $posts);
         require '../views/template.php';
     }
@@ -75,32 +75,26 @@ class PostController
     //Get one post
     public function getOnePost($id)
     {
-        $singlePost = new Post();
+
         $data = [
             'id' => $id,
         ];
-        $post = $singlePost->getOnePost($data);
+        $singlePost = new User('posts', $data);
+        $post = $singlePost->findOne();
+
         $content = content('../views/postView.php', $post);
         require '../views/template.php';
-    }
-/* ******************************** SinglePost data for update********************************************* */
-    public function postData($id)
-    {
-        $singlePost = new Post();
-        $data = [
-            'id' => $id,
-        ];
-        return $singlePost->getOnePost($data);
     }
 
     // Update one post
     public function updateOnePost($id)
     {
-        $post = new Post();
+
         $data = [
             'id' => $id,
         ];
-        $postData = $post->getOnePost($data);
+        $post = new User('posts', $data, '');
+        $postData = $post->findOne();
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $updatePostModel = new CreatePostModel();
@@ -125,7 +119,6 @@ class PostController
             }
             if ($updatePostModel->validateData()) {
 
-                $updatePost = new Post();
                 $data = [
                     'image' => $imagePath,
                     'title' => $_POST['title'],
@@ -136,8 +129,9 @@ class PostController
                     'id' => $_POST['id'],
 
                 ];
+                $updatePost = new User('posts', $data);
 
-                $updatePost->updateOnePost($data);
+                $updatePost->updateOne();
                 header('location:index.php?action=posts');
                 exit;
 
@@ -158,11 +152,12 @@ class PostController
     public function deleteOnePost($id)
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $deletePost = new Post();
+
             $data = [
                 'id' => $id,
             ];
-            $deletePost->deleteOnePost($data);
+            $deletePost = new User('posts', $data);
+            $deletePost->deleteOne();
             header('location:index.php?action=posts');
             exit;
 

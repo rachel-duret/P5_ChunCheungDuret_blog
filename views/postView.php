@@ -3,6 +3,7 @@
 
 
         <div class="accordion-item " id="blogs-container">
+            <?php foreach ($posts as $post) {?>
             <img src=" <?php echo $post['image']; ?>" alt="" class="post-image">
             <h2 class="accordion-header" id="headingOne">
                 <strong>Title: </strong>
@@ -23,6 +24,9 @@
 
                 </div>
             </div>
+            <?php
+}
+?>
         </div>
 
 

@@ -10,7 +10,6 @@ class ContactController
             $contactModel = new ContactModel();
             $contactModel->getData($_POST);
             if ($contactModel->validateData()) {
-                $contact = new Contact;
                 $data = [
                     'userId' => '3',
                     'first_name' => $_POST['first_name'],
@@ -19,7 +18,8 @@ class ContactController
                     'message' => $_POST['message'],
                     'date' => date('Y-m-d H:i:s'),
                 ];
-                $contact->save($data);
+                $contact = new User('contact', $data);
+                $contact->create($data);
 
                 header('location:index.php');
                 exit;

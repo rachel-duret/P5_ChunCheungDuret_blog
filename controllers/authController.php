@@ -17,9 +17,14 @@ class UserController
             $registerModel = new RegisterModel();
             $registerModel->getData($_POST);
             if ($registerModel->validateData()) {
-                $newUser = new User;
-
-                $newUser->createUser($_POST['username'], $_POST['email'], $_POST['password'], );
+                $hashPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                $data = [
+                    'username' => $_POST['username'],
+                    'email' => $_POST['email'],
+                    'password' => $hashPassword,
+                ];
+                $newUser = new User('users', $data);
+                $newUser->create();
 
                 header('location:index.php?action=login');
                 exit;
@@ -44,12 +49,11 @@ class UserController
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $loginModel = new LoginModel();
             $loginModel->getData($_POST);
-            $user = new User;
             $data = [
                 'email' => $_POST['email'],
             ];
-
-            $user = $user->findOneUser($data);
+            $user = new User('users', $data);
+            $user = $user->findOne();
 
             if (!$user) {
                 $loginModel->addError('email', 'User does not exist with this email');

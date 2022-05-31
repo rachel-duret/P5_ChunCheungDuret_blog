@@ -1,8 +1,6 @@
-
-
-
 <div class="container-fluid">
     <div class="col-sm-8">
+        <?php foreach ($posts as $post) {?>
         <form action="index.php?action=updatePost&amp;id=<?=$post['id']?>" method="post" enctype="multipart/form-data">
             <div class="<?php echo $postErrors ? 'alert alert-danger' : '' ?>">
                 <?php if ($postErrors) {
@@ -48,5 +46,8 @@
         </form>
 
     </div>
+    <?php
+}
+?>
 
 </div>

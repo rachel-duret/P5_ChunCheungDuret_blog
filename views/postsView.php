@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="accordion" id="accordionExample">
-        <?php foreach ($post as $post) {?>
+        <?php foreach ($posts as $post) {?>
         <div class="accordion-item " id="blogs-container">
             <img src=" <?php echo $post['image']; ?>" alt="" id="image">
             <h2 class="accordion-header" id="headingOne">

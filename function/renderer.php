@@ -1,6 +1,6 @@
 <?php
 
-function content(string $viewPath, ?array $post)
+function content(string $viewPath, ?array $posts)
 {
     $postData = [];
     $postErrors = [];
