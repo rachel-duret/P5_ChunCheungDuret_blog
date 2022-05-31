@@ -69,15 +69,19 @@ class User extends Database
     //Update one post
     public function updateOne()
     {
+        $setSql = '';
+        foreach (array_keys($this->data) as $key) {
+            $setSql .= "$key=:$key,";
 
-        $keys = implode(',', array_keys($this->data));
+        }
 
-        $values = str_replace(',', "", $keys);
+        $setSql = substr_replace($setSql, ' ', -8);
 
-        $sqlQuery = "UPDATE $this->table  SET image=:image, title=:title, subtitle=:subtitle, content=:content, author=:author,date=:date WHERE id=:id";
+        $sqlQuery = "UPDATE $this->table  SET $setSql WHERE id=:id ";
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
         $statement->execute($this->data);
+
     }
 
     //Delete one post
