@@ -1,148 +1,170 @@
 <?php
 require_once '../Models/ErrorModel.php';
 require_once '../Models/DbModel.php';
+require_once '../function/renderer.php';
 class PostController
 {
-
-    public $errors = [];
-    public $posts = [];
-    public $post = [];
-
-    //register function create one new user
-    public function createPost($POST, $FILES)
+    //homepage
+    /*   public function homepage()
     {
-        $image = $FILES['image'];
-        $createPostModel = new CreatePostModel();
-        $createPostModel->getData($POST);
-        if (!is_dir('images')) {
-            mkdir('images');
-        }
-        $imagePath = '';
-        if ($image && $image['tmp_name']) {
+    $allPost = new Post();
+    $posts = $allPost->getAllPost();
 
-            $imagePath = 'images/' . $_POST['title'] . '/' . $image['name'];
-            mkdir(dirname($imagePath));
-            move_uploaded_file($image['tmp_name'], $imagePath);
-        }
-
-        if ($createPostModel->validateData()) {
-
-            $newPost = new Post();
-            $data = [
-                'image' => $imagePath,
-                'title' => $POST['title'],
-                'subtitle' => $POST['subtitle'],
-                'content' => $POST['content'],
-                'author' => $_SESSION['loggedUser']['username'],
-                'date' => date('Y-m-d H:i:s'),
-
-            ];
-
-            $newPost->createPost($data);
-            require '../views/indexView.php';
-
-        }
-        if (!empty($createPostModel->errors)) {
-            $_SESSION['post_errors'] = $createPostModel->errors;
-
-        }
-
+    $content = content('../views/indexView.php', $posts);
+    require '../views/template.php';
     }
-
-    public function homepage()
+     */
+    //register function create one new post
+    public function createPost()
     {
-        $allPost = new Post();
-        $posts = $allPost->getAllPost();
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $image = $_FILES['image'];
+            $createPostModel = new CreatePostModel();
+            $createPostModel->getData($_POST);
+            if (!is_dir('images')) {
+                mkdir('images');
+            }
+            $imagePath = '';
+            if ($image && $image['tmp_name']) {
 
-        require '../views/indexView.php';
+                $imagePath = 'images/' . $_POST['title'] . '/' . $image['name'];
+                mkdir(dirname($imagePath));
+                move_uploaded_file($image['tmp_name'], $imagePath);
+            }
+
+            if ($createPostModel->validateData()) {
+
+                $data = [
+                    'image' => $imagePath,
+                    'title' => $_POST['title'],
+                    'subtitle' => $_POST['subtitle'],
+                    'content' => $_POST['content'],
+                    'author' => $_SESSION['loggedUser']['username'],
+                    'date' => date('Y-m-d H:i:s'),
+
+                ];
+                $newPost = new User('posts', $data);
+
+                $newPost->create();
+                header('location:index.php?action=posts');
+                exit;
+            }
+            if (!empty($createPostModel->errors)) {
+                $_SESSION['post_errors'] = $createPostModel->errors;
+
+            }
+
+            header('location:index.php?action=createPost');
+            exit;
+        }
+
+        $content = content('../views/createView.php', []);
+        require '../views/template.php';
+
     }
 
     // Get all the posts
     public function getAllPost()
     {
-        $allPost = new Post();
-        $posts = $allPost->getAllPost();
-        require '../views/postsView.php';
+        $allPost = new User('posts', []);
+        $posts = $allPost->findAll();
+        $content = content('../views/postsView.php', $posts);
+        require '../views/template.php';
     }
 
     //Get one post
     public function getOnePost($id)
     {
-        $singlePost = new Post();
-        $data = [
-            'id' => $id,
-        ];
-        $post = $singlePost->getOnePost($data);
-        require '../views/postView.php';
-    }
 
-    public function post($id)
-    {
-        $singlePost = new Post();
         $data = [
             'id' => $id,
         ];
-        return $singlePost->getOnePost($data);
+        $singlePost = new User('posts', $data);
+        $post = $singlePost->findOne();
+
+        $content = content('../views/postView.php', $post);
+        require '../views/template.php';
     }
 
     // Update one post
-    public function updateOnePost($POST, $FILES)
+    public function updateOnePost($id)
     {
-        $updatePostModel = new CreatePostModel();
-        $updatePostModel->getData($POST);
-        $image = $FILES['image'] ?? '';
 
-        if (!is_dir('images')) {
-            mkdir('images');
-        }
-        $imagePath = $POST['postImage'] ?? '';
-        var_dump($imagePath);
+        $data = [
+            'id' => $id,
+        ];
+        $post = new User('posts', $data, '');
+        $postData = $post->findOne();
 
-        if ($image && $image['tmp_name']) {
-            if ($POST['postImage']) {
-                unlink($POST['postImage']);
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $updatePostModel = new CreatePostModel();
+            $updatePostModel->getData($_POST);
+            $image = $_FILES['image'] ?? '';
+
+            if (!is_dir('images')) {
+                mkdir('images');
             }
+            $imagePath = $_POST['postImage'] ?? '';
+            var_dump($imagePath);
 
-            $imagePath = 'images/' . $POST['title'] . 'update' . '/' . $image['name'];
-            mkdir(dirname($imagePath));
-            move_uploaded_file($image['tmp_name'], $imagePath);
+            if ($image && $image['tmp_name']) {
+                if ($_POST['postImage']) {
+                    unlink($_POST['postImage']);
+                }
 
-        }
-        if ($updatePostModel->validateData()) {
+                $imagePath = 'images/' . $_POST['title'] . 'update' . '/' . $image['name'];
+                mkdir(dirname($imagePath));
+                move_uploaded_file($image['tmp_name'], $imagePath);
 
-            $updatePost = new Post();
-            $data = [
-                'image' => $imagePath,
-                'title' => $POST['title'],
-                'subtitle' => $POST['subtitle'],
-                'content' => $POST['content'],
-                'author' => $_SESSION['loggedUser']['username'],
-                'date' => date('Y-m-d H:i:s'),
-                'id' => $POST['id'],
+            }
+            if ($updatePostModel->validateData()) {
 
-            ];
+                $data = [
+                    'image' => $imagePath,
+                    'title' => $_POST['title'],
+                    'subtitle' => $_POST['subtitle'],
+                    'content' => $_POST['content'],
+                    'author' => $_SESSION['loggedUser']['username'],
+                    'date' => date('Y-m-d H:i:s'),
+                    'id' => $_POST['id'],
 
-            $updatePost->updateOnePost($data);
-            header('location:index.php?action=posts');
+                ];
+                $updatePost = new User('posts', $data);
+
+                $updatePost->updateOne();
+                header('location:index.php?action=posts');
+                exit;
+
+            } else {
+                $_SESSION['post_errors'] = $updatePostModel->errors;
+
+            }
+            header('location:index.php?action=updatePost&id=' . $postData['id']);
             exit;
-
-        } else {
-            $_SESSION['post_errors'] = $updatePostModel->errors;
-
         }
+
+        $content = content('../views/updateView.php', $postData);
+        require '../views/template.php';
 
     }
 
     //Delete one post
     public function deleteOnePost($id)
     {
-        $deletePost = new Post;
-        $data = [
-            'id' => $id,
-        ];
-        $deletePost->deleteOnePost($data);
-        header('location:index.php?action=posts');
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+            $data = [
+                'id' => $id,
+            ];
+            $deletePost = new User('posts', $data);
+            $deletePost->deleteOne();
+            header('location:index.php?action=posts');
+            exit;
+
+        }
+        header('location:index.php?action=post&id=' . $id);
         exit;
+
     }
 
 }

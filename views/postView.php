@@ -1,10 +1,9 @@
-<?php ob_start();?>
-
 <div class="container-fluid">
     <div class="accordion" id="accordionExample">
 
 
         <div class="accordion-item " id="blogs-container">
+            <?php foreach ($posts as $post) {?>
             <img src=" <?php echo $post['image']; ?>" alt="" class="post-image">
             <h2 class="accordion-header" id="headingOne">
                 <strong>Title: </strong>
@@ -25,17 +24,20 @@
 
                 </div>
             </div>
+            <?php
+}
+?>
         </div>
 
 
         <?php if ($_SESSION['loggedUser']['username'] === $post['author']) {?>
         <div class="d-grid gap-2 d-md-block" id="btn">
             <div class="btn">
-                <a href="index.php?action=updatePost&amp;id=<?php echo $id ?>" class="btn btn-primary"
+                <a href="index.php?action=updatePost&amp;id=<?=$post['id']?>" class="btn btn-primary"
                     type="button">Update</a>
 
                 <form action="index.php?action=deletePost&amp;id=<?=$post['id']?>" method="post">
-                    <input type="hidden" name="id" value="<?php echo $id ?>">
+                    <input type="hidden" name="id" value="<?=$post['id']?>">
                     <button class="btn btn-danger" type="submit">Delete</button>
                 </form>
             </div>
@@ -67,5 +69,3 @@
         </div>
     </div>
 </div>
-<?php $content = ob_get_clean();?>
-<?php require 'template.php';

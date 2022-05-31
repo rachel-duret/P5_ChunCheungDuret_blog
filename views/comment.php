@@ -1,14 +1,5 @@
 <?php
-session_start();
-require_once 'config.php';
 
-/* echo '<pre>';
-var_dump($_SESSION);
-echo '</pre>';
-
-echo '<pre>';
-var_dump($_POST);
-echo '</pre>'; */
 $error = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postId = $_POST['id'];
@@ -47,12 +38,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-}
-$postData = [];
-$postErrors = [];
-if (array_key_exists('errors', $_SESSION) && array_key_exists('post_data', $_SESSION)) {
-    $postData = $_SESSION['post_data'];
-    $postErrors = $_SESSION['errors'];
-
-    unset($_SESSION['errors'], $_SESSION['post_data']);
 }

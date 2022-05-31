@@ -1,5 +1,3 @@
-<?php ob_start();?>
-
 <div class="container-fluid">
     <div class="accordion" id="accordionExample">
         <?php foreach ($posts as $post) {?>
@@ -31,5 +29,3 @@
 ?>
     </div>
 </div>
-<?php $content = ob_get_clean();?>
-<?php require 'template.php';
