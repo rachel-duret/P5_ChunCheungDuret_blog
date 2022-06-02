@@ -1,13 +1,16 @@
 <?php
 session_start();
-require '../controllers/authController.php';
-require '../controllers/postController.php';
-require_once '../controllers/ContactController.php';
-require_once '../models/DbModel.php';
 
-$userController = new UserController($database = new User());
-$postController = new PostController($database = new User());
-$contactController = new ContactController($database = new User());
+require_once '../vendor/autoload.php';
+
+use app\controllers\ContactController;
+use app\controllers\PostController;
+use app\controllers\UserController;
+use app\models\Model;
+
+$userController = new UserController($database = new Model());
+$postController = new PostController($database = new Model());
+$contactController = new ContactController($database = new Model());
 if (isset($_GET['action'])) {
     /* ***********************************CREATE　POST */
     if ($_GET['action'] == 'createPost') {
