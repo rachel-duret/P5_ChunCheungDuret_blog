@@ -1,5 +1,9 @@
 <?php
-require_once '../models/ErrorModel.php';
+namespace app\controllers;
+
+require_once '../function/renderer.php';
+
+use app\models\ContactModel;
 
 class ContactController
 {

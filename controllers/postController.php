@@ -1,7 +1,10 @@
 <?php
-require_once '../Models/ErrorModel.php';
-require_once '../Models/DbModel.php';
+namespace app\controllers;
+
 require_once '../function/renderer.php';
+
+use app\models\CreatePostModel;
+
 class PostController
 {
     private $database;

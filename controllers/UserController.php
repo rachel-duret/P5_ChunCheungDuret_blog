@@ -1,8 +1,9 @@
 <?php
+namespace app\controllers;
 
-require_once '../Models/ErrorModel.php';
-require_once '../Models/DbModel.php';
 require_once '../function/renderer.php';
+use app\models\LoginModel;
+use app\models\RegisterModel;
 
 class UserController
 {
