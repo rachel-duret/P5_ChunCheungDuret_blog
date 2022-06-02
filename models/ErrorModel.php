@@ -1,6 +1,7 @@
 <?php
+namespace app\models;
 
-abstract class Model
+abstract class ErrorModel
 {
     public const RULE_REQUIRED = 'required';
     public const RULE_EMAIL = 'email';
@@ -87,93 +88,4 @@ abstract class Model
         ];
     }
 
-}
-
-class RegisterModel extends Model
-{
-    public $username;
-    public $email;
-    public $password;
-    public $confirmPassword;
-
-    public function rules()
-    {
-        return [
-            'username' => [self::RULE_REQUIRED],
-            'email' => [self::RULE_REQUIRED, self::RULE_EMAIL],
-            'password' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 8], [self::RULE_MAX, 'max' => 24]],
-            'confirmPassword' => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'password']],
-
-        ];
-    }
-
-}
-
-class LoginModel extends Model
-{
-    public $email;
-    public $password;
-
-    public function rules()
-    {
-        return [
-            'email' => [self::RULE_REQUIRED, self::RULE_EMAIL],
-            'password' => [self::RULE_REQUIRED],
-        ];
-    }
-
-}
-
-class ContactModel extends Model
-{
-    public $first_name;
-    public $last_name;
-    public $email;
-    public $message;
-
-    public function rules()
-    {
-        return [
-            'first_name' => [self::RULE_REQUIRED],
-            'last_name' => [self::RULE_REQUIRED],
-            'email' => [self::RULE_REQUIRED, self::RULE_EMAIL],
-            'message' => [self::RULE_REQUIRED],
-
-        ];
-    }
-
-}
-
-class CreatePostModel extends Model
-{
-    public $title;
-    public $subtitle;
-    public $content;
-
-    public function rules()
-    {
-        return [
-            'title' => [self::RULE_REQUIRED],
-            'subtitle' => [self::RULE_REQUIRED],
-            'content' => [self::RULE_REQUIRED],
-
-        ];
-    }
-}
-
-class UpdatePostModel extends Model
-{
-    public $title;
-    public $subtitle;
-    public $content;
-
-    public function rules()
-    {
-        return [
-            'title' => [self::RULE_REQUIRED],
-            'subtitle' => [self::RULE_REQUIRED],
-            'content' => [self::RULE_REQUIRED],
-
-        ];
-    }
 }

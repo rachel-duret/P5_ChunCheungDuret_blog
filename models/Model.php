@@ -1,7 +1,9 @@
 <?php
-require 'database.class.php';
+namespace app\models;
 
-class User extends Database
+use app\models\Database;
+
+class Model extends Database
 {
 
 // Create one user

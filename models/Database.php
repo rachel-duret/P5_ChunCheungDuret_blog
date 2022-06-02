@@ -1,4 +1,5 @@
 <?php
+namespace app\models;
 
 class Database
 {
@@ -13,8 +14,8 @@ class Database
         $string = "mysql:host=$this->HOST; dbname=$this->DB_NAME";
 
         try {
-            $pdo = new PDO($string, $this->USER, $this->PASSWORD);
-        } catch (Exception $error) {
+            $pdo = new \PDO($string, $this->USER, $this->PASSWORD);
+        } catch (\Exception$error) {
             die('Erreur:' . $error->getMessage());
 
         }
