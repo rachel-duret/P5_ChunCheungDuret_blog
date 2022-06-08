@@ -1,20 +1,19 @@
 <?php
 namespace app\models;
-
+require_once '../config/config.php';
 class Database
 {
-    protected $HOST = 'localhost';
-    protected $DB_NAME = 'blog';
-    protected $USER = 'root';
-    protected $PASSWORD = 'root';
+  
+    protected $DB_DSN =DB_DSN ;
+    protected $USER = DB_USER;
+    protected $PASSWORD = DB_PASSWORD;
 
     protected function connection()
     {
         // connect to database
-        $string = "mysql:host=$this->HOST; dbname=$this->DB_NAME";
-
+    
         try {
-            $pdo = new \PDO($string, $this->USER, $this->PASSWORD);
+            $pdo = new \PDO($this->DB_DSN, $this->USER, $this->PASSWORD);
         } catch (\Exception$error) {
             die('Erreur:' . $error->getMessage());
 

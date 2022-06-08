@@ -8,6 +8,10 @@ use app\controllers\PostController;
 use app\controllers\UserController;
 use app\models\Model;
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+
 $userController = new UserController($database = new Model());
 $postController = new PostController($database = new Model());
 $contactController = new ContactController($database = new Model());
