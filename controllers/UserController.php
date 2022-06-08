@@ -2,8 +2,8 @@
 namespace app\controllers;
 
 require_once '../function/renderer.php';
-use app\models\LoginModel;
-use app\models\RegisterModel;
+use app\models\validation\LoginModel;
+use app\models\validation\RegisterModel;
 
 class UserController
 {
@@ -42,8 +42,8 @@ class UserController
             exit;
         }
 
-        $content = content('../views/registerView.php', []);
-        require '../views/template.php';
+        $content = content('./views/registerView.php', []);
+        require './views/template.php';
 
     }
 
@@ -88,8 +88,8 @@ class UserController
             exit;
         }
 
-        $content = content('../views/loginView.php', []);
-        require '../views/template.php';
+        $content = content('./views/loginView.php', []);
+        require './views/template.php';
 
     }
 

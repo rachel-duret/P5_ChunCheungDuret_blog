@@ -3,7 +3,7 @@ namespace app\controllers;
 
 require_once '../function/renderer.php';
 
-use app\models\ContactModel;
+use app\models\validation\ContactModel;
 
 class ContactController
 {
@@ -43,7 +43,7 @@ class ContactController
             header('location:index.php');
             exit;
         }
-        $content = content('../views/indexView.php', []);
-        require '../views/template.php';
+        $content = content('./views/indexView.php', []);
+        require './views/template.php';
     }
 }

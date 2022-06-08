@@ -56,8 +56,8 @@ class PostController
             exit;
         }
 
-        $content = content('../views/createView.php', []);
-        require '../views/template.php';
+        $content = content('./views/createView.php', []);
+        require './views/template.php';
 
     }
 
@@ -66,8 +66,8 @@ class PostController
     {
 
         $posts = $this->database->findAll('posts');
-        $content = content('../views/postsView.php', $posts);
-        require '../views/template.php';
+        $content = content('./views/postsView.php', $posts);
+        require './views/template.php';
     }
 
     //Get one post
@@ -79,8 +79,8 @@ class PostController
         ];
         $post = $this->database->findOne('posts', $data);
 
-        $content = content('../views/postView.php', $post);
-        require '../views/template.php';
+        $content = content('./views/postView.php', $post);
+        require './views/template.php';
     }
 
     // Update one post
@@ -139,8 +139,8 @@ class PostController
             exit;
         }
 
-        $content = content('../views/updateView.php', $postData);
-        require '../views/template.php';
+        $content = content('./views/updateView.php', $postData);
+        require './views/template.php';
 
     }
 

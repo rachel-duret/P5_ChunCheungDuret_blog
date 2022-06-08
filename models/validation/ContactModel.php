@@ -1,8 +1,8 @@
 <?php
 
-namespace app\models;
+namespace app\models\validation;
 
-use app\models\ErrorModel;
+use app\models\validation\ErrorModel;
 
 class ContactModel extends ErrorModel
 {

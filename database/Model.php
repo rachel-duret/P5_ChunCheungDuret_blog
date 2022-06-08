@@ -1,7 +1,7 @@
 <?php
-namespace app\models;
+namespace app\database;
 
-use app\models\Database;
+use app\database\Database;
 
 class Model extends Database
 {

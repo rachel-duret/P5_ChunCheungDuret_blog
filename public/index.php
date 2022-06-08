@@ -6,11 +6,10 @@ require_once '../vendor/autoload.php';
 use app\controllers\ContactController;
 use app\controllers\PostController;
 use app\controllers\UserController;
-use app\models\Model;
+use app\database\Model;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
-
 
 $userController = new UserController($database = new Model());
 $postController = new PostController($database = new Model());
