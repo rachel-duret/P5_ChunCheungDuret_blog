@@ -5,6 +5,10 @@ use app\database\Database;
 
 class Model extends Database
 {
+    public $id;
+    public $email;
+    public $username;
+    public $password;
 
 // Create one user
     public function create($table, $data)

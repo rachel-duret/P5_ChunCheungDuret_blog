@@ -7,6 +7,7 @@ use app\models\validation\RegisterModel;
 
 class UserController
 {
+
     private $database;
 
     public function __construct($database)
@@ -58,20 +59,23 @@ class UserController
             ];
 
             $user = $this->database->findOne('users', $data);
+            echo '<pre>';
+            var_dump($user);
+            echo '</pre>';
 
             if (!$user) {
                 $loginModel->addError('email', 'User does not exist with this email');
 
             }
-            if ($user && !password_verify($_SESSION['post_data']['password'], $user[0]['password'])) {
+            if ($user && !password_verify($_SESSION['post_data']['password'], $user->password())) {
                 $loginModel->addError('password', 'Your password is incorrect, try again!');
 
             }
             if ($loginModel->validateData()) {
                 $_SESSION['loggedUser'] = [
-                    'id' => $user[0]['id'],
-                    'username' => $user[0]['username'],
-                    'email' => $user[0]['email'],
+                    'id' => $user->id(),
+                    'username' => $user->username(),
+                    'email' => $user->email(),
 
                 ];
 

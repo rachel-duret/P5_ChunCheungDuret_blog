@@ -3,7 +3,7 @@ namespace app\controllers;
 
 require_once '../function/renderer.php';
 
-use app\models\CreatePostModel;
+use app\models\validation\CreatePostModel;
 
 class PostController
 {
