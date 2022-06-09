@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 namespace app\database;
 
 use app\database\Database;
@@ -35,19 +36,8 @@ class UserModel extends Database
         $result = $statement->execute($data);
         if ($result) {
             $data = $statement->fetchAll();
+            $users = new UserEntity($data);
 
-            foreach ($data as $data) {
-                $id = $data['id'];
-                $email = $data['email'];
-                $username = $data['username'];
-                $password = $data['password'];
-                $users = new UserEntity($id, $email, $username, $password);
-            }
-
-            /*   echo '<pre>';
-            var_dump($users);
-            echo '</pre>';
-            exit; */
             return $users;
 
         } else {

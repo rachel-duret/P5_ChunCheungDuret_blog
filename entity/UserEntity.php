@@ -10,12 +10,16 @@ class UserEntity
     private $username;
     private $password;
 
-    public function __construct(string $id, string $email, string $username, string $password)
+    public function __construct(array $data)
     {
-        $this->id = $id;
-        $this->email = $email;
-        $this->username = $username;
-        $this->password = $password;
+        foreach ($data as $user) {
+
+            $this->id = $user['id'];
+            $this->email = $user['email'];
+            $this->username = $user['username'];
+            $this->password = $user['password'];
+
+        }
     }
 
     public function id()

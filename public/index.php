@@ -7,13 +7,14 @@ use app\controllers\ContactController;
 use app\controllers\PostController;
 use app\controllers\UserController;
 use app\database\Model;
+use app\database\PostModel;
 use app\database\UserModel;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 $userController = new UserController($database = new UserModel());
-$postController = new PostController($database = new Model());
+$postController = new PostController($database = new PostModel());
 $contactController = new ContactController($database = new Model());
 if (isset($_GET['action'])) {
     /* ***********************************CREATE　POST */

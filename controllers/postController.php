@@ -77,7 +77,16 @@ class PostController
         $data = [
             'id' => $id,
         ];
-        $post = $this->database->findOne('posts', $data);
+        $Post = $this->database->findOne('posts', $data);
+        $post = [
+            'id' => $Post->id(),
+            'image' => $Post->image(),
+            'title' => $Post->title(),
+            'subtitle' => $Post->subtitle(),
+            'content' => $Post->content(),
+            'author' => $Post->author(),
+            'date' => $Post->date(),
+        ];
 
         $content = content('./views/postView.php', $post);
         require './views/template.php';
