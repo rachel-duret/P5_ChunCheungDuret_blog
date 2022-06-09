@@ -1,10 +1,10 @@
 <?php
 
-function content(string $viewPath, ?array $post)
+function content(string $viewPath, $post = null)
 {
-    echo '<pre>';
+    /*  echo '<pre>';
     var_dump($post);
-    echo '</pre>';
+    echo '</pre>'; */
     $postData = [];
     $postErrors = [];
     if (array_key_exists('post_errors', $_SESSION) && array_key_exists('post_data', $_SESSION)) {

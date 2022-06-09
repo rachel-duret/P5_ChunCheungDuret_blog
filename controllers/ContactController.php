@@ -43,7 +43,7 @@ class ContactController
             header('location:index.php');
             exit;
         }
-        $content = content('./views/indexView.php', []);
+        $content = content('./views/indexView.php');
         require './views/template.php';
     }
 }

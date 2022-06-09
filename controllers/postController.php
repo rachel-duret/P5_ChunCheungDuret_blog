@@ -56,7 +56,7 @@ class PostController
             exit;
         }
 
-        $content = content('./views/createView.php', []);
+        $content = content('./views/createView.php');
         require './views/template.php';
 
     }
@@ -66,6 +66,10 @@ class PostController
     {
 
         $posts = $this->database->findAll('posts');
+        /*  echo '<pre>';
+        var_dump($posts);
+        echo '</pre>'; */
+
         $content = content('./views/postsView.php', $posts);
         require './views/template.php';
     }
@@ -77,16 +81,7 @@ class PostController
         $data = [
             'id' => $id,
         ];
-        $Post = $this->database->findOne('posts', $data);
-        $post = [
-            'id' => $Post->id(),
-            'image' => $Post->image(),
-            'title' => $Post->title(),
-            'subtitle' => $Post->subtitle(),
-            'content' => $Post->content(),
-            'author' => $Post->author(),
-            'date' => $Post->date(),
-        ];
+        $post = $this->database->findOne('posts', $data);
 
         $content = content('./views/postView.php', $post);
         require './views/template.php';

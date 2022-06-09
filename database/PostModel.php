@@ -4,6 +4,7 @@ namespace app\database;
 
 use app\database\Database;
 use app\entity\PostEntity;
+use app\entity\PostsEntity;
 
 class PostModel extends Database
 {
@@ -54,9 +55,19 @@ class PostModel extends Database
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
         $result = $statement->execute();
+        $posts = [];
         if ($result) {
             $data = $statement->fetchAll();
-            return $data;
+            foreach ($data as $post) {
+                /*   echo '<pre>';
+                var_dump($post);
+                echo '</pre>'; */
+
+                $Post = new PostsEntity($post);
+                $posts[] = $Post;
+            }
+
+            return $posts;
         } else {
             return false;
         }

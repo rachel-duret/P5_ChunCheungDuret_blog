@@ -2,7 +2,7 @@
 declare (strict_types = 1);
 namespace app\entity;
 
-class PostEntity
+class PostsEntity
 {
     private $id;
     private $image;
@@ -14,21 +14,15 @@ class PostEntity
 
     public function __construct(array $data)
     {
-        foreach ($data as $post) {
-            /*  echo '<pre>';
-            var_dump($post);
-            echo '</pre>';
-            exit; */
 
-            $this->id = $post['id'];
-            $this->image = $post['image'];
-            $this->title = $post['title'];
-            $this->subtitle = $post['subtitle'];
-            $this->content = $data['content'];
-            $this->author = $post['author'];
-            $this->date = $post['date'];
+        $this->id = $data['id'];
+        $this->image = $data['image'];
+        $this->title = $data['title'];
+        $this->subtitle = $data['subtitle'];
+        $this->content = $data['content'];
+        $this->author = $data['author'];
+        $this->date = $data['date'];
 
-        }
     }
 
     public function id()

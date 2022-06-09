@@ -3,23 +3,23 @@
 
 
         <div class="accordion-item " id="blogs-container">
-            <img src=" <?php echo $post['image']; ?>" alt="" class="post-image">
+            <img src=" <?php echo $post->image(); ?>" alt="" class="post-image">
             <h2 class="accordion-header" id="headingOne">
                 <strong>Title: </strong>
-                <a href="post.php?id=<?php echo $post['id']; ?>">
-                    <?php echo $post['title']; ?>
+                <a href="post.php?id=<?php echo $post->id(); ?>">
+                    <?php echo $post->title(); ?>
 
                 </a>
 
-                <h6><i>subtitle: </i> <?php echo $post['subtitle']; ?></h6>
+                <h6><i>subtitle: </i> <?php echo $post->subtitle(); ?></h6>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body">
 
-                    <?php echo $post['content']; ?>
-                    <p><strong>Author: </strong><?php echo $post['author']; ?></p>
-                    <p><strong>Post At: </strong> <?php echo $post['date']; ?></p>
+                    <?php echo $post->content(); ?>
+                    <p><strong>Author: </strong><?php echo $post->author(); ?></p>
+                    <p><strong>Post At: </strong> <?php echo $post->date(); ?></p>
 
                 </div>
             </div>
@@ -27,14 +27,14 @@
         </div>
 
 
-        <?php if ($_SESSION['loggedUser']['username'] === $post['author']) {?>
+        <?php if ($_SESSION['loggedUser']['username'] === $post->author()) {?>
         <div class="d-grid gap-2 d-md-block" id="btn">
             <div class="btn">
-                <a href="index.php?action=updatePost&amp;id=<?=$post['id']?>" class="btn btn-primary"
+                <a href="index.php?action=updatePost&amp;id=<?=$post->id()?>" class="btn btn-primary"
                     type="button">Update</a>
 
-                <form action="index.php?action=deletePost&amp;id=<?=$post['id']?>" method="post">
-                    <input type="hidden" name="id" value="<?=$post['id']?>">
+                <form action="index.php?action=deletePost&amp;id=<?=$post->id()?>" method="post">
+                    <input type="hidden" name="id" value="<?=$post->id()?>">
                     <button class="btn btn-danger" type="submit">Delete</button>
                 </form>
             </div>
