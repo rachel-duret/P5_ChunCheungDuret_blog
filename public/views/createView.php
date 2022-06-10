@@ -1,5 +1,3 @@
-
-
 <div class="container-fluid">
     <div class="col-sm-8">
         <form action="index.php?action=createPost" method="post" enctype="multipart/form-data">

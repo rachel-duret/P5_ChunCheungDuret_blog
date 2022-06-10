@@ -3,7 +3,7 @@ namespace app\controllers;
 
 require_once '../function/renderer.php';
 
-use app\models\CreatePostModel;
+use app\models\validation\CreatePostModel;
 
 class PostController
 {
@@ -56,7 +56,7 @@ class PostController
             exit;
         }
 
-        $content = content('./views/createView.php', []);
+        $content = content('./views/createView.php');
         require './views/template.php';
 
     }
@@ -66,6 +66,10 @@ class PostController
     {
 
         $posts = $this->database->findAll('posts');
+        /*  echo '<pre>';
+        var_dump($posts);
+        echo '</pre>'; */
+
         $content = content('./views/postsView.php', $posts);
         require './views/template.php';
     }
