@@ -24,7 +24,7 @@ class PostEntity
             $this->image = $post['image'];
             $this->title = $post['title'];
             $this->subtitle = $post['subtitle'];
-            $this->content = $data['content'];
+            $this->content = $post['content'];
             $this->author = $post['author'];
             $this->date = $post['date'];
 
