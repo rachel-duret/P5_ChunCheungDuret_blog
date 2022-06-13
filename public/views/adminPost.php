@@ -1,25 +1,39 @@
+<!-- Page Header-->
+<header class="masthead">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="post-heading">
+                    <h1></h1>
+                    <h2 class="subheading"></h2>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 <!-- Post Content-->
 <article class="mb-4">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
 
             <div class="col-md-10 col-lg-8 col-xl-7">
-
+                <img src=" <?php echo $post->image(); ?>" alt="" class="">
                 <h2 class="accordion-header" id="headingOne">
                     <strong>Title: </strong>
 
                     <?php echo $post->title(); ?>
+
+
+                    <h6><i>subtitle: </i> <?php echo $post->subtitle(); ?></h6>
                 </h2>
-                <h3><i>subtitle: </i> <?php echo $post->subtitle(); ?></h3>
-                <img src=" <?php echo $post->image(); ?>" alt="" class="img-thumbnail">
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
                         <?php echo $post->content(); ?>
-                        <p><strong>Author: </strong><?php echo $post->author(); ?> - <strong>Post At: </strong>
-                            <?php echo $post->date(); ?></p>
-
+                        <p><strong>Author: </strong><?php echo $post->author(); ?></p>
+                        <p><strong>Post At: </strong> <?php echo $post->date(); ?></p>
 
                     </div>
                 </div>
@@ -63,7 +77,7 @@
                     Comment by:<strong>Lara </strong><?php ?>
                     Comment At:<i>2022-05-31 13:21:20</i><?php ?></p>
             </div>
-            <?php if ($_SESSION['loggedUser']['username'] === $post->author()) {?>
+
             <form action="index.php?action=createComment" method="post">
                 <div class="<?php echo $postErrors ? 'alert alert-danger' : '' ?>">
                     <?php if ($postErrors) {
@@ -85,7 +99,6 @@
 
 
             </form>
-            <?php }?>
         </div>
     </div>
 </article>

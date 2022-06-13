@@ -1,29 +1,28 @@
-<div class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="./avator/photo1.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Rachel Duret</h5>
-                        <p class="card-text">
-                            Full-stack web developer: PHP - Javascript - ReactJS - Node.JS
-                        </p>
-                        <a href="#" class="btn btn-primary">Watch my CV</a>
-                    </div>
-                </div>
-            </div>
+<div class="container d-flex align-items-center flex-column">
+    <!-- Masthead Avatar Image-->
+    <img class="masthead-avatar mb-5" src="./assets/img/photo1.jpg" alt="..." />
 
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary">Left</button>
-                    <button type="button" class="btn btn-primary">Middle</button>
-                    <button type="button" class="btn btn-primary">Right</button>
-                </div>
-            </div>
-            <div class="col-sm-8">
+    <!-- Icon Divider-->
+    <div class="divider-custom divider-light">
+        <!-- Masthead Heading-->
+        <h3 class="masthead-heading text-uppercase mb-0">Rachel Duret</h3>
+        <div class="divider-custom-line">Fullstack</div>
+        <div class="divider-custom-line">Web Developper</div>
+        <div class="divider-custom-line"> PHP - Javascript</div>
+        <div class="divider-custom-line"></div>
+    </div>
+    <!-- Masthead Subheading-->
+
+</div>
+
+<div class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <p>Want to get in touch? Fill out the form below to send me a message and I will get back to you as soon
+                    as possible!
+                </p>
+
                 <form action="index.php" method="post">
                     <div class="<?php echo $postErrors ? 'alert alert-danger' : '' ?>">
                         <?php if ($postErrors) {
@@ -65,9 +64,9 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-lg">Send</button>
                 </form>
-
             </div>
         </div>
-    </div>
 
+
+    </div>
 </div>

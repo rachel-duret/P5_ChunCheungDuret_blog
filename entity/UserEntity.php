@@ -9,6 +9,7 @@ class UserEntity
     private $email;
     private $username;
     private $password;
+    private $role;
 
     public function __construct(array $data)
     {
@@ -35,6 +36,10 @@ class UserEntity
     public function username()
     {
         return $this->username;
+    }
+    public function role()
+    {
+        return $this->role;
     }
 
     public function password()

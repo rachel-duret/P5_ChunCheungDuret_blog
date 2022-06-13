@@ -1,28 +1,21 @@
-<div class="container-fluid">
-    <div class="accordion" id="accordionExample">
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
         <?php foreach ($post as $post) {?>
-        <div class="accordion-item " id="blogs-container">
-            <img src=" <?php echo $post->image(); ?>" alt="" id="image">
-            <h2 class="accordion-header" id="headingOne">
-                <strong>Title: </strong>
-                <a href="index.php?action=post&amp;id=<?php echo $post->id(); ?>">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <a href="index.php?action=post&amp;id=<?php echo $post->id(); ?>">
+
+                <h2 class="post-title">
+                    <strong>Title: </strong>
                     <?php echo $post->title(); ?>
+                </h2>
+                <h3 class="post-subtitle"><i>subtitle: </i> <?php echo $post->subtitle(); ?></h3>
+                <img src=" <?php echo $post->image(); ?>" class="img-thumbnail" alt="post iamge">
+            </a>
+            <p class="post-meta"><strong>Author: </strong><?php echo $post->author(); ?></p>
+            <p class="post-meta"><strong>Post At: </strong> <?php echo $post->date(); ?></p>
 
-                </a>
-
-                <h6><i>subtitle: </i> <?php echo $post->subtitle(); ?></h6>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-
-                    <?php echo $post->content(); ?>
-                    <p><strong>Author: </strong><?php echo $post->author(); ?></p>
-                    <p><strong>Post At: </strong> <?php echo $post->date(); ?></p>
-
-                </div>
-            </div>
         </div>
+        <hr class="my-4" />
 
         <?php
 }

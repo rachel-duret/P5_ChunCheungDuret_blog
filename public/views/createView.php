@@ -1,5 +1,5 @@
-<div class="container-fluid">
-    <div class="col-sm-8">
+<div class="container px-4 px-lg-5">
+    <div class=="row gx-4 gx-lg-5 justify-content-center">
         <form action="index.php?action=createPost" method="post" enctype="multipart/form-data">
             <div class="<?php echo $postErrors ? 'alert alert-danger' : '' ?>">
                 <?php if ($postErrors) {

@@ -3,9 +3,8 @@ namespace app\controllers;
 
 require_once '../function/renderer.php';
 use app\models\validation\LoginModel;
-use app\models\validation\RegisterModel;
 
-class UserController
+class AdminController
 {
 
     private $database;
@@ -13,39 +12,6 @@ class UserController
     public function __construct($database)
     {
         $this->database = $database;
-    }
-    //register function create one new user
-    public function registerController()
-    {
-
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $registerModel = new RegisterModel();
-            $registerModel->getData($_POST);
-            if ($registerModel->validateData()) {
-                $hashPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                $data = [
-                    'username' => $_POST['username'],
-                    'email' => $_POST['email'],
-                    'password' => $hashPassword,
-                ];
-
-                $this->database->create('users', $data);
-
-                header('location:index.php?action=login');
-                exit;
-
-            }
-            if (!empty($registerModel->errors)) {
-                $_SESSION['post_errors'] = $registerModel->errors;
-
-            }
-            header('location:index.php?action=register');
-            exit;
-        }
-
-        $content = content('./views/registerView.php', []);
-        require './views/template.php';
-
     }
 
     //login function
@@ -58,7 +24,7 @@ class UserController
                 'email' => $_POST['email'],
             ];
 
-            $user = $this->database->findOne('users', $data);
+            $user = $this->database->findOne('admin', $data);
             echo '<pre>';
             var_dump($user);
             echo '</pre>';
@@ -77,8 +43,10 @@ class UserController
                     'id' => $user->id(),
                     'username' => $user->username(),
                     'email' => $user->email(),
+                    'role' => $user->role(),
                 ];
-
+                var_dump($_SESSION);
+                exit;
                 header('location:index.php');
                 exit;
 
@@ -88,11 +56,11 @@ class UserController
                 $_SESSION['post_errors'] = $loginModel->errors;
 
             }
-            header('location:index.php?action=login');
+            header('location:index.php?action=adminLogin');
             exit;
         }
 
-        $content = content('./views/loginView.php', []);
+        $content = content('./views/adminLogin.php', []);
         require './views/template.php';
 
     }

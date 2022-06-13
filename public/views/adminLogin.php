@@ -15,7 +15,7 @@
 }?>
 
                 </div>
-                <form action="index.php?action=login" method="post">
+                <form action="index.php?action=adminLogin" method="post">
                     <div class="mb-3 row">
                         <label for="validationServer03" class="form-label">Email</label>
                         <input type="email" class="form-control " id="validationServer03"

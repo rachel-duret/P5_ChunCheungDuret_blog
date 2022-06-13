@@ -1,7 +1,8 @@
-<div class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col">
+
+<div class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center"">
+            <div class="col-md-10 col-lg-8 col-xl-7">
                 <form action="index.php?action=register" method="post">
                     <div class="<?php echo $postErrors ? 'alert alert-danger' : '' ?>">
                         <?php if ($postErrors) {
