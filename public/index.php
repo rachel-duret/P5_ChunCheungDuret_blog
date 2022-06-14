@@ -3,6 +3,7 @@ session_start();
 
 require_once '../vendor/autoload.php';
 
+use app\controllers\AdminAuthController;
 use app\controllers\AdminController;
 use app\controllers\CommentController;
 use app\controllers\ContactController;
@@ -20,7 +21,8 @@ $userController = new UserController($database = new UserModel());
 $postController = new PostController($database = new PostModel());
 $commentController = new CommentController($database = new CommentModel());
 $contactController = new ContactController($database = new Model());
-$adminController = new AdminController($database = new UserModel());
+$adminAuthController = new AdminAuthController($database = new UserModel());
+$adminController = new AdminController($database = new PostModel());
 if (isset($_GET['action'])) {
     /* ***********************************CREATE　POST */
     if ($_GET['action'] == 'createPost') {
@@ -59,7 +61,12 @@ if (isset($_GET['action'])) {
 
     /* **********************AUTH************************************** */
     if ($_GET['action'] == 'adminLogin') {
-        $adminController->loginController();
+        $adminAuthController->loginController();
+
+    }
+
+    if ($_GET['action'] == 'adminIndex') {
+        $adminController->getAll();
 
     }
 

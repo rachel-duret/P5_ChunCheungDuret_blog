@@ -27,7 +27,7 @@
             </div>
 
 
-            <?php if ($_SESSION['loggedUser']['username'] === $post->author()) {?>
+            <?php if ($_SESSION['loggedUser'] && $_SESSION['loggedUser']['username'] === $post->author()) {?>
             <div class="d-grid gap-2 d-md-block" id="btn">
                 <div class="d-flex justify-content-end mb-4">
                     <a href="index.php?action=updatePost&amp;id=<?=$post->id()?>" class="btn btn-primary "
