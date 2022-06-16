@@ -72,11 +72,11 @@ class UserController
 
             }
             if ($loginModel->validateData()) {
+
                 $_SESSION['loggedUser'] = [
                     'id' => $user->id(),
                     'username' => $user->username(),
                     'email' => $user->email(),
-
                 ];
 
                 header('location:index.php');
@@ -94,6 +94,18 @@ class UserController
 
         $content = content('./views/loginView.php', []);
         require './views/template.php';
+
+    }
+
+    public function logoutController()
+    {
+       
+      unset($_SESSION['loggedUser']);
+      unset($_SESSION['admin']);
+      
+        header('Location:index.php');
+        
+       
 
     }
 

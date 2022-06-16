@@ -9,15 +9,21 @@ class UserEntity
     private $email;
     private $username;
     private $password;
+    private $role;
 
     public function __construct(array $data)
     {
-        foreach ($data as $user) {
 
-            $this->id = $user['id'];
+        foreach ($data as $user) {
+            /* echo '<pre>';
+            var_dump($data);
+            echo '</pre>';
+            exit; */
+            $this->id = $user['id'] ?? '';
             $this->email = $user['email'];
             $this->username = $user['username'];
             $this->password = $user['password'];
+            $this->role = $user['role'];
 
         }
     }
@@ -35,6 +41,10 @@ class UserEntity
     public function username()
     {
         return $this->username;
+    }
+    public function role()
+    {
+        return $this->role;
     }
 
     public function password()
