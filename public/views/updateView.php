@@ -1,5 +1,5 @@
-<div class="container-fluid">
-    <div class="col-sm-8">
+<div class="container px-4 px-lg-5">
+    <div class=="row gx-4 gx-lg-5 justify-content-center">
 
         <form action="index.php?action=updatePost&amp;id=<?=$post->id()?>" method="post" enctype="multipart/form-data">
             <div class="<?php echo $postErrors ? 'alert alert-danger' : '' ?>">
@@ -13,9 +13,10 @@
 }?>
 
             </div>
-            <div class="mb-3">
+            <div class="col-md-10 col-lg-8 col-xl-7">
                 <img src=" <?php echo $post->image() ?>" alt="" class="img-thumbnail">
-
+            </div>
+            <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Image</label>
                 <input type="file" class="form-control " id="exampleFormControlInput1" placeholder="Title" name="image"
                     value="<?php echo $postData['image'] ?? $post->image() ?? '' ?>">
