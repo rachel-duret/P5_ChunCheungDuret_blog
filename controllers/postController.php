@@ -3,15 +3,19 @@ namespace app\controllers;
 
 require_once '../function/renderer.php';
 
+use app\database\CommentModel;
+use app\database\PostModel;
 use app\models\validation\CreatePostModel;
 
 class PostController
 {
-    private $database;
+    private  $postDatabase;
+    private  $commentDatabase;
 
-    public function __construct($database)
+    public function __construct(PostModel $postDatabase, CommentModel $commentDatabase)
     {
-        $this->database = $database;
+        $this->postDatabase = $postDatabase;
+        $this->commentDatabase = $commentDatabase;
     }
 
     public function createPost()
@@ -43,7 +47,7 @@ class PostController
 
                 ];
 
-                $this->database->create('posts', $data);
+                $this->postDatabase->create('posts', $data);
                 header('location:index.php?action=posts');
                 exit;
             }
@@ -65,11 +69,7 @@ class PostController
     public function getAllPost()
     {
 
-        $posts = $this->database->findAll('posts');
-        /*  echo '<pre>';
-        var_dump($posts);
-        echo '</pre>'; */
-
+        $posts = $this->postDatabase->findAll('posts');
         $content = content('./views/postsView.php', $posts);
         require './views/template.php';
     }
@@ -81,9 +81,10 @@ class PostController
         $data = [
             'id' => $id,
         ];
-        $post = $this->database->findOne('posts', $data);
+        $post = $this->postDatabase->findOne('posts', $data);
+        $comments = $this->commentDatabase->findAll('comments',$data);
 
-        $content = content('./views/postView.php', $post);
+        $content = content('./views/postView.php', $post, $comments);
         require './views/template.php';
     }
 
@@ -95,7 +96,7 @@ class PostController
             'id' => $id,
         ];
 
-        $postData = $this->database->findOne('posts', $data, );
+        $postData = $this->postDatabase->findOne('posts', $data, );
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $updatePostModel = new CreatePostModel();
@@ -131,7 +132,7 @@ class PostController
 
                 ];
 
-                $this->database->updateOne('posts', $data);
+                $this->postDatabase->updateOne('posts', $data);
                 header('location:index.php?action=posts');
                 exit;
 
@@ -156,7 +157,7 @@ class PostController
             $data = [
                 'id' => $id,
             ];
-            $this->database->deleteOne('posts', $data);
+            $this->postDatabase->deleteOne('posts', $data);
             header('location:index.php?action=posts');
             exit;
 
