@@ -39,16 +39,24 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                 href="index.php?action=posts">Posts</a>
                         </li>
-
+                        <?php if (isset($_SESSION['admin']) && $_SESSION['admin']['username'] === 'rachel') {?>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                 href="index.php?action=createPost">Creat Posts</a></li>
 
+                        <?php }?>
 
-
+                        </php>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                 href="index.php?action=login">Login</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
-                                href="index.php?action=register">Register</a></li>
+                                href="index.php?action=register">Register</a>
+                        </li>
+                        <?php if (isset($_SESSION['admin']) || isset($_SESSION['loggedUser'])) {?>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                                href="index.php?action=logout">Logout</a>
+                        </li>
+                        <?php }?>
+
                     </ul>
                 </div>
             </div>

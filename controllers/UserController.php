@@ -97,4 +97,16 @@ class UserController
 
     }
 
+    public function logoutController()
+    {
+       
+      unset($_SESSION['loggedUser']);
+      unset($_SESSION['admin']);
+      
+        header('Location:index.php');
+        
+       
+
+    }
+
 }

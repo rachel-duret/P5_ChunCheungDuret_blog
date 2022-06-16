@@ -51,7 +51,7 @@ class AdminAuthController
                     'role' => $user->role(),
                 ];
 
-                header('location:index.php?action=adminIndex.php');
+                header('location:index.php');
                 exit;
 
             }

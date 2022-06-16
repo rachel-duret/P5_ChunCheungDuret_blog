@@ -17,6 +17,7 @@ use app\database\UserModel;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
+
 $userController = new UserController($database = new UserModel());
 $postController = new PostController($database = new PostModel());
 $commentController = new CommentController($database = new CommentModel());
@@ -80,6 +81,11 @@ if (isset($_GET['action'])) {
         /*  echo '<pre>';
     var_dump($_SERVER["REQUEST_METHOD"]);
     echo '</pre>'; */
+
+    }
+
+    if ($_GET['action'] == 'logout') {
+        $userController->LogoutController();
 
     }
 

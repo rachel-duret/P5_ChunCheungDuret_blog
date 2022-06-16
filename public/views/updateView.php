@@ -14,7 +14,7 @@
 
             </div>
             <div class="mb-3">
-                <img src=" <?php echo $post->image() ?>" alt="" class="post-image">
+                <img src=" <?php echo $post->image() ?>" alt="" class="img-thumbnail">
 
                 <label for="exampleFormControlInput1" class="form-label">Image</label>
                 <input type="file" class="form-control " id="exampleFormControlInput1" placeholder="Title" name="image"

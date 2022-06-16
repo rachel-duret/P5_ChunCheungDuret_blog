@@ -27,7 +27,7 @@
             </div>
 
 
-            <?php if ($_SESSION['loggedUser'] && $_SESSION['loggedUser']['username'] === $post->author()) {?>
+            <?php if (isset($_SESSION['admin']) && $_SESSION['admin']['username'] === 'rachel') {?>
             <div class="d-grid gap-2 d-md-block" id="btn">
                 <div class="d-flex justify-content-end mb-4">
                     <a href="index.php?action=updatePost&amp;id=<?=$post->id()?>" class="btn btn-primary "
@@ -63,7 +63,7 @@
                     Comment by:<strong>Lara </strong><?php ?>
                     Comment At:<i>2022-05-31 13:21:20</i><?php ?></p>
             </div>
-            <?php if ($_SESSION['loggedUser']['username'] === $post->author()) {?>
+            <?php if (isset($_SESSION['loggedUser']) | isset($_SESSION['admin'])) {?>
             <form action="index.php?action=createComment" method="post">
                 <div class="<?php echo $postErrors ? 'alert alert-danger' : '' ?>">
                     <?php if ($postErrors) {
