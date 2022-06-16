@@ -16,11 +16,11 @@ use app\database\UserModel;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
-
+$commentModel = new CommentModel;
 
 $userController = new UserController($database = new UserModel());
-$postController = new PostController($database = new PostModel());
-$commentController = new CommentController($database = new CommentModel());
+$postController = new PostController($database = new PostModel(), $commentModel);
+$commentController = new CommentController($commentModel);
 $contactController = new ContactController($database = new Model());
 $adminAuthController = new AdminAuthController($database = new UserModel());
 $adminController = new AdminController($database = new PostModel());
@@ -39,7 +39,7 @@ if (isset($_GET['action'])) {
     if ($_GET['action'] == 'post') {
         if (isset($_GET['id']) && $_GET['id'] > 0) {
             $postController->getOnePost($_GET['id']);
-            $commentController->getAllComments($_GET['id']);
+           
         }
     }
     /* *************************Comments*********************************************8 */
@@ -78,9 +78,6 @@ if (isset($_GET['action'])) {
 
     if ($_GET['action'] == 'register') {
         $userController->registerController();
-        /*  echo '<pre>';
-    var_dump($_SERVER["REQUEST_METHOD"]);
-    echo '</pre>'; */
 
     }
 

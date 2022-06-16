@@ -51,7 +51,7 @@ class UserModel extends Database
         $keys = implode(',', array_keys($data));
 
         $sqlQuery = "SELECT
-          username,email, password, role
+         username,email, password, users_id, role
          FROM $table INNER JOIN $table1
          ON $table.id=$table1.users_id
           WHERE $keys =:$keys  ";

@@ -47,10 +47,17 @@ class AdminAuthController
             if ($loginModel->validateData()) {
 
                 $_SESSION['admin'] = [
+                    'id'=> $user->id(),
                     'username' => $user->username(),
                     'role' => $user->role(),
                 ];
+                $_SESSION['loggedUser'] = [
+                    'id'=> $user->id(),
+                    'username' => $user->username(),
+                    'role' => $user->role(),
 
+                   
+                ];
                 header('location:index.php');
                 exit;
 

@@ -57,7 +57,7 @@ class CommentModel extends Database
     {
         $keys = implode(',', array_keys($data));
 
-        $sqlQuery = "SELECT * FROM $table WHERE $keys =:$keys ";
+        $sqlQuery = "SELECT * FROM $table WHERE postId =:$keys  ORDER BY date DESC ";
 
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
@@ -66,18 +66,13 @@ class CommentModel extends Database
         if ($result) {
             $data = $statement->fetchAll();
             foreach ($data as $Comments) {
-                /* echo '<pre>';
-                var_dump($data);
-                echo '</pre>'; */
-
+               
                 $Comment = new CommentEntity($Comments);
 
                 $comments[] = $Comment;
-                /*  echo '<pre>';
-            var_dump($comments);
-            echo '</pre>';
-            exit; */
+              
             }
+            
 
             return $comments;
         } else {

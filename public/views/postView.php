@@ -47,23 +47,20 @@
         <hr class="my-4" />
         <!--Comments -->
         <div class="row gx-4 gx-lg-5 justify-content-center">
+            <?php foreach ($comments as $comment) {?>
             <div class="accordion-body">
                 <!--Comments body-->
-
-
-                <p class="post-meta">
-                    Comment by:<strong>Lara </strong><?php ?>
-                    Comment At:<i>2022-05-31 13:21:20</i><?php ?></p>
-            </div>
-            <div class="accordion-body">
-                <!--Comments body-->
-                Here is Comment body, I will write something here.
+                <?= $comment->comment() ?>
 
                 <p class="post-meta">
-                    Comment by:<strong>Lara </strong><?php ?>
-                    Comment At:<i>2022-05-31 13:21:20</i><?php ?></p>
+                    Comment by:<strong> <?= $comment->username() ?></strong>
+                    - At: <strong><?= $comment->date() ?></strong><?php ?></p>
             </div>
-            <?php if (isset($_SESSION['loggedUser']) | isset($_SESSION['admin'])) {?>
+            <hr class="my-4" />
+            <?php } ?>
+
+
+            <?php if (isset($_SESSION['loggedUser']) || isset($_SESSION['admin'])) {?>
             <form action="index.php?action=createComment" method="post">
                 <div class="<?php echo $postErrors ? 'alert alert-danger' : '' ?>">
                     <?php if ($postErrors) {
