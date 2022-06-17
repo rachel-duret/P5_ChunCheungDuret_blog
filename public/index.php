@@ -10,7 +10,6 @@ use app\controllers\ContactController;
 use app\controllers\PostController;
 use app\controllers\UserController;
 use app\database\CommentModel;
-use app\database\Model;
 use app\database\PostModel;
 use app\database\UserModel;
 
@@ -21,7 +20,7 @@ $commentModel = new CommentModel;
 $userController = new UserController($database = new UserModel());
 $postController = new PostController($database = new PostModel(), $commentModel);
 $commentController = new CommentController($commentModel);
-$contactController = new ContactController($database = new Model());
+$contactController = new ContactController();
 $adminAuthController = new AdminAuthController($database = new UserModel());
 $adminController = new AdminController($database = new PostModel());
 if (isset($_GET['action'])) {
