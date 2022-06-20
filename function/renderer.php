@@ -1,6 +1,6 @@
 <?php
 
-function content(string $viewPath, $post = null, $comments = null)
+function content(string $viewPath, $user= null, $post = null, $comments = null)
 {
  
     $postData = [];

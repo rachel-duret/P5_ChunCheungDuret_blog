@@ -3,6 +3,7 @@ declare (strict_types = 1);
 namespace app\database;
 
 use app\database\Database;
+use app\entity\AdminEntity;
 use app\entity\UserEntity;
 
 class UserModel extends Database
@@ -68,5 +69,28 @@ class UserModel extends Database
         } else {
             return false;
         }
+    }
+
+    public function findAdminInfo($table,$table1)
+    {
+        $sqlQuery = "SELECT
+        username, users_id, image, profession, skill
+        FROM $table INNER JOIN $table1
+        ON $table.id=$table1.users_id  ";
+
+       $db = $this->connection();
+       $statement = $db->prepare($sqlQuery);
+       $result = $statement->execute();
+       if ($result) {
+
+           $data = $statement->fetchAll();
+           foreach ($data as $user) {
+               $user = new AdminEntity($user);
+           }
+           return $user;
+
+       } else {
+           return false;
+       }
     }
 }

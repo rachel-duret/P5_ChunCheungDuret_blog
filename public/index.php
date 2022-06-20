@@ -20,7 +20,6 @@ $commentModel = new CommentModel;
 $userController = new UserController($database = new UserModel());
 $postController = new PostController($database = new PostModel(), $commentModel);
 $commentController = new CommentController($commentModel);
-$contactController = new ContactController();
 $adminAuthController = new AdminAuthController($database = new UserModel());
 $adminController = new AdminController($database = new PostModel());
 if (isset($_GET['action'])) {
@@ -95,6 +94,6 @@ if (isset($_GET['action'])) {
 
 } else {
     /*   $postController->homepage(); */
-    $contactController->handleContact();
+    $userController->findAdminInfo();
 
 }
