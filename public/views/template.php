@@ -26,7 +26,12 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
             <div class="container px-4 px-lg-5">
+                <?php if (!array_key_exists('admin', $_SESSION)) {?>
                 <a class="navbar-brand" href="index.php">Rachel Duret</a>
+                <?php }?>
+                <?php if (isset($_SESSION['admin']) && $_SESSION['admin']['username'] === 'rachel') {?>
+                <a class="navbar-brand" href="index.php?action=updateProfile">Update profile</a>
+                <?php }?>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -45,12 +50,13 @@
 
                         <?php }?>
 
-                        </php>
+                        <?php if (!isset($_SESSION['admin']) || !isset($_SESSION['loggedUser'])) {?>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                 href="index.php?action=login">Login</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                 href="index.php?action=register">Register</a>
                         </li>
+                        <?php }?>
                         <?php if (isset($_SESSION['admin']) || isset($_SESSION['loggedUser'])) {?>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                 href="index.php?action=logout">Logout</a>

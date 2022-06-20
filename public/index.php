@@ -60,15 +60,6 @@ if (isset($_GET['action'])) {
     }
 
     /* **********************AUTH************************************** */
-    if ($_GET['action'] == 'adminLogin') {
-        $adminAuthController->loginController();
-
-    }
-
-    if ($_GET['action'] == 'adminIndex') {
-        $adminController->getAll();
-
-    }
 
     if ($_GET['action'] == 'login') {
         $userController->loginController();
@@ -82,6 +73,21 @@ if (isset($_GET['action'])) {
 
     if ($_GET['action'] == 'logout') {
         $userController->LogoutController();
+
+    }
+
+    /* **********************Admin******************************** */
+    if ($_GET['action'] == 'adminLogin') {
+        $adminAuthController->loginController();
+
+    }
+
+    if ($_GET['action'] == 'adminIndex') {
+        $adminController->getAllPost();
+
+    }
+    if ($_GET['action'] == 'profileUpdate') {
+        $adminController->updateProfile();
 
     }
 

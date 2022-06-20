@@ -58,7 +58,7 @@ class AdminAuthController
 
                    
                 ];
-                header('location:index.php');
+                header('location:index.php?action=adminIndex');
                 exit;
 
             }
