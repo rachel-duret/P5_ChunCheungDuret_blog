@@ -89,7 +89,6 @@ class ContactController
             header('Location:index.php');
             exit;
         }
-        $content = content('./views/indexView.php');
-        require './views/template.php';
+      
     }
 }

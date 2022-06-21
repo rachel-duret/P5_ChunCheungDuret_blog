@@ -109,4 +109,15 @@ class UserController
 
     }
 
+    public function findAdminInfo()
+    {
+        $user = $this->database->findAdminInfo('users','admin');
+
+        $contactController = new ContactController();
+        $contactController->handleContact();
+        $content = contentHome('./views/indexView.php', $user);
+        require './views/template.php';
+
+    }
+
 }

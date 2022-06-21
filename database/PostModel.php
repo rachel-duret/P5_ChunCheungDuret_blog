@@ -4,7 +4,7 @@ namespace app\database;
 
 use app\database\Database;
 use app\entity\PostEntity;
-use app\entity\PostsEntity;
+
 
 class PostModel extends Database
 {
@@ -39,8 +39,9 @@ class PostModel extends Database
         $result = $statement->execute($data);
         if ($result) {
             $data = $statement->fetchAll();
-            $post = new PostEntity($data);
-
+            foreach ($data as $post) {
+                $post = new PostEntity($post);
+            }
             return $post;
 
         } else {
@@ -59,12 +60,12 @@ class PostModel extends Database
         if ($result) {
             $data = $statement->fetchAll();
             foreach ($data as $post) {
-                /*   echo '<pre>';
-                var_dump($post);
-                echo '</pre>'; */
+                
 
-                $Post = new PostsEntity($post);
+                $Post = new PostEntity($post);
+               
                 $posts[] = $Post;
+            
             }
 
             return $posts;

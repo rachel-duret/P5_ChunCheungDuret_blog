@@ -2,7 +2,7 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                <p>Want to create an account ? Fill out the form below to create your account to check more elements!
+                <p>This is <strong> ADMIN </strong> login page make sure you have the right to acces to this page !
                 </p>
                 <div class="<?php echo $postErrors ? 'alert alert-danger' : '' ?>">
                     <?php if ($postErrors) {

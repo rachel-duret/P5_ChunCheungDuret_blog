@@ -1,15 +1,17 @@
 <div class="container d-flex align-items-center flex-column">
     <!-- Masthead Avatar Image-->
-    <img class="masthead-avatar mb-5" src="./assets/img/photo1.jpg" alt="..." />
+    <img class="masthead-avatar mb-5" src="<?php echo $user->image() ?>" alt="..." />
 
     <!-- Icon Divider-->
     <div class="divider-custom divider-light">
         <!-- Masthead Heading-->
-        <h3 class="masthead-heading text-uppercase mb-0">Rachel Duret</h3>
-        <div class="divider-custom-line">Fullstack</div>
-        <div class="divider-custom-line">Web Developper</div>
-        <div class="divider-custom-line"> PHP - Javascript</div>
-        <div class="divider-custom-line"></div>
+        <h3 class="masthead-heading text-uppercase mb-0"><?php echo $user->username() ?></h3>
+        <div class="divider-custom-line"><?php echo $user->profession() ?></div>
+        <div class="divider-custom-line"><?php echo $user->skill() ?></div>
+
+        <div class="divider-custom-line">
+            <a href="index.php?action=cv" class="btn">Watch my CV</a>
+        </div>
     </div>
     <!-- Masthead Subheading-->
 

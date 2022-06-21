@@ -7,6 +7,7 @@ use app\controllers\AdminAuthController;
 use app\controllers\AdminController;
 use app\controllers\CommentController;
 use app\controllers\ContactController;
+use app\controllers\CVController;
 use app\controllers\PostController;
 use app\controllers\UserController;
 use app\database\CommentModel;
@@ -20,9 +21,9 @@ $commentModel = new CommentModel;
 $userController = new UserController($database = new UserModel());
 $postController = new PostController($database = new PostModel(), $commentModel);
 $commentController = new CommentController($commentModel);
-$contactController = new ContactController();
 $adminAuthController = new AdminAuthController($database = new UserModel());
 $adminController = new AdminController($database = new PostModel());
+$cvController = new CVController();
 if (isset($_GET['action'])) {
     /* ***********************************CREATE　POST */
     if ($_GET['action'] == 'createPost') {
@@ -60,15 +61,6 @@ if (isset($_GET['action'])) {
     }
 
     /* **********************AUTH************************************** */
-    if ($_GET['action'] == 'adminLogin') {
-        $adminAuthController->loginController();
-
-    }
-
-    if ($_GET['action'] == 'adminIndex') {
-        $adminController->getAll();
-
-    }
 
     if ($_GET['action'] == 'login') {
         $userController->loginController();
@@ -84,11 +76,32 @@ if (isset($_GET['action'])) {
         $userController->LogoutController();
 
     }
+    if ($_GET['action'] == 'cv') {
+       $cvController->cv();
+
+    }
+
+    /* **********************Admin******************************** */
+    if ($_GET['action'] == 'adminLogin') {
+        $adminAuthController->loginController();
+
+    }
+
+    if ($_GET['action'] == 'adminIndex') {
+        $adminController->getAllPost();
+
+    }
+    if ($_GET['action'] == 'profileUpdate') {
+        $adminController->updateProfile();
+
+    }
+
+
 
     /* ********************Contact*************************** */
 
 } else {
     /*   $postController->homepage(); */
-    $contactController->handleContact();
+    $userController->findAdminInfo();
 
 }
