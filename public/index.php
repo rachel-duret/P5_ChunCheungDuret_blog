@@ -7,6 +7,7 @@ use app\controllers\AdminAuthController;
 use app\controllers\AdminController;
 use app\controllers\CommentController;
 use app\controllers\ContactController;
+use app\controllers\CVController;
 use app\controllers\PostController;
 use app\controllers\UserController;
 use app\database\CommentModel;
@@ -22,6 +23,7 @@ $postController = new PostController($database = new PostModel(), $commentModel)
 $commentController = new CommentController($commentModel);
 $adminAuthController = new AdminAuthController($database = new UserModel());
 $adminController = new AdminController($database = new PostModel());
+$cvController = new CVController();
 if (isset($_GET['action'])) {
     /* ***********************************CREATE　POST */
     if ($_GET['action'] == 'createPost') {
@@ -74,6 +76,10 @@ if (isset($_GET['action'])) {
         $userController->LogoutController();
 
     }
+    if ($_GET['action'] == 'cv') {
+       $cvController->cv();
+
+    }
 
     /* **********************Admin******************************** */
     if ($_GET['action'] == 'adminLogin') {
@@ -89,6 +95,8 @@ if (isset($_GET['action'])) {
         $adminController->updateProfile();
 
     }
+
+
 
     /* ********************Contact*************************** */
 

@@ -10,7 +10,7 @@
         <div class="divider-custom-line"><?php echo $user->skill() ?></div>
 
         <div class="divider-custom-line">
-            <a href="" class="btn">Watch my CV</a>
+            <a href="index.php?action=cv" class="btn">Watch my CV</a>
         </div>
     </div>
     <!-- Masthead Subheading-->
