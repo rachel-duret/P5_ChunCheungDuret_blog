@@ -2,7 +2,7 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <?php foreach ($post as $post) {?>
         <div class="col-md-10 col-lg-8 col-xl-7">
-            <a href="index.php?action=post&amp;id=<?php echo $post->id(); ?>">
+            <a href="index.php?action=adminPost&amp;id=<?php echo $post->id(); ?>">
                 <h2 class="post-title">
                     <strong>Title: </strong>
                     <?php echo $post->title(); ?>

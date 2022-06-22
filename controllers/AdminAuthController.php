@@ -1,7 +1,6 @@
 <?php
 namespace app\controllers;
 
-require_once '../function/renderer.php';
 use app\models\validation\LoginModel;
 
 class AdminAuthController
@@ -25,9 +24,7 @@ class AdminAuthController
             ];
 
             $user = $this->database->findAdmin('users', 'admin', $data);
-            echo '<pre>';
-            var_dump($user);
-            echo '</pre>';
+          
 
             if (!$user) {
                 $loginModel->addError('email', 'User does not exist with this email');
@@ -41,9 +38,7 @@ class AdminAuthController
 
                 $loginModel->addError('', 'You do not have the right to acces this page !');
             }
-            /*  if ($user->role() === 'admin') {
-            $loginModel->addError('email', 'You do not have the right to acces this page.');
-            } */
+           
             if ($loginModel->validateData()) {
 
                 $_SESSION['admin'] = [
@@ -58,7 +53,7 @@ class AdminAuthController
 
                    
                 ];
-                header('location:index.php?action=adminIndex');
+                header('Location:index.php?action=adminIndex');
                 exit;
 
             }
@@ -71,9 +66,10 @@ class AdminAuthController
             exit;
         }
 
-        $content = content('./views/admin/adminLogin.php', []);
+        $content = content('./views/admin/adminLogin.php');
         require './views/template.php';
 
     }
 
+     
 }

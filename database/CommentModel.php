@@ -57,7 +57,7 @@ class CommentModel extends Database
     {
         $keys = implode(',', array_keys($data));
 
-        $sqlQuery = "SELECT * FROM $table WHERE postId =:$keys  ORDER BY date DESC ";
+        $sqlQuery = "SELECT * FROM $table WHERE postId =:$keys AND validation=1  ORDER BY date DESC ";
 
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
@@ -80,18 +80,38 @@ class CommentModel extends Database
         }
     }
 
+    public function adminFindAll($table, $data)
+    {
+        $keys = implode(',', array_keys($data));
+
+        $sqlQuery = "SELECT * FROM $table WHERE postId =:$keys   ORDER BY date DESC ";
+
+        $db = $this->connection();
+        $statement = $db->prepare($sqlQuery);
+        $result = $statement->execute($data);
+        $comments = [];
+        if ($result) {
+            $data = $statement->fetchAll();
+           
+            foreach ($data as $Comments) {
+               
+                $Comment = new CommentEntity($Comments);
+
+                $comments[] = $Comment;
+              
+            }
+            
+
+            return $comments;
+        } else {
+            return false;
+        }
+    }
     //Update one post
     public function updateOne($table, $data)
     {
-        $setSql = '';
-        foreach (array_keys($data) as $key) {
-            $setSql .= "$key=:$key,";
 
-        }
-
-        $setSql = substr_replace($setSql, ' ', -8);
-
-        $sqlQuery = "UPDATE $table  SET $setSql WHERE id=:id ";
+        $sqlQuery = "UPDATE $table  SET validation = 1 WHERE id=:id ";
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
         $statement->execute($data);
@@ -108,8 +128,7 @@ class CommentModel extends Database
         $result = $statement->execute($data);
         if ($result) {
             return true;
-            header('location:posts.php');
-            exit;
+          
         } else {
             return false;
         }

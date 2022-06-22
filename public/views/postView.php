@@ -26,22 +26,6 @@
 
             </div>
 
-
-            <?php if (isset($_SESSION['admin']) && $_SESSION['admin']['username'] === 'rachel') {?>
-            <div class="d-grid gap-2 d-md-block" id="btn">
-                <div class="d-flex justify-content-end mb-4">
-                    <a href="index.php?action=updatePost&amp;id=<?=$post->id()?>" class="btn btn-primary "
-                        type="button">Update</a>
-
-                    <form action="index.php?action=deletePost&amp;id=<?=$post->id()?>" method="post">
-                        <input type="hidden" name="id" value="<?=$post->id()?>">
-                        <button class="btn btn-danger" type="submit">Delete</button>
-                    </form>
-                </div>
-
-
-            </div>
-            <?php }?>
         </div>
         <!-- Divider-->
         <hr class="my-4" />
@@ -56,6 +40,7 @@
                     Comment by:<strong> <?= $comment->username() ?></strong>
                     - At: <strong><?= $comment->date() ?></strong><?php ?></p>
             </div>
+
             <hr class="my-4" />
             <?php } ?>
 

@@ -11,6 +11,7 @@ class CommentEntity
     private $username;
     private $comment;
     private $date;
+    private $validation;
 
     public function __construct(array $data)
     {
@@ -21,6 +22,7 @@ class CommentEntity
         $this->username = $data['username'];
         $this->comment = $data['comment'];
         $this->date = $data['date'];
+        $this->validation = $data['validation'];
 
     }
 
@@ -52,6 +54,11 @@ class CommentEntity
     public function date()
     {
         return $this->date;
+    }
+
+    public function validation()
+    {
+        return $this->validation;
     }
 
 }

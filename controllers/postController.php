@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
 
-require_once '../function/renderer.php';
+
 
 use app\database\CommentModel;
 use app\database\PostModel;
@@ -70,7 +70,7 @@ class PostController
     {
 
         $posts = $this->postDatabase->findAll('posts');
-        $content = content('./views/postsView.php', $posts);
+        $content = content('./views/postsView.php', post: $posts);
         require './views/template.php';
     }
 
@@ -84,7 +84,7 @@ class PostController
         $post = $this->postDatabase->findOne('posts', $data);
         $comments = $this->commentDatabase->findAll('comments',$data);
 
-        $content = content('./views/postView.php', $post, $comments);
+        $content = content('./views/postView.php', post:$post, comments:$comments);
         require './views/template.php';
     }
 
@@ -96,7 +96,7 @@ class PostController
             'id' => $id,
         ];
 
-        $postData = $this->postDatabase->findOne('posts', $data, );
+        $post = $this->postDatabase->findOne('posts', $data, );
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $updatePostModel = new CreatePostModel();
@@ -140,11 +140,11 @@ class PostController
                 $_SESSION['post_errors'] = $updatePostModel->errors;
 
             }
-            header('location:index.php?action=updatePost&id=' . $postData['id']);
+            header('location:index.php?action=updatePost&id=' . $post['id']);
             exit;
         }
 
-        $content = content('./views/updateView.php', $postData);
+        $content = content('./views/updateView.php', post:$post);
         require './views/template.php';
 
     }

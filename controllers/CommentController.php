@@ -3,7 +3,6 @@ namespace app\controllers;
 
 use app\models\validation\CreateCommentModel;
 
-require_once '../function/renderer.php';
 
 class CommentController
 {
@@ -50,35 +49,21 @@ class CommentController
 
     }
 
-    // Get all the posts
-    public function getAllComments($id)
-    {
-
-        $data = [
-            'postId' => $id,
-        ];
-        $comments = $this->database->findAll('comments', $data);
-
-        $content = content('./views/postView.php', [], $comments);
-        echo '<pre>';
-        var_dump($content);
-        echo '</pre>';
-
-        require './views/template.php';
-
-    }
-
     //Get one post
-    public function getOneComment($id)
+    public function updateOneComment($id)
     {
-
-        $data = [
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $data = [
             'id' => $id,
         ];
-        $comment = $this->database->findOne('comments', $data);
+            $comment = $this->database->updateOne('comments', $data);
+       
 
-        $content = content('./views/postView.php', $comment);
-        require './views/template.php';
+            header('Location:index.php?action=adminPost&id='.$_POST['postId']);
+            exit;
+        }
+        header('Location:index.php?action=adminPost&id='.$_POST['postId']);
+        exit;
     }
 
     //Delete one comment
@@ -90,11 +75,11 @@ class CommentController
                 'id' => $id,
             ];
             $this->database->deleteOne('comments', $data);
-            header('location:index.php?action=posts');
+            header('Location:index.php?action=adminPost&id='.$_POST['postId']);
             exit;
 
         }
-        header('location:index.php?action=post&id=' . $id);
+        header('Location:index.php?action=adminPost&id='.$_POST['postId']);
         exit;
 
     }

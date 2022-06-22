@@ -73,10 +73,35 @@ class UserModel extends Database
 
     public function findAdminInfo($table,$table1)
     {
+        
         $sqlQuery = "SELECT
         username, users_id, image, profession, skill
         FROM $table INNER JOIN $table1
         ON $table.id=$table1.users_id  ";
+
+       $db = $this->connection();
+       $statement = $db->prepare($sqlQuery);
+       $result = $statement->execute();
+       if ($result) {
+
+           $data = $statement->fetchAll();
+           foreach ($data as $user) {
+               $user = new AdminEntity($user);
+           }
+         
+           return $user;
+
+       } else {
+           return false;
+       }
+    }
+
+    public function updateAdmin($table,$data)
+    {
+        
+        $sqlQuery = "UPDATE $table SET 
+         image=:image, profession=:profession, skill=:skill Where id=:id";
+       
 
        $db = $this->connection();
        $statement = $db->prepare($sqlQuery);

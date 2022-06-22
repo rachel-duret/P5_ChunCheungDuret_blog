@@ -3,11 +3,11 @@ session_start();
 
 require_once '../vendor/autoload.php';
 
+require_once '../function/renderer.php';
 use app\controllers\AdminAuthController;
 use app\controllers\AdminController;
 use app\controllers\CommentController;
-use app\controllers\ContactController;
-use app\controllers\CVController;
+use app\controllers\CvController;
 use app\controllers\PostController;
 use app\controllers\UserController;
 use app\database\CommentModel;
@@ -16,14 +16,15 @@ use app\database\UserModel;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
+require '../config/config.php';
 $commentModel = new CommentModel;
 
 $userController = new UserController($database = new UserModel());
 $postController = new PostController($database = new PostModel(), $commentModel);
 $commentController = new CommentController($commentModel);
 $adminAuthController = new AdminAuthController($database = new UserModel());
-$adminController = new AdminController($database = new PostModel());
-$cvController = new CVController();
+$adminController = new AdminController($database = new PostModel(),  $commentModel);
+$cvController = new CvController();
 if (isset($_GET['action'])) {
     /* ***********************************CREATE　POST */
     if ($_GET['action'] == 'createPost') {
@@ -91,10 +92,30 @@ if (isset($_GET['action'])) {
         $adminController->getAllPost();
 
     }
-    if ($_GET['action'] == 'profileUpdate') {
-        $adminController->updateProfile();
+    
+    // Get one post
+    if ($_GET['action'] == 'adminPost') {
+        if (isset($_GET['id']) && $_GET['id'] > 0) {
+            $adminController->getOnePost($_GET['id']);
+           
+        }
 
     }
+
+    //update valid one comment
+    
+    if ($_GET['action'] == 'validComment') {
+        $commentController->updateOneComment($_POST['id']);
+
+    }
+
+    //Delete one comment
+     
+    if ($_GET['action'] == 'deleteComment') {
+        $commentController->deleteOneComment($_POST['id']);
+
+    }
+    
 
 
 

@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
 
-require_once '../function/renderer.php';
+
 use app\models\validation\LoginModel;
 use app\models\validation\RegisterModel;
 
@@ -43,7 +43,7 @@ class UserController
             exit;
         }
 
-        $content = content('./views/registerView.php', []);
+        $content = content('./views/registerView.php');
         require './views/template.php';
 
     }
@@ -92,7 +92,7 @@ class UserController
             exit;
         }
 
-        $content = content('./views/loginView.php', []);
+        $content = content('./views/loginView.php');
         require './views/template.php';
 
     }
@@ -115,7 +115,7 @@ class UserController
 
         $contactController = new ContactController();
         $contactController->handleContact();
-        $content = contentHome('./views/indexView.php', $user);
+        $content = content('./views/indexView.php', user:$user);
         require './views/template.php';
 
     }

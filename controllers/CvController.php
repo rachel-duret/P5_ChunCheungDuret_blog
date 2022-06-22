@@ -2,7 +2,7 @@
 namespace app\controllers;
 
 
-class CVController{
+class CvController{
     public function cv(){
         $file = './assets/img/cv.pdf';
 
