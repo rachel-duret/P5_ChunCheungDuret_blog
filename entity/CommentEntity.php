@@ -11,7 +11,7 @@ class CommentEntity
     private string $username;
     private string $comment;
     private string $date;
-    private int $validation;
+    private string $validation;
 
     public function __construct(array $data)
     {
