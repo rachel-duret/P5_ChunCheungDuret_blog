@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace app\controllers;
 
 
@@ -53,25 +55,14 @@ class ContactController
                 $mail->isHTML(true);                                  //Set email format to HTML
                 $mail->Subject = 'Blog contact form';
                 $mail->Body    ="Name: ".$name."<br>"."Email: ".$email."<br>"."Message:".$message;
-              
-              /*   echo '<pre>';
-            var_dump($mail);
-            echo '</pre>'; */
+             
             if( $mail->send()){
                 echo 'Your messsage already sent, I will contact to soon as I can!';
             
 
             } else {
                 echo 'Message Error:'.$mail->ErrorInfo;
-            }
-               
-               
-            
-
-
-             
-             
-               
+            }    
            
             }
             if (!empty($contactModel->errors)) {

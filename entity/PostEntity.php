@@ -4,13 +4,13 @@ namespace app\entity;
 
 class PostEntity
 {
-    private $id;
-    private $image;
-    private $title;
-    private $subtitle;
-    private $content;
-    private $author;
-    private $date;
+    private string $id;
+    private string $image;
+    private string $title;
+    private string $subtitle;
+    private string $content;
+    private string $author;
+    private string $date;
 
     public function __construct(array $data)
     {

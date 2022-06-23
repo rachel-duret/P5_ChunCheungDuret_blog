@@ -7,22 +7,22 @@ class AdminEntity
 {
     private string $id;
     private string $username;
+    private string $password;
     private string $image;
     private string $profession;
     private string $skill;
+    private string $role;
+    
 
     public function __construct(array $data)
-    {
-
-     /*    echo '<pre>';
-            var_dump($data);
-            echo '</pre>';
-            exit;    */
+    {  
             $this->username = $data['username'];
             $this->id = $data['users_id'] ;
-            $this->image = $data['image'];
-            $this->profession = $data['profession'];
-            $this->skill = $data['skill'];
+            $this->password = $data['password'];
+            $this->image = $data['image']??'';
+            $this->profession = $data['profession']?? '';
+            $this->skill = $data['skill']?? '';
+            $this->role = $data['role']??'';
 
         
     }
@@ -41,6 +41,12 @@ class AdminEntity
     {
         return $this->username;
     }
+
+    public function password()
+    {
+        return $this->password;
+    }
+    
     public function profession()
     {
         return $this->profession;
@@ -49,6 +55,11 @@ class AdminEntity
     public function skill()
     {
         return $this->skill;
+    }
+
+    public function role()
+    {
+        return $this->role;
     }
 
 }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace app\controllers;
 
 
@@ -18,6 +20,7 @@ class PostController
         $this->commentDatabase = $commentDatabase;
     }
 
+    // Create one post
     public function createPost()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -75,7 +78,7 @@ class PostController
     }
 
     //Get one post
-    public function getOnePost($id)
+    public function getOnePost(string $id)
     {
 
         $data = [
@@ -89,7 +92,7 @@ class PostController
     }
 
     // Update one post
-    public function updateOnePost($id)
+    public function updateOnePost(string $id)
     {
 
         $data = [
@@ -150,7 +153,7 @@ class PostController
     }
 
     //Delete one post
-    public function deleteOnePost($id)
+    public function deleteOnePost(string $id)
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
 

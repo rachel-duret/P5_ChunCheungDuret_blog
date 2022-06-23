@@ -1,14 +1,15 @@
 <?php
+declare (strict_types = 1);
 namespace app\models\validation;
 
 use app\models\validation\ErrorModel;
 
 class RegisterModel extends ErrorModel
 {
-    public $username;
-    public $email;
-    public $password;
-    public $confirmPassword;
+    public string $username;
+    public string $email;
+    public string $password;
+    public string $confirmPassword;
 
     public function rules()
     {

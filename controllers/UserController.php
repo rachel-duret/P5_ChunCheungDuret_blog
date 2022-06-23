@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace app\controllers;
 
-
+use app\database\UserModel;
 use app\models\validation\LoginModel;
 use app\models\validation\RegisterModel;
 
@@ -10,10 +12,12 @@ class UserController
 
     private $database;
 
-    public function __construct($database)
+    public function __construct(UserModel $database)
     {
         $this->database = $database;
     }
+
+
     //register function create one new user
     public function registerController()
     {
@@ -31,7 +35,7 @@ class UserController
 
                 $this->database->create('users', $data);
 
-                header('location:index.php?action=login');
+                header('Location:index.php?action=login');
                 exit;
 
             }
@@ -39,7 +43,7 @@ class UserController
                 $_SESSION['post_errors'] = $registerModel->errors;
 
             }
-            header('location:index.php?action=register');
+            header('Location:index.php?action=register');
             exit;
         }
 
@@ -59,9 +63,7 @@ class UserController
             ];
 
             $user = $this->database->findOne('users', $data);
-            echo '<pre>';
-            var_dump($user);
-            echo '</pre>';
+           
 
             if (!$user) {
                 $loginModel->addError('email', 'User does not exist with this email');
@@ -88,7 +90,7 @@ class UserController
                 $_SESSION['post_errors'] = $loginModel->errors;
 
             }
-            header('location:index.php?action=login');
+            header('Location:index.php?action=login');
             exit;
         }
 
@@ -97,6 +99,7 @@ class UserController
 
     }
 
+    // Logout
     public function logoutController()
     {
        
@@ -104,11 +107,11 @@ class UserController
       unset($_SESSION['admin']);
       
         header('Location:index.php');
-        
-       
+  
 
     }
 
+    // Home page admin information
     public function findAdminInfo()
     {
         $user = $this->database->findAdminInfo('users','admin');

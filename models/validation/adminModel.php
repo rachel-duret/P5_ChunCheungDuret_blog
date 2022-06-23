@@ -1,14 +1,14 @@
 <?php
-
+declare (strict_types = 1);
 namespace app\models\validation;
 
 use app\models\validation\ErrorModel;
 
 class AdminModel extends ErrorModel
 {
-    public $username;
-    public $profession;
-    public $skil;
+    public string  $username;
+    public string  $profession;
+    public string  $skil;
     
 
     public function rules()

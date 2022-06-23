@@ -1,5 +1,5 @@
 <?php
-
+declare (strict_types = 1);
 namespace app\models\validation;
 
 use app\models\validation\ErrorModel;
@@ -7,7 +7,7 @@ use app\models\validation\ErrorModel;
 class CreateCommentModel extends ErrorModel
 {
 
-    public $comment;
+    public string $comment;
 
     public function rules()
     {

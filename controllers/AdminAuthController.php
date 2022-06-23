@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace app\controllers;
 
+use app\database\UserModel;
 use app\models\validation\LoginModel;
 
 class AdminAuthController
@@ -8,12 +11,12 @@ class AdminAuthController
 
     private $database;
 
-    public function __construct($database)
+    public function __construct(UserModel $database)
     {
         $this->database = $database;
     }
 
-    //login function
+    // Admin login page
     public function loginController()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {

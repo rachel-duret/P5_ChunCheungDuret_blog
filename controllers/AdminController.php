@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace app\controllers;
 
 use app\database\CommentModel;
@@ -15,7 +17,7 @@ class AdminController
         $this->commentDatabase = $commentDatabase;
      
     }
-    //Get all post
+    //Admin home page to show all the posts
     public function getAllPost()
     {
 
@@ -24,8 +26,8 @@ class AdminController
         require './views/template.php';
     }
 
-    // Get one post
-    public function getOnePost($id)
+    // Get single post
+    public function getOnePost(string $id)
     {
 
         $data = [

@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace app\controllers;
 
+use app\database\CommentModel;
 use app\models\validation\CreateCommentModel;
 
 
@@ -8,11 +11,12 @@ class CommentController
 {
     private $database;
 
-    public function __construct($database)
+    public function __construct(CommentModel $database)
     {
         $this->database = $database;
     }
 
+    // Create one comment
     public function createComment()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -49,8 +53,8 @@ class CommentController
 
     }
 
-    //Get one post
-    public function updateOneComment($id)
+    //Admin valid one comment
+    public function updateOneComment(string $id)
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $data = [
@@ -67,7 +71,7 @@ class CommentController
     }
 
     //Delete one comment
-    public function deleteOneComment($id)
+    public function deleteOneComment(string $id)
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
 

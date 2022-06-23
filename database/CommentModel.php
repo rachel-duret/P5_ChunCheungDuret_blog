@@ -8,8 +8,8 @@ use app\entity\CommentEntity;
 class CommentModel extends Database
 {
 
-// Create one user
-    public function create($table, $data)
+// Create one comment into database
+    public function create(string $table, array $data)
     {
         $keys = implode(',', array_keys($data));
 
@@ -31,12 +31,12 @@ class CommentModel extends Database
 
     }
 
-    // Get one post
-    public function findOne($table, $data)
+    // Get one comment from database
+    public function findOne(string $table, array $data)
     {
         $keys = implode(',', array_keys($data));
 
-        $sqlQuery = "SELECT * FROM $table WHERE $keys =:$keys ";
+        $sqlQuery = "SELECT id, postId, userId, username, comment, date, validation FROM $table WHERE $keys =:$keys ";
 
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
@@ -52,12 +52,12 @@ class CommentModel extends Database
         }
     }
 
-    // Get all the post
-    public function findAll($table, $data)
+    // Get all the validate comment from database 
+    public function findAll(string $table, array $data)
     {
         $keys = implode(',', array_keys($data));
 
-        $sqlQuery = "SELECT * FROM $table WHERE postId =:$keys AND validation=1  ORDER BY date DESC ";
+        $sqlQuery = "SELECT  id, postId, userId, username, comment, date, validation FROM $table WHERE postId =:$keys AND validation=1  ORDER BY date DESC ";
 
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
@@ -80,11 +80,13 @@ class CommentModel extends Database
         }
     }
 
-    public function adminFindAll($table, $data)
+
+    //Get all the comments from database for admin 
+    public function adminFindAll(string $table, array $data)
     {
         $keys = implode(',', array_keys($data));
 
-        $sqlQuery = "SELECT * FROM $table WHERE postId =:$keys   ORDER BY date DESC ";
+        $sqlQuery = "SELECT  id, postId, userId, username, comment, date, validation FROM $table WHERE postId =:$keys   ORDER BY date DESC ";
 
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
@@ -100,15 +102,15 @@ class CommentModel extends Database
                 $comments[] = $Comment;
               
             }
-            
-
             return $comments;
         } else {
             return false;
         }
     }
-    //Update one post
-    public function updateOne($table, $data)
+    
+
+    // Validate update comment to database
+    public function updateOne(string $table, array $data)
     {
 
         $sqlQuery = "UPDATE $table  SET validation = 1 WHERE id=:id ";
@@ -118,8 +120,8 @@ class CommentModel extends Database
 
     }
 
-    //Delete one post
-    public function deleteOne($table, $data)
+    //Admin delete one commment
+    public function deleteOne(string $table, array $data)
     {
         $keys = implode(',', array_keys($data));
         $sqlQuery = "DELETE FROM $table WHERE $keys=:$keys";

@@ -9,8 +9,8 @@ use app\entity\PostEntity;
 class PostModel extends Database
 {
 
-// Create one user
-    public function create($table, $data)
+// Create one post to database
+    public function create(string $table, array $data)
     {
         $keys = implode(',', array_keys($data));
 
@@ -27,12 +27,12 @@ class PostModel extends Database
 
     }
 
-    // Get one post
-    public function findOne($table, $data)
+    // Get one post from database
+    public function findOne(string $table, array $data)
     {
         $keys = implode(',', array_keys($data));
 
-        $sqlQuery = "SELECT * FROM $table WHERE $keys =:$keys ";
+        $sqlQuery = "SELECT id, image, title, subtitle, content, author, date  FROM $table WHERE $keys =:$keys ";
 
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
@@ -49,10 +49,10 @@ class PostModel extends Database
         }
     }
 
-    // Get all the post
-    public function findAll($table)
+    // Get all the post from database
+    public function findAll(string $table)
     {
-        $sqlQuery = "SELECT * FROM $table ORDER BY date DESC";
+        $sqlQuery = "SELECT id, image, title, subtitle, content, author, date  FROM $table ORDER BY date DESC";
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
         $result = $statement->execute();
@@ -74,8 +74,8 @@ class PostModel extends Database
         }
     }
 
-    //Update one post
-    public function updateOne($table, $data)
+    //Update one post from database
+    public function updateOne(string $table, array $data)
     {
         $setSql = '';
         foreach (array_keys($data) as $key) {
@@ -92,8 +92,8 @@ class PostModel extends Database
 
     }
 
-    //Delete one post
-    public function deleteOne($table, $data)
+    //Delete one post from database
+    public function deleteOne(string $table, array $data)
     {
         $keys = implode(',', array_keys($data));
         $sqlQuery = "DELETE FROM $table WHERE $keys=:$keys";

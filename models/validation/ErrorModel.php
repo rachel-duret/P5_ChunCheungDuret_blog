@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 namespace app\models\validation;
 
 abstract class ErrorModel
@@ -11,7 +12,7 @@ abstract class ErrorModel
 
     public $errors = [];
 
-    public function getData($postData)
+    public function getData(array $postData)
     {
         foreach ($postData as $key => $value) {
             $_SESSION['post_data'] = $postData;
@@ -31,12 +32,11 @@ abstract class ErrorModel
     {
         foreach ($this->rules() as $attribute => $rules) {
             $value = $this->{$attribute};
-            var_dump($value);
             foreach ($rules as $rule) {
 
                 $ruleName = $rule;
                 if (!is_string($ruleName)) {
-                    $ruleName = $rule[0]; //[self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 8], [self::RULE_MAX, 'max' => 24]],
+                    $ruleName = $rule[0]; 
                 }
                 if ($ruleName === self::RULE_REQUIRED && !$value) {
                     $this->addErrorRules($attribute, self::RULE_REQUIRED);
@@ -70,7 +70,7 @@ abstract class ErrorModel
         $this->errors[$attribute][] = ucfirst($attribute) . ': -' . $message;
 
     }
-    public function addError($attribute, $message)
+    public function addError(string $attribute, string $message)
     {
         $this->errors[$attribute][] = $message;
     }

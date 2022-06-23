@@ -5,13 +5,13 @@ namespace app\entity;
 
 class CommentEntity
 {
-    private $id;
-    private $postId;
-    private $userId;
-    private $username;
-    private $comment;
-    private $date;
-    private $validation;
+    private string $id;
+    private string $postId;
+    private string $userId;
+    private string $username;
+    private string $comment;
+    private string $date;
+    private int $validation;
 
     public function __construct(array $data)
     {

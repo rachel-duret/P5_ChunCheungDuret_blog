@@ -8,7 +8,8 @@ use app\entity\UserEntity;
 
 class UserModel extends Database
 {
-    public function create($table, $data)
+    // Create one user to database
+    public function create(string $table, array $data)
     {
         $keys = implode(',', array_keys($data));
 
@@ -25,8 +26,8 @@ class UserModel extends Database
 
     }
 
-    // Get one user
-    public function findOne($table, $data)
+    // Get one user from database
+    public function findOne(string $table, array $data)
     {
         $keys = implode(',', array_keys($data));
 
@@ -37,22 +38,27 @@ class UserModel extends Database
         $result = $statement->execute($data);
         if ($result) {
             $data = $statement->fetchAll();
-            $users = new UserEntity($data);
+           
+            foreach($data as $user){
+                $user= new UserEntity($user);
+            }
+           
+           
 
-            return $users;
+            return $user;
 
         } else {
             return false;
         }
     }
 
-    /* *******************Admin********************** */
-    public function findAdmin($table, $table1, $data)
+    /* *******************Get user admin from database********************** */
+    public function findAdmin(string $table, string $table1, array $data)
     {
         $keys = implode(',', array_keys($data));
 
         $sqlQuery = "SELECT
-         username,email, password, users_id, role
+         username,email, password,  users_id, role
          FROM $table INNER JOIN $table1
          ON $table.id=$table1.users_id
           WHERE $keys =:$keys  ";
@@ -61,21 +67,25 @@ class UserModel extends Database
         $statement = $db->prepare($sqlQuery);
         $result = $statement->execute($data);
         if ($result) {
-
             $data = $statement->fetchAll();
-            $users = new UserEntity($data);
-            return $users;
+            foreach($data as $user){
+                $user = new AdminEntity($user);
+            }
+           
+            return $user;
 
         } else {
             return false;
         }
     }
 
-    public function findAdminInfo($table,$table1)
+
+    // get admin from database
+    public function findAdminInfo(string $table, string $table1)
     {
         
         $sqlQuery = "SELECT
-        username, users_id, image, profession, skill
+        username,password, users_id, image, profession, skill
         FROM $table INNER JOIN $table1
         ON $table.id=$table1.users_id  ";
 
@@ -96,26 +106,5 @@ class UserModel extends Database
        }
     }
 
-    public function updateAdmin($table,$data)
-    {
-        
-        $sqlQuery = "UPDATE $table SET 
-         image=:image, profession=:profession, skill=:skill Where id=:id";
-       
-
-       $db = $this->connection();
-       $statement = $db->prepare($sqlQuery);
-       $result = $statement->execute();
-       if ($result) {
-
-           $data = $statement->fetchAll();
-           foreach ($data as $user) {
-               $user = new AdminEntity($user);
-           }
-           return $user;
-
-       } else {
-           return false;
-       }
-    }
+    
 }

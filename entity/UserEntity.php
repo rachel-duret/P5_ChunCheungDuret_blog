@@ -5,27 +5,20 @@ namespace app\entity;
 
 class UserEntity
 {
-    private $id;
-    private $email;
-    private $username;
-    private $password;
-    private $role;
+    private string $id;
+    private string $email;
+    private string $username;
+    private string $password;
+ 
 
     public function __construct(array $data)
     {
+            $this->id = $data['id'] ;
+            $this->email = $data['email'];
+            $this->username = $data['username'];
+            $this->password = $data['password'];
 
-        foreach ($data as $user) {
-            /* echo '<pre>';
-            var_dump($data);
-            echo '</pre>';
-            exit; */
-            $this->id = $user['users_id'] ;
-            $this->email = $user['email'];
-            $this->username = $user['username'];
-            $this->password = $user['password'];
-            $this->role = $user['role'];
-
-        }
+    
     }
 
     public function id()
@@ -42,10 +35,7 @@ class UserEntity
     {
         return $this->username;
     }
-    public function role()
-    {
-        return $this->role;
-    }
+    
 
     public function password()
     {

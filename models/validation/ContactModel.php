@@ -1,15 +1,15 @@
 <?php
-
+declare (strict_types = 1);
 namespace app\models\validation;
 
 use app\models\validation\ErrorModel;
 
 class ContactModel extends ErrorModel
 {
-    public $first_name;
-    public $last_name;
-    public $email;
-    public $message;
+    public string $first_name;
+    public string $last_name;
+    public string $email;
+    public string $message;
 
     public function rules()
     {
