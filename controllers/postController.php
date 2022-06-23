@@ -110,7 +110,7 @@ class PostController
                 mkdir('images');
             }
             $imagePath = $_POST['postImage'] ?? '';
-            var_dump($imagePath);
+         
 
             if ($image && $image['tmp_name']) {
                 if ($_POST['postImage']) {

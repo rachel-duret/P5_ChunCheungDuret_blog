@@ -17,8 +17,6 @@ class UserModel extends Database
 
         $sqlQuery = "INSERT INTO $table($keys) VALUES (:$values)";
 
-        var_dump($sqlQuery);
-
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
 

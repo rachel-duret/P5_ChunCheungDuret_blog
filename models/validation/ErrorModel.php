@@ -51,7 +51,7 @@ abstract class ErrorModel
                     $this->addErrorRules($attribute, self::RULE_MAX);
                 }
                 if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
-                    var_dump($rule['match']);
+                  
                     $this->addErrorRules($attribute, self::RULE_MATCH);
                 }
 

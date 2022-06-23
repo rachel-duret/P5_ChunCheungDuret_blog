@@ -17,9 +17,6 @@ class PostModel extends Database
         $values = str_replace(',', ', :', $keys);
 
         $sqlQuery = "INSERT INTO $table($keys) VALUES (:$values)";
-
-        var_dump($sqlQuery);
-
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
 
