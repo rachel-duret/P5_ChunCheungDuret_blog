@@ -39,7 +39,7 @@ class PostModel extends Database
             foreach ($data as $post) {
                 $post = new PostEntity($post);
             }
-            return $post;
+            return $post?? '';
 
         } else {
             return false;

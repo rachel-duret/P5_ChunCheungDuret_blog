@@ -26,8 +26,8 @@ class CommentController
 
             if ($createCommentModel->validateData()) {
                 $data = [
-                    'postId' => $_POST['id'],
-                    'userId' => $_SESSION['loggedUser']['id'],
+                    'post_id' => $_POST['id'],
+                    'users_id' => $_SESSION['loggedUser']['id'],
                     'username' => $_SESSION['loggedUser']['username'],
                     'comment' => $_POST['comment'],
                     'date' => date('Y-m-d H:i:s'),
@@ -63,10 +63,10 @@ class CommentController
             $comment = $this->database->updateOne('comments', $data);
        
 
-            header('Location:index.php?action=adminPost&id='.$_POST['postId']);
+            header('Location:index.php?action=adminPost&id='.$_POST['post_id']);
             exit;
         }
-        header('Location:index.php?action=adminPost&id='.$_POST['postId']);
+        header('Location:index.php?action=adminPost&id='.$_POST['post_id']);
         exit;
     }
 
@@ -79,11 +79,11 @@ class CommentController
                 'id' => $id,
             ];
             $this->database->deleteOne('comments', $data);
-            header('Location:index.php?action=adminPost&id='.$_POST['postId']);
+            header('Location:index.php?action=adminPost&id='.$_POST['post_id']);
             exit;
 
         }
-        header('Location:index.php?action=adminPost&id='.$_POST['postId']);
+        header('Location:index.php?action=adminPost&id='.$_POST['post_id']);
         exit;
 
     }

@@ -22,6 +22,7 @@ class AdminController
     {
 
         $posts = $this->postDatabase->findAll('posts');
+       
         $content = content('./views/admin/adminIndex.php', post:$posts);
         require './views/template.php';
     }

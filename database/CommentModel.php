@@ -34,7 +34,7 @@ class CommentModel extends Database
     {
         $keys = implode(',', array_keys($data));
 
-        $sqlQuery = "SELECT id, postId, userId, username, comment, date, validation FROM $table WHERE $keys =:$keys ";
+        $sqlQuery = "SELECT id, post_id, users_id, username, comment, date, validation FROM $table WHERE $keys =:$keys ";
 
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
@@ -55,7 +55,7 @@ class CommentModel extends Database
     {
         $keys = implode(',', array_keys($data));
 
-        $sqlQuery = "SELECT  id, postId, userId, username, comment, date, validation FROM $table WHERE postId =:$keys AND validation=1  ORDER BY date DESC ";
+        $sqlQuery = "SELECT  id, post_id, users_id, username, comment, date, validation FROM $table WHERE post_id =:$keys AND validation=1  ORDER BY date DESC ";
 
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);
@@ -84,7 +84,7 @@ class CommentModel extends Database
     {
         $keys = implode(',', array_keys($data));
 
-        $sqlQuery = "SELECT  id, postId, userId, username, comment, date, validation FROM $table WHERE postId =:$keys   ORDER BY date DESC ";
+        $sqlQuery = "SELECT  id, post_id, users_id, username, comment, date, validation FROM $table WHERE post_id =:$keys   ORDER BY date DESC ";
 
         $db = $this->connection();
         $statement = $db->prepare($sqlQuery);

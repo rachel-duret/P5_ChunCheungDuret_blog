@@ -80,17 +80,17 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `blog`.`comments` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `postId` INT(11) NOT NULL,
+  `post_id` INT(11) NOT NULL,
   `username` VARCHAR(50) NOT NULL,
   `comment` TINYTEXT NOT NULL,
   `date` DATE NOT NULL,
   `visitor_id` INT(11) NOT NULL,
   `users_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `postId_idx` (`postId` ASC) ,
+  INDEX `post_id_idx` (`post_id` ASC) ,
   INDEX `fk_comments_users1_idx` (`users_id` ASC) ,
-  CONSTRAINT `postId`
-    FOREIGN KEY (`postId`)
+  CONSTRAINT `post_id`
+    FOREIGN KEY (`post_id`)
     REFERENCES `blog`.`posts` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,

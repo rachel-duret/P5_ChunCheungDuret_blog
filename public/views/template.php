@@ -44,7 +44,7 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                 href="index.php?action=posts">Posts</a>
                         </li>
-                        <?php if (isset($_SESSION['admin']) && $_SESSION['admin']['id'] === '62') {?>
+                        <?php if (isset($_SESSION['admin']) && $_SESSION['admin']['id'] === '3') {?>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                 href="index.php?action=createPost">Creat Posts</a></li>
 

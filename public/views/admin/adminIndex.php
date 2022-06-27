@@ -8,7 +8,7 @@
                     <?php echo $post->title(); ?>
                 </h2>
                 <h3 class="post-subtitle"><i>subtitle: </i> <?php echo $post->subtitle(); ?></h3>
-                <h3>PostId: <?php echo $post->id(); ?></h3>
+                <h3>post_id: <?php echo $post->id(); ?></h3>
                 <p> <?php echo $post->date(); ?></p>
 
             </a>

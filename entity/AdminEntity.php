@@ -6,6 +6,7 @@ namespace app\entity;
 class AdminEntity
 {
     private string $id;
+    private string $adminId;
     private string $username;
     private string $password;
     private string $image;
@@ -18,6 +19,7 @@ class AdminEntity
     {  
             $this->username = $data['username'];
             $this->id = $data['users_id'] ;
+            $this->adminId = $data['aid'];
             $this->password = $data['password'];
             $this->image = $data['image']??'';
             $this->profession = $data['profession']?? '';
@@ -30,6 +32,11 @@ class AdminEntity
     public function id()
     {
         return $this->id;
+    }
+
+    public function adminId()
+    {
+        return $this->adminId;
     }
 
     public function image()

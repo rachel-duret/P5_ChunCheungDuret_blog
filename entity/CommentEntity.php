@@ -6,8 +6,8 @@ namespace app\entity;
 class CommentEntity
 {
     private string $id;
-    private string $postId;
-    private string $userId;
+    private string $post_id;
+    private string $users_id;
     private string $username;
     private string $comment;
     private string $date;
@@ -17,8 +17,8 @@ class CommentEntity
     {
 
         $this->id = $data['id'];
-        $this->postId = $data['postId'];
-        $this->userId = $data['userId'];
+        $this->post_id = $data['post_id'];
+        $this->users_id = $data['users_id'];
         $this->username = $data['username'];
         $this->comment = $data['comment'];
         $this->date = $data['date'];
@@ -31,14 +31,14 @@ class CommentEntity
         return $this->id;
     }
 
-    public function postId()
+    public function post_id()
     {
-        return $this->postId;
+        return $this->post_id;
     }
 
-    public function userId()
+    public function users_id()
     {
-        return $this->userId;
+        return $this->users_id;
     }
 
     public function username()

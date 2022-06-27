@@ -27,7 +27,7 @@ class AdminAuthController
             ];
 
             $user = $this->database->findAdmin('users', 'admin', $data);
-          
+         
 
             if (!$user) {
                 $loginModel->addError('email', 'User does not exist with this email');
@@ -45,7 +45,7 @@ class AdminAuthController
             if ($loginModel->validateData()) {
 
                 $_SESSION['admin'] = [
-                    'id'=> $user->id(),
+                    'id'=> $user->adminId(),
                     'username' => $user->username(),
                     'role' => $user->role(),
                 ];

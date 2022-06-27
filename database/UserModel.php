@@ -56,9 +56,9 @@ class UserModel extends Database
         $keys = implode(',', array_keys($data));
 
         $sqlQuery = "SELECT
-         username,email, password,  users_id, role
-         FROM $table INNER JOIN $table1
-         ON $table.id=$table1.users_id
+        u.id AS uid,u.username,u.email, u.password,a.id AS aid,a.users_id,a.role
+         FROM $table AS u INNER JOIN $table1 as a
+         ON u.id=a.users_id
           WHERE $keys =:$keys  ";
 
         $db = $this->connection();
@@ -66,43 +66,43 @@ class UserModel extends Database
         $result = $statement->execute($data);
         if ($result) {
             $data = $statement->fetchAll();
-            foreach($data as $user){
-                $user = new AdminEntity($user);
-            }
-           
-            return $user;
+        foreach($data as $user){
+        $user = new AdminEntity($user);
+        }
+      
+        return $user;
 
         } else {
-            return false;
-        }
-    }
+        return false;
+}
+}
 
 
-    // get admin from database
-    public function findAdminInfo(string $table, string $table1)
-    {
-        
-        $sqlQuery = "SELECT
-        username,password, users_id, image, profession, skill
-        FROM $table INNER JOIN $table1
-        ON $table.id=$table1.users_id  ";
+// get admin from database
+public function findAdminInfo(string $table, string $table1)
+{
 
-       $db = $this->connection();
-       $statement = $db->prepare($sqlQuery);
-       $result = $statement->execute();
-       if ($result) {
+$sqlQuery = "SELECT
+u.username,u.password, a.id AS aid,a.users_id, a.image, a.profession, a.skill
+FROM $table AS u INNER JOIN $table1 As a
+ON u.id=a.users_id ";
 
-           $data = $statement->fetchAll();
-           foreach ($data as $user) {
-               $user = new AdminEntity($user);
-           }
-         
-           return $user;
+$db = $this->connection();
+$statement = $db->prepare($sqlQuery);
+$result = $statement->execute();
+if ($result) {
 
-       } else {
-           return false;
-       }
-    }
+$data = $statement->fetchAll();
+foreach ($data as $user) {
+$user = new AdminEntity($user);
+}
 
-    
+return $user;
+
+} else {
+return false;
+}
+}
+
+
 }

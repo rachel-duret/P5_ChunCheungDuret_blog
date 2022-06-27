@@ -56,7 +56,7 @@
                 <div class="d-flex justify-content-end mb-4">
 
                     <form action="index.php?action=validComment&amp;id=<?=$comment->id()?>" method="post">
-                        <input type="hidden" name="postId" value="<?=$post->id()?>">
+                        <input type="hidden" name="post_id" value="<?=$post->id()?>">
                         <input type="hidden" name="id" value="<?=$comment->id()?>">
                         <?php if($comment->validation()==0){?>
                         <button class="btn btn-primary" type="submit">valid</button>
@@ -65,7 +65,7 @@
                     </form>
 
                     <form action="index.php?action=deleteComment&amp;id=<?=$comment->id()?>" method="post">
-                        <input type="hidden" name="postId" value="<?=$post->id()?>">
+                        <input type="hidden" name="post_id" value="<?=$post->id()?>">
                         <input type="hidden" name="id" value="<?=$comment->id()?>">
                         <button class="btn btn-danger" type="submit">Delete</button>
                     </form>

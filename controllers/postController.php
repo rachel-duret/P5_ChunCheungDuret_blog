@@ -41,17 +41,19 @@ class PostController
             if ($createPostModel->validateData()) {
 
                 $data = [
+                   
                     'image' => $imagePath,
                     'title' => $_POST['title'],
                     'subtitle' => $_POST['subtitle'],
                     'content' => $_POST['content'],
-                    'author' => $_SESSION['loggedUser']['username'],
+                    'author' => $_SESSION['admin']['username'],
                     'date' => date('Y-m-d H:i:s'),
+                    'admin_id'=>$_SESSION['admin']['id'],
 
                 ];
 
                 $this->postDatabase->create('posts', $data);
-                header('location:index.php?action=posts');
+                header('location:index.php?action=adminIndex');
                 exit;
             }
             if (!empty($createPostModel->errors)) {
@@ -125,18 +127,19 @@ class PostController
             if ($updatePostModel->validateData()) {
 
                 $data = [
+                    'admin_id'=>$_SESSION['admin']['id'],
                     'image' => $imagePath,
                     'title' => $_POST['title'],
                     'subtitle' => $_POST['subtitle'],
                     'content' => $_POST['content'],
-                    'author' => $_SESSION['loggedUser']['username'],
+                    'author' => $_SESSION['admin']['username'],
                     'date' => date('Y-m-d H:i:s'),
                     'id' => $_POST['id'],
 
                 ];
 
                 $this->postDatabase->updateOne('posts', $data);
-                header('location:index.php?action=posts');
+                header('location:index.php?action=adminIndex');
                 exit;
 
             } else {
@@ -161,7 +164,7 @@ class PostController
                 'id' => $id,
             ];
             $this->postDatabase->deleteOne('posts', $data);
-            header('location:index.php?action=posts');
+            header('location:index.php?action=adminIndex');
             exit;
 
         }
