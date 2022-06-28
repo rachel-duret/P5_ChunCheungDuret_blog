@@ -5,15 +5,18 @@ namespace app\controllers;
 
 use app\database\UserModel;
 use app\models\validation\LoginModel;
+use app\renderer\Renderer;
 
 class AdminAuthController
 {
 
     private $database;
+    private $renderer;
 
-    public function __construct(UserModel $database)
+    public function __construct(UserModel $database, Renderer $renderer)
     {
         $this->database = $database;
+        $this->renderer = $renderer;
     }
 
     // Admin login page
@@ -69,7 +72,7 @@ class AdminAuthController
             exit;
         }
 
-        $content = content('./views/admin/adminLogin.php');
+        $content = $this->renderer-> content('./views/admin/adminLogin.php');
         require './views/template.php';
 
     }

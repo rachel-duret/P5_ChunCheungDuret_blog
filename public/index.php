@@ -3,7 +3,7 @@ session_start();
 
 require_once '../vendor/autoload.php';
 
-require_once '../function/renderer.php';
+
 use app\controllers\AdminAuthController;
 use app\controllers\AdminController;
 use app\controllers\CommentController;
@@ -13,17 +13,18 @@ use app\controllers\UserController;
 use app\database\CommentModel;
 use app\database\PostModel;
 use app\database\UserModel;
+use app\renderer\Renderer;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 require '../config/config.php';
 $commentModel = new CommentModel;
 
-$userController = new UserController($database = new UserModel());
-$postController = new PostController($database = new PostModel(), $commentModel);
-$commentController = new CommentController($commentModel);
-$adminAuthController = new AdminAuthController($database = new UserModel());
-$adminController = new AdminController($database = new PostModel(),  $commentModel);
+$userController = new UserController($database = new UserModel(), new Renderer());
+$postController = new PostController($database = new PostModel(), $commentModel,  new Renderer());
+$commentController = new CommentController($commentModel,  new Renderer());
+$adminAuthController = new AdminAuthController($database = new UserModel(), new Renderer());
+$adminController = new AdminController($database = new PostModel(),  $commentModel, new Renderer);
 $cvController = new CvController();
 if (isset($_GET['action'])) {
     /* ***********************************CREATE　POST */

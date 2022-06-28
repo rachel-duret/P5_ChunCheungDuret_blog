@@ -5,15 +5,17 @@ namespace app\controllers;
 
 use app\database\CommentModel;
 use app\models\validation\CreateCommentModel;
-
+use app\renderer\Renderer;
 
 class CommentController
 {
     private $database;
+    private $renderer;
 
-    public function __construct(CommentModel $database)
+    public function __construct(CommentModel $database, Renderer $renderer)
     {
         $this->database = $database;
+        $this->renderer = $renderer;
     }
 
     // Create one comment
@@ -48,7 +50,7 @@ class CommentController
             exit;
         }
 
-        $content = content('./views/postView.php');
+        $content =$this->renderer-> content('./views/postView.php');
         require './views/template.php';
 
     }
