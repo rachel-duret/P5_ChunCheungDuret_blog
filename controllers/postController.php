@@ -149,7 +149,7 @@ class PostController
                 $_SESSION['post_errors'] = $updatePostModel->errors;
 
             }
-            header('location:index.php?action=updatePost&id=' . $post['id']);
+            header('location:index.php?action=updatePost&id=' . $post->id());
             exit;
         }
 

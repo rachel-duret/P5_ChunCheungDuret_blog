@@ -1,5 +1,6 @@
 {
     "name": "rachel/p5",
+    "license": "proprietary",
     "autoload": {
         "psr-4": {
             "app\\": "./"
@@ -21,4 +22,5 @@
         "phpmailer/phpmailer": "^6.6"
 
     }
+   
 }
