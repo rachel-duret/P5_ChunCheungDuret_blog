@@ -122,7 +122,7 @@ if (isset($_GET['action'])) {
     /* ********************Contact*************************** */
 
 } else {
-    /*   $postController->homepage(); */
+  
     $userController->findAdminInfo();
 
 }

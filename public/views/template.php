@@ -18,6 +18,7 @@
         rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="./css/styles.css" rel="stylesheet" />
+    <link href="./manifest.json" rel="manifest" />
 
 </head>
 
@@ -42,7 +43,7 @@
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
-                                href="index.php?action=posts">Posts</a>
+                                href="index.php?action=<?php echo isset($_SESSION['admin']) && $_SESSION['admin']['id'] === '3'? 'adminIndex': 'posts' ?>">Posts</a>
                         </li>
                         <?php if (isset($_SESSION['admin']) && $_SESSION['admin']['id'] === '3') {?>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
@@ -85,7 +86,7 @@
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <ul class="list-inline text-center">
                         <li class="list-inline-item">
-                            <a href="#!">
+                            <a href="https://twitter.com/home">
                                 <span class="fa-stack fa-lg">
                                     <i class="fas fa-circle fa-stack-2x"></i>
                                     <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
@@ -93,15 +94,15 @@
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!">
+                            <a href="https://www.linkedin.com/feed/">
                                 <span class="fa-stack fa-lg">
                                     <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                    <i class="fab fa-linkedin-in fa-stack-1x fa-inverse"></i>
                                 </span>
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!">
+                            <a href="https://github.com/rachel-duret">
                                 <span class="fa-stack fa-lg">
                                     <i class="fas fa-circle fa-stack-2x"></i>
                                     <i class="fab fa-github fa-stack-1x fa-inverse"></i>
@@ -112,7 +113,7 @@
                     <div class="small text-center text-muted fst-italic">
                         <a href="index.php?action=adminLogin">Admin </a>
                     </div>
-                    <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2022</div>
+                    <div class="small text-center text-muted fst-italic">Copyright &copy; My Blog 2022</div>
                 </div>
             </div>
         </div>
