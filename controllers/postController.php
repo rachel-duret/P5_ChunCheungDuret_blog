@@ -8,16 +8,19 @@ namespace app\controllers;
 use app\database\CommentModel;
 use app\database\PostModel;
 use app\models\validation\CreatePostModel;
+use app\renderer\Renderer;
 
 class PostController
 {
     private  $postDatabase;
     private  $commentDatabase;
+    private $renderer;
 
-    public function __construct(PostModel $postDatabase, CommentModel $commentDatabase)
+    public function __construct(PostModel $postDatabase, CommentModel $commentDatabase, Renderer $renderer)
     {
         $this->postDatabase = $postDatabase;
         $this->commentDatabase = $commentDatabase;
+        $this->renderer = $renderer;
     }
 
     // Create one post
@@ -65,7 +68,7 @@ class PostController
             exit;
         }
 
-        $content = content('./views/createView.php');
+        $content =$this->renderer-> content('./views/createView.php');
         require './views/template.php';
 
     }
@@ -75,7 +78,7 @@ class PostController
     {
 
         $posts = $this->postDatabase->findAll('posts');
-        $content = content('./views/postsView.php', post: $posts);
+        $content =$this->renderer-> content('./views/postsView.php', post: $posts);
         require './views/template.php';
     }
 
@@ -89,7 +92,7 @@ class PostController
         $post = $this->postDatabase->findOne('posts', $data);
         $comments = $this->commentDatabase->findAll('comments',$data);
 
-        $content = content('./views/postView.php', post:$post, comments:$comments);
+        $content =$this->renderer-> content('./views/postView.php', post:$post, comments:$comments);
         require './views/template.php';
     }
 
@@ -146,11 +149,11 @@ class PostController
                 $_SESSION['post_errors'] = $updatePostModel->errors;
 
             }
-            header('location:index.php?action=updatePost&id=' . $post['id']);
+            header('location:index.php?action=updatePost&id=' . $post->id());
             exit;
         }
 
-        $content = content('./views/updateView.php', post:$post);
+        $content =$this->renderer-> content('./views/updateView.php', post:$post);
         require './views/template.php';
 
     }

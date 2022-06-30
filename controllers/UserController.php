@@ -6,15 +6,18 @@ namespace app\controllers;
 use app\database\UserModel;
 use app\models\validation\LoginModel;
 use app\models\validation\RegisterModel;
+use app\renderer\Renderer;
 
 class UserController
 {
 
     private $database;
+    private $renderer;
 
-    public function __construct(UserModel $database)
+    public function __construct(UserModel $database, Renderer $renderer)
     {
         $this->database = $database;
+        $this->renderer = $renderer;
     }
 
 
@@ -47,7 +50,7 @@ class UserController
             exit;
         }
 
-        $content = content('./views/registerView.php');
+        $content = $this->renderer->content('./views/registerView.php');
         require './views/template.php';
 
     }
@@ -94,7 +97,7 @@ class UserController
             exit;
         }
 
-        $content = content('./views/loginView.php');
+        $content =$this->renderer-> content('./views/loginView.php');
         require './views/template.php';
 
     }
@@ -118,7 +121,7 @@ class UserController
 
         $contactController = new ContactController();
         $contactController->handleContact();
-        $content = content('./views/indexView.php', user:$user);
+        $content = $this->renderer->content('./views/indexView.php', user:$user);
         require './views/template.php';
 
     }

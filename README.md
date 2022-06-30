@@ -76,7 +76,7 @@ In the footer menu, there must be a link to access the blog administration.
 - Clone the repo
   [ProjetRepo](https://github.com/rachel-duret/P5_ChunCheungDuret_blog.git)
 - Set up the database , you can import blog.sql to you database
-- Create .env file for config.php, you can following .env.example file
+- Create .env from .env.example and configure the appropriates values
 
 ### Authors
 
