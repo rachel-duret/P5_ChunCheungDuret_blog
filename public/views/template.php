@@ -47,11 +47,11 @@
                         </li>
                         <?php if (isset($_SESSION['admin']) && $_SESSION['admin']['id'] === '3') {?>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
-                                href="index.php?action=createPost">Creat Posts</a></li>
+                                href="index.php?action=createPost">Creat Post</a></li>
 
                         <?php }?>
 
-                        <?php if (!isset($_SESSION['admin']) || !isset($_SESSION['loggedUser'])) {?>
+                        <?php if (!isset($_SESSION['loggedUser']) ) {?>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                 href="index.php?action=login">Login</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"

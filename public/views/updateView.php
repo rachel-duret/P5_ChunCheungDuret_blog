@@ -34,10 +34,10 @@
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Content</label>
-                <textarea type="text" class="form-control " id="exampleFormControlInput1"
-                    placeholder="Write somthing here ..." cols="30" rows="10" name="content">
-                        <?php echo $postData['content'] ?? $post->content() ?? '' ?>
-                    </textarea>
+
+                <textarea class="form-control <?php echo isset($errors['message']) ? 'is-invalid' : '' ?>"
+                    id="exampleFormControlTextarea1" rows="3" name="content"
+                    placeholder="Content"> <?php echo $postData['content'] ?? $post->content() ?? '' ?></textarea>
             </div>
             <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
             <input type="hidden" name="postImage" value="<?php echo $post->image() ?>">

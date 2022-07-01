@@ -62,7 +62,7 @@
                         <label for="exampleFormControlTextarea1" class="form-label">Message</label>
                         <textarea class="form-control <?php echo isset($errors['message']) ? 'is-invalid' : '' ?>"
                             id="exampleFormControlTextarea1" rows="3" name="message"
-                            value="<?php echo $postData['message'] ?? '' ?>"></textarea>
+                            placeholder="Your message"><?php echo $postData['message'] ?? '' ?></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary btn-lg">Send</button>
                 </form>

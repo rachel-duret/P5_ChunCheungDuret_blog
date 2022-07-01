@@ -30,10 +30,10 @@
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Content</label>
-                <textarea type="text" class="form-control " id="exampleFormControlInput1"
-                    placeholder="Write somthing here ..." cols="30" rows="10" name="content">
-                        <?php echo $postData['content'] ?? '' ?>
-                    </textarea>
+
+                <textarea class="form-control <?php echo isset($errors['message']) ? 'is-invalid' : '' ?>"
+                    id="exampleFormControlTextarea1" rows="5" name="content"
+                    placeholder="Content"><?php echo $postData['message'] ?? '' ?></textarea>
             </div>
 
 
