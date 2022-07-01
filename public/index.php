@@ -8,6 +8,7 @@ use app\controllers\AdminAuthController;
 use app\controllers\AdminController;
 use app\controllers\CommentController;
 use app\controllers\CvController;
+use app\controllers\PageNotFound;
 use app\controllers\PostController;
 use app\controllers\UserController;
 use app\database\CommentModel;
@@ -20,17 +21,24 @@ $dotenv->load();
 require '../config/config.php';
 $commentModel = new CommentModel;
 
-$userController = new UserController($database = new UserModel(), new Renderer());
-$postController = new PostController($database = new PostModel(), $commentModel,  new Renderer());
+$userController = new UserController( new UserModel(), new Renderer());
+$postController = new PostController( new PostModel(), $commentModel,  new Renderer());
 $commentController = new CommentController($commentModel,  new Renderer());
-$adminAuthController = new AdminAuthController($database = new UserModel(), new Renderer());
+$adminAuthController = new AdminAuthController(new UserModel(), new Renderer());
 $adminController = new AdminController($database = new PostModel(),  $commentModel, new Renderer);
 $cvController = new CvController();
+
+
 if (isset($_GET['action'])) {
     /* ***********************************CREATE　POST */
     if ($_GET['action'] == 'createPost') {
-        $postController->createPost();
-    }
+        if( isset($_SESSION['admin']) && $_SESSION['admin']['role']=='admin'){
+            $postController->createPost();
+        } else {
+            PageNotFound::page404();
+        }
+       
+    } 
 /* **************************ALL POSTS********************************* */
     if ($_GET['action'] == 'posts') {
         $postController->getAllPost();
@@ -45,14 +53,24 @@ if (isset($_GET['action'])) {
         }
     }
     /* *************************Comments*********************************************8 */
-    if ($_GET['action'] == 'createComment') {
-        $commentController->createComment();
+    if ($_GET['action'] == 'createComment' ) {
+        if( isset($_SESSION['loggedUser'])){
+            $commentController->createComment();
+        } else {
+            PageNotFound::page404();
+        }
+       
     }
 
 /* *************************UPDATE*********************************************8 */
 
-    if ($_GET['action'] == 'updatePost' && isset($_GET['id']) && $_GET['id'] > 0) {
-        $postController->updateOnePost($_GET['id']);
+    if ($_GET['action'] == 'updatePost' && isset($_SESSION['admin']) ) {
+        if(isset($_SESSION['admin']) && $_SESSION['admin']['role']=='admin' && isset($_GET['id']) && $_GET['id'] > 0){
+            $postController->updateOnePost($_GET['id']);
+        }else {
+            PageNotFound::page404();
+        }
+     
 
     }
     /* ************************DELETE ONE POST**************************************** */
@@ -83,47 +101,58 @@ if (isset($_GET['action'])) {
 
     }
 
-    /* **********************Admin******************************** */
+    /* **********************Admin ******************************** */
+    //admin Login
     if ($_GET['action'] == 'adminLogin') {
         $adminAuthController->loginController();
 
     }
 
-    if ($_GET['action'] == 'adminIndex') {
-        $adminController->getAllPost();
+    // admin Home page
+    if ($_GET['action'] == 'adminIndex' ) {
+        if(isset($_SESSION['admin']) && $_SESSION['admin']['role']=='admin'){
+            $adminController->getAllPost();
+        }else{
+            PageNotFound::page404();
+        }
+        
 
     }
     
-    // Get one post
-    if ($_GET['action'] == 'adminPost') {
-        if (isset($_GET['id']) && $_GET['id'] > 0) {
+    // Admin Get one post
+    if ($_GET['action'] == 'adminPost' && isset($_SESSION['admin'])) {
+        if (isset($_SESSION['admin']) && $_SESSION['admin']['role']=='admin' && isset($_GET['id']) && $_GET['id'] > 0) {
             $adminController->getOnePost($_GET['id']);
            
+        } else {
+            PageNotFound::page404();
         }
 
     }
 
-    //update valid one comment
+    // Admin update valid one comment
     
     if ($_GET['action'] == 'validComment') {
-        $commentController->updateOneComment($_POST['id']);
+        if(isset($_SESSION['admin']) && $_SESSION['admin']['role']=='admin'){
+            $commentController->updateOneComment($_POST['id']);
 
+        }else{
+            PageNotFound::page404();
+        }
+      
     }
 
-    //Delete one comment
+    //Admin Delete one comment
      
     if ($_GET['action'] == 'deleteComment') {
-        $commentController->deleteOneComment($_POST['id']);
-
+        if(isset($_SESSION['admin']) && $_SESSION['admin']['role']=='admin'){
+            $commentController->deleteOneComment($_POST['id']);
+        }else{
+            PageNotFound::page404();
+        }
     }
-    
-
-
-
-    /* ********************Home page Contact*************************** */
-
 } else {
-  
+   /* ********************Home page Contact*************************** */
     $userController->findAdminInfo();
 
 }
