@@ -26,8 +26,8 @@ class PostController
     // Create one post
     public function createPost()
     {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $image = $_FILES['image'];
+        if (isset($_SERVER["REQUEST_METHOD"] )&& $_SERVER["REQUEST_METHOD"] === "POST") {
+            $image =isset($_FILES['image']);
             $createPostModel = new CreatePostModel();
             $createPostModel->getData($_POST);
             if (!is_dir('images')) {
@@ -106,7 +106,7 @@ class PostController
 
         $post = $this->postDatabase->findOne('posts', $data, );
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (isset($_SERVER["REQUEST_METHOD"] )&& $_SERVER["REQUEST_METHOD"] === "POST") {
             $updatePostModel = new CreatePostModel();
             $updatePostModel->getData($_POST);
             $image = $_FILES['image'] ?? '';
@@ -161,7 +161,7 @@ class PostController
     //Delete one post
     public function deleteOnePost(string $id)
     {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (isset($_SERVER["REQUEST_METHOD"] )&& $_SERVER["REQUEST_METHOD"] === "POST") {
 
             $data = [
                 'id' => $id,

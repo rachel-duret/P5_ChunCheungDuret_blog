@@ -18,7 +18,7 @@
         rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="./css/styles.css" rel="stylesheet" />
-    <link href="./manifest.json" rel="manifest" />
+    <link href="./site.webmanifest" rel="manifest" />
 
 </head>
 

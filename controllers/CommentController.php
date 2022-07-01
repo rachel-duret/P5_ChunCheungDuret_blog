@@ -21,7 +21,7 @@ class CommentController
     // Create one comment
     public function createComment()
     {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (isset($_SERVER["REQUEST_METHOD"] )&& $_SERVER["REQUEST_METHOD"] === "POST") {
 
             $createCommentModel = new CreateCommentModel();
             $createCommentModel->getData($_POST);
@@ -58,7 +58,7 @@ class CommentController
     //Admin valid one comment
     public function updateOneComment(string $id)
     {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (isset($_SERVER["REQUEST_METHOD"] )&& $_SERVER["REQUEST_METHOD"] === "POST") {
             $data = [
             'id' => $id,
         ];
@@ -75,7 +75,7 @@ class CommentController
     //Delete one comment
     public function deleteOneComment(string $id)
     {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (isset($_SERVER["REQUEST_METHOD"] )&& $_SERVER["REQUEST_METHOD"] === "POST") {
 
             $data = [
                 'id' => $id,

@@ -25,7 +25,7 @@ class UserController
     public function registerController()
     {
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (isset($_SERVER["REQUEST_METHOD"] )&& $_SERVER["REQUEST_METHOD"] === "POST") {
             $registerModel = new RegisterModel();
             $registerModel->getData($_POST);
             if ($registerModel->validateData()) {
@@ -58,7 +58,7 @@ class UserController
     //login function
     public function loginController()
     {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (isset($_SERVER["REQUEST_METHOD"] )&& $_SERVER["REQUEST_METHOD"] === "POST") {
             $loginModel = new LoginModel();
             $loginModel->getData($_POST);
             $data = [
