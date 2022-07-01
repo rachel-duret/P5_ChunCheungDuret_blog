@@ -11,13 +11,11 @@ class AdminController
 {
     private  $postDatabase;
     private $commentDatabase;
-    private $renderer;
 
-    public function __construct(PostModel $postDatabase, CommentModel $commentDatabase, Renderer $renderer)
+    public function __construct(PostModel $postDatabase, CommentModel $commentDatabase)
     {
         $this->postDatabase = $postDatabase;
         $this->commentDatabase = $commentDatabase;
-        $this->renderer = $renderer;
      
     }
     //Admin home page to show all the posts
@@ -26,7 +24,7 @@ class AdminController
 
         $posts = $this->postDatabase->findAll('posts');
        
-        $content = $this->renderer-> content('./views/admin/adminIndex.php', post:$posts);
+        $content =Renderer::content('./views/admin/adminIndex.php', post:$posts);
         require './views/template.php';
     }
 
@@ -40,7 +38,7 @@ class AdminController
         $post = $this->postDatabase->findOne('posts', $data);
         $comments = $this->commentDatabase->adminFindAll('comments',$data);
 
-        $content = $this->renderer-> content('./views/admin/adminPost.php', post:$post, comments:$comments);
+        $content = Renderer::content('./views/admin/adminPost.php', post:$post, comments:$comments);
         require './views/template.php';
     }
 

@@ -12,10 +12,9 @@ class CommentController
     private $database;
     private $renderer;
 
-    public function __construct(CommentModel $database, Renderer $renderer)
+    public function __construct(CommentModel $database)
     {
         $this->database = $database;
-        $this->renderer = $renderer;
     }
 
     // Create one comment
@@ -50,7 +49,7 @@ class CommentController
             exit;
         }
 
-        $content =$this->renderer-> content('./views/postView.php');
+        $content =Renderer::content('./views/postView.php');
         require './views/template.php';
 
     }

@@ -11,12 +11,9 @@ class AdminAuthController
 {
 
     private $database;
-    private $renderer;
-
-    public function __construct(UserModel $database, Renderer $renderer)
+    public function __construct(UserModel $database)
     {
         $this->database = $database;
-        $this->renderer = $renderer;
     }
 
     // Admin login page
@@ -72,7 +69,7 @@ class AdminAuthController
             exit;
         }
 
-        $content = $this->renderer-> content('./views/admin/adminLogin.php');
+        $content = Renderer::content('./views/admin/adminLogin.php');
         require './views/template.php';
 
     }

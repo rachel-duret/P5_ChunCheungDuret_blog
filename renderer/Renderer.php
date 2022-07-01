@@ -3,7 +3,7 @@ namespace app\renderer;
 
 class Renderer
 {
-    public  function content(string $viewPath, $user =null, $post = null, $comments = null)
+    public static function content(string $viewPath, $user =null, $post = null, $comments = null)
     {
      
         $postData = [];

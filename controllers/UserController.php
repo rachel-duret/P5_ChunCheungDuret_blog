@@ -12,12 +12,10 @@ class UserController
 {
 
     private $database;
-    private $renderer;
 
-    public function __construct(UserModel $database, Renderer $renderer)
+    public function __construct(UserModel $database)
     {
         $this->database = $database;
-        $this->renderer = $renderer;
     }
 
 
@@ -50,7 +48,7 @@ class UserController
             exit;
         }
 
-        $content = $this->renderer->content('./views/registerView.php');
+        $content = Renderer::content('./views/registerView.php');
         require './views/template.php';
 
     }
@@ -97,7 +95,7 @@ class UserController
             exit;
         }
 
-        $content =$this->renderer-> content('./views/loginView.php');
+        $content =Renderer::content('./views/loginView.php');
         require './views/template.php';
 
     }

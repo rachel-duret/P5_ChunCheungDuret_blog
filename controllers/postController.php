@@ -16,11 +16,10 @@ class PostController
     private  $commentDatabase;
     private $renderer;
 
-    public function __construct(PostModel $postDatabase, CommentModel $commentDatabase, Renderer $renderer)
+    public function __construct(PostModel $postDatabase, CommentModel $commentDatabase)
     {
         $this->postDatabase = $postDatabase;
         $this->commentDatabase = $commentDatabase;
-        $this->renderer = $renderer;
     }
 
     // Create one post
@@ -68,7 +67,7 @@ class PostController
             exit;
         }
 
-        $content =$this->renderer-> content('./views/createView.php');
+        $content =Renderer::content('./views/createView.php');
         require './views/template.php';
 
     }
@@ -78,7 +77,7 @@ class PostController
     {
 
         $posts = $this->postDatabase->findAll('posts');
-        $content =$this->renderer-> content('./views/postsView.php', post: $posts);
+        $content =Renderer::content('./views/postsView.php', post: $posts);
         require './views/template.php';
     }
 
@@ -92,7 +91,7 @@ class PostController
         $post = $this->postDatabase->findOne('posts', $data);
         $comments = $this->commentDatabase->findAll('comments',$data);
 
-        $content =$this->renderer-> content('./views/postView.php', post:$post, comments:$comments);
+        $content =Renderer::content('./views/postView.php', post:$post, comments:$comments);
         require './views/template.php';
     }
 
@@ -153,7 +152,7 @@ class PostController
             exit;
         }
 
-        $content =$this->renderer-> content('./views/updateView.php', post:$post);
+        $content =Renderer::content('./views/updateView.php', post:$post);
         require './views/template.php';
 
     }

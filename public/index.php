@@ -14,18 +14,18 @@ use app\controllers\UserController;
 use app\database\CommentModel;
 use app\database\PostModel;
 use app\database\UserModel;
-use app\renderer\Renderer;
+
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 require '../config/config.php';
 $commentModel = new CommentModel;
 
-$userController = new UserController( new UserModel(), new Renderer());
-$postController = new PostController( new PostModel(), $commentModel,  new Renderer());
-$commentController = new CommentController($commentModel,  new Renderer());
-$adminAuthController = new AdminAuthController(new UserModel(), new Renderer());
-$adminController = new AdminController($database = new PostModel(),  $commentModel, new Renderer);
+$userController = new UserController( new UserModel());
+$postController = new PostController( new PostModel(), $commentModel);
+$commentController = new CommentController($commentModel);
+$adminAuthController = new AdminAuthController(new UserModel());
+$adminController = new AdminController($database = new PostModel(),  $commentModel);
 $cvController = new CvController();
 
 
