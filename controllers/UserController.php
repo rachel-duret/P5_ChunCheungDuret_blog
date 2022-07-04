@@ -119,7 +119,7 @@ class UserController
 
         $contactController = new ContactController();
         $contactController->handleContact();
-        $content = $this->renderer->content('./views/indexView.php', user:$user);
+        $content = Renderer::content('./views/indexView.php', user:$user);
         require './views/template.php';
 
     }
