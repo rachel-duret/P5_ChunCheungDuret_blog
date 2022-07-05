@@ -26,7 +26,7 @@ class PostController
     public function createPost()
     {
         if (isset($_SERVER["REQUEST_METHOD"] )&& $_SERVER["REQUEST_METHOD"] === "POST") {
-            $image =isset($_FILES['image']);
+            $image =$_FILES['image'];
             $createPostModel = new CreatePostModel();
             $createPostModel->getData($_POST);
             if (!is_dir('images')) {
@@ -53,7 +53,7 @@ class PostController
                     'admin_id'=>$_SESSION['admin']['id'],
 
                 ];
-
+       
                 $this->postDatabase->create('posts', $data);
                 header('location:index.php?action=adminIndex');
                 exit;
